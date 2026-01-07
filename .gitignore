@@ -45,9 +45,10 @@ firefly/Fitting_Engine/stellar_population_models/SSP_M11_*/*.krz*
 firefly/Fitting_Engine/stellar_population_models/SSP_M11_*/*.ssz*
 
 # Large FITS data files
-firefly/Data/DESI/DESI_EDR_data/
-firefly/Data/DESI/fits_creator/
-firefly/Data/DESI-SDSS_samples/
+firefly/Data/DESI/DESI_EDR_data/*.fits
+firefly/Data/DESI/fits_creator/*.fits
+firefly/Data/DESI/fits_creator/*.csv
+firefly/Data/DESI-SDSS_samples/*.fits
 firefly/Data/example_data/**/*.fits
 
 # Large temporary/output files
