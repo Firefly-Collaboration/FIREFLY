@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FIREFLY Demo — Quick Spectral Fit</title>
+
+  <!-- global site CSS / JS (keeps the site styling consistent) -->
+  <link rel="stylesheet" href="css\style.css" />
+  <script src="js\script.js" defer></script>
+
+  <!-- Demo-specific styles (namespaced with ffdemo- to avoid collisions) -->
+  <style>
+  :root{
+    --ffdemo-bg: #000000;
+    --ffdemo-card: #000000;
+    --ffdemo-accent: #1976d2;
+    --ffdemo-accent-2: #ea5358;
+    --ffdemo-dim: #868686;
+    --ffdemo-radius: 10px;
+  }
+
+  .ffdemo-wrap{ margin:20px auto; padding:5px; background:transparent; }
+
+  /* Gallery grid: 5 columns */
+  .ffdemo-gallery {max-width: 1200px; display:grid; grid-template-columns: repeat(5, 1fr); gap:25px; margin-top:18px; }
+  .ffdemo-card {
+    background: var(--ffdemo-card);
+    border-radius: var(--ffdemo-radius);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    overflow:hidden;
+    display:flex; flex-direction:column; align-items:stretch;
+    transition:transform .18s ease, box-shadow .18s ease;
+    border: 1px solid rgb(0, 0, 0);
+  }
+  .ffdemo-card:hover{ transform: translateY(-5px); box-shadow:0 18px 50px rgba(10,20,30,0.09); }
+
+  .ffdemo-thumb {scale: 1; width:100%; height:80%; object-fit:cover; display:block; background:#000000; border-radius: 50%; mask-image: radial-gradient(circle, rgba(0,0,0,1) 50%, rgba(8, 8, 8, 0) 64%); }
+  .ffdemo-card-body { padding:8px 8px; display:flex; flex-direction:column; gap:8px; align-items:center; text-align:center; }
+  .ffdemo-gal-title{ font-weight:600; font-size:13px; color:#0f1724; margin:0; }
+  .ffdemo-card-actions { display:flex; gap:8px; width:100%; justify-content:center; margin-top:2px; }
+
+  .ffdemo-btn {
+    padding:5px 7px; border-radius:8px; font-weight:550; font-size:13px; cursor:pointer;
+    border:0; color:white;
+  }
+  .ffdemo-btn-legacy { background: linear-gradient(90deg,var(--ffdemo-accent), #063d4b); }
+  .ffdemo-btn-fits { background: linear-gradient(to left, #f7ba2b 0%, #ea5358 100%); }
+
+  .ffdemo-btn-legacy:hover{ transform: scale(1.04); box-shadow:0 18px 50px rgba(10,20,30,0.09); transition: 0.2s; }
+  .ffdemo-btn-fits:hover{ transform: scale(1.04); box-shadow:0 18px 50px rgba(10,20,30,0.09); transition: 0.2s; }
+
+  /* Main area: centred dropbox */
+  .ffdemo-main { display:flex; gap:22px; margin-top:28px; align-items:flex-start; justify-content:center; }
+  .ffdemo-dropzone {width: 720px; max-width: 95%; min-height: 280px; border-radius: 15px; padding: 20px; position: relative; display: flex; align-items: center; justify-content: center;   transition: background .12s ease, box-shadow .18s ease, transform .12s ease; background-image: linear-gradient(180deg, #ffffff, #fbfdff), linear-gradient(to left, #f7ba2b 0%, #ea5358 100%); background-origin: padding-box, border-box;  background-clip: padding-box, border-box; border: 8px solid transparent; box-shadow: 0 8px 24px rgba(10,20,30,0.06); }
+  .ffdemo-dropzone.dragover { background: linear-gradient(180deg,#eef6ff,#fbfdff); border-color: rgba(25,118,210,0.45); }
+
+  .ffdemo-drop-inner { text-align:center; color:var(--ffdemo-dim); max-width:520px; }
+  .ffdemo-drop-h { font-size:18px; font-weight:700; margin:0 0 6px 0; color:#0b2540; }
+  .ffdemo-drop-p { margin:0; font-size:14px; color:var(--ffdemo-dim); }
+  .ffdemo-or { margin:10px 0; color:var(--ffdemo-dim); font-size:13px; }
+
+  /* Loader overlay - spectrum inspired */
+  .ffdemo-loader-overlay {
+    position:absolute; inset:12px; border-radius:10px; background: rgb(255, 255, 255);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; z-index:20;
+    box-shadow:0 12px 40px rgba(10,20,30,0.08);
+    transform-origin:center; opacity:0; pointer-events:none; transition:opacity .18s ease;
+  }
+  .ffdemo-loader-overlay.show{ opacity:1; pointer-events:auto; }
+
+  /* spectrum waves */
+  .ffdemo-wave {
+    width:92%; height:88px; display:block; position:relative; overflow:hidden; border-radius:8px;
+    background: linear-gradient(180deg,#f6f9ff,#ffffff);
+    border:1px solid rgba(20,30,40,0.03);
+  }
+  .ffdemo-wave svg{ width:100%; height:100%; display:block; }
+
+  .ffdemo-wave path.wave-line { stroke: url(#g1); stroke-width:2.5; fill:none; stroke-linecap:round; filter: drop-shadow(0 6px 16px rgba(21,110,200,0.06)); stroke-dasharray: 600; stroke-dashoffset: 600; animation: draw 4s linear infinite; }
+  @keyframes draw { 0% { stroke-dashoffset:600 } 50% { stroke-dashoffset:0 } 100% { stroke-dashoffset:600 } }
+
+  .ffdemo-loader-msg { font-size:15px; color:#0b2540; font-weight:600; min-height:20px; }
+  .ffdemo-note { font-size:13px; color:var(--ffdemo-dim);}
+
+  /* results area */
+  .ffdemo-results { color: black; margin-top: 20px; display: none; gap: 18px; flex-direction: column; align-items: center; background: #ffffff; padding: 20px 22px; border-radius: 12px; max-width: 980px; margin-left: auto; margin-right: auto;}
+  .ffdemo-results.show{ display:flex; flex-direction:column; }
+  .ffdemo-result-spectrum { width: 92%; max-width: 920px; margin: 0 auto; border-radius:10px; }
+  .ffdemo-result-plots { display: flex; gap: 12px; margin-top: 10px; justify-content: center; width: 100%; max-width: 920px; }
+  .ffdemo-result-plots img { width:48%; border-radius:8px; }
+  .ffdemo-params {  margin: 10px 10px 0 10px; border-radius:8px; padding:8px; background:#fff; border:1px solid rgba(20,30,40,0.03); }
+  .ffdemo-params table {gap: 8px; width:95%; margin: 8px 10px 0 10px; border-collapse:collapse; font-size:14px; }
+  .ffdemo-params th, .ffdemo-params td { text-align:left; padding:8px 8px; border-bottom:1px solid rgba(20,30,40,0.04); }
+
+  /* responsive */
+  @media (max-width:1000px){
+    .ffdemo-gallery { grid-template-columns: repeat(4, 1fr); }
+    .ffdemo-dropzone { width:100%; }
+    .ffdemo-result-plots img { width:100%; }
+  }
+  @media (max-width:700px){
+    .ffdemo-gallery { grid-template-columns: repeat(2, 1fr); }
+    .ffdemo-card{ min-height:220px; }
+  }
+
+  </style>
+</head>
+<body>
+
+  <!-- Topbar: copied from your snippet to ensure consistent site header -->
+  <div class="topbar" id="topbar">
+    <div class="logo-area">
+      <a href="index.html" class="home-link">
+        <img src="images/AIfly.png" alt="Logo" class="logo-img" />
+        <span class="firefly-title">FIREFLY</span>
+      </a>
+    </div>
+
+    <button class="Btn-git" onclick="window.open('https://github.com/FireflySpectra/firefly_release', '_blank')">
+      <svg class="svgIcon-git" viewBox="0 0 496 512" height="1.4em" xmlns="https://github.com/FireflySpectra/firefly_release"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+      <span class="text-git">Github</span>
+    </button>
+
+    <div class="menu-icon" id="menuIcon" tabindex="0" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="menu-drawer" id="menuDrawer">
+      <ul>
+        <li><a href=index.html#intro">About</a></li>
+        <li><a href="demofitter.html">FIREFLY Demo</a></li>
+        <li>
+          <a href="index.html#install">Install →</a>
+          <ul>
+            <li><a href="installation.html">Installation</a></li>
+            <li><a href="configuration.html">Configuration</a></li>
+            <li><a href="start-fitting.html">Launch</a></li>
+          </ul>
+        </li>
+        <li><a href="index.html#models">Models</a></li>
+        <li>
+          <a href="index.html#surveys">Surveys →</a>
+          <ul>
+            <li><a href="desi.html">DESI</a></li>
+            <li><a href="sdss.html">SDSS</a></li>
+          </ul>
+        </li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="index.html#contact">Usage</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Hero (minimal) -->
+  <header class="hero-demo" style="padding-top:24px; padding-bottom:8px;">
+    <div class="hero-content">
+      <h2>FIREFLY - Quick Demo</h2>
+      <p>This demo runs entirely in your browser and is intended for demonstration and teaching</p>
+    </div>
+  </header>
+
+  <!-- Demo main container -->
+  <div class="ffdemo-wrap">
+
+    <h3 style="margin:6px 0 12px 0;">Select a galaxy to fit</h3>
+    <p style="margin:0 0 12px 0; color: #868686; font-size:14px;">Choose a real galaxy from the DESI Early Data Release to fully fit to the MaStar stellar population models using FIREFLY</p>
+    <p style="margin:0 0 12px 0; color: #868686; font-size:14px;">Credit: Legacy Surveys / D. Lang - <a href="https://www.legacysurvey.org/viewer" target="_blank" rel="noopener">CC BY 4.0</a></p>
+    
+    <!-- Gallery -->
+    <div class="ffdemo-gallery" id="ffdemo-gallery">
+      <!-- 20 cards (same as previously) -->
+      <div class="ffdemo-card" data-galaxy-id="galaxy01">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy01_thumb.jpg" alt="Galaxy 01 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=102.1866&dec=39.3792&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy01', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copies for galaxy02 ... galaxy20 -->
+      <div class="ffdemo-card" data-galaxy-id="galaxy02">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy02_thumb.jpg" alt="Galaxy 02 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=102.3199257&dec=39.217718&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy02', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy03">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy03_thumb.jpg" alt="Galaxy 03 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=102.5183068&dec=39.25069393&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy03', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy04">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy04_thumb.jpg" alt="Galaxy 04 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=102.6672535&dec=39.86848239&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy04', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy05">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy05_thumb.jpg" alt="Galaxy 05 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=100.8412397&dec=38.33166693&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy05', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy06">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy06_thumb.jpg" alt="Galaxy 06 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=100.7306682&dec=38.43684539&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy06', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy07">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy07_thumb.jpg" alt="Galaxy 07 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=101.5128777&dec=39.5685037&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy07', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy08">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy08_thumb.jpg" alt="Galaxy 08 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=102.4158416&dec=40.20307699&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy08', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy09">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy09_thumb.jpg" alt="Galaxy 09 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=101.5379549&dec=40.01337633&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy09', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy10">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy10_thumb.jpg" alt="Galaxy 10 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=101.5442382&dec=39.90361142&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy10', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy11">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy11_thumb.jpg" alt="Galaxy 11 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=104.5394921&dec=38.88753993&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy11', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy12">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy12_thumb.jpg" alt="Galaxy 12 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=111.5130141&dec=40.78465686&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy12', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy13">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy13_thumb.jpg" alt="Galaxy 13 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=110.2300839&dec=42.2388278&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy13', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy14">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy14_thumb.jpg" alt="Galaxy 14 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=109.0915454&dec=44.12307288&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy14', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy15">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy15_thumb.jpg" alt="Galaxy 15 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=104.4915955&dec=39.24494936&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy15', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy16">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy16_thumb.jpg" alt="Galaxy 16 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=103.9408146&dec=39.01943995&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy16', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy17">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy17_thumb.jpg" alt="Galaxy 17 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=104.2292615&dec=39.27968681&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy17', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy18">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy18_thumb.jpg" alt="Galaxy 18 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=104.1559318&dec=39.17660217&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy18', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy19">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy19_thumb.jpg" alt="Galaxy 19 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=103.244711&dec=40.47932816&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy19', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ffdemo-card" data-galaxy-id="galaxy20">
+        <img class="ffdemo-thumb" src="images\DemoGalaxies\galaxy20_thumb.jpg" alt="Galaxy 20 thumbnail">
+        <div class="ffdemo-card-body">
+          <div class="ffdemo-card-actions">
+            <button class="ffdemo-btn ffdemo-btn-legacy" onclick="window.open('https://www.legacysurvey.org/viewer?ra=96.55992531&dec=43.98719248&layer=ls-dr10&zoom=16&desi-tiles-edr&desi-spec-edr','_blank')">Legacy Sky</button>
+            <button class="ffdemo-btn ffdemo-btn-fits" onclick="downloadMockFITS('galaxy20', true)">FIREFLY ➜ Fit</button>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- /gallery -->
+
+    <!-- Centred Drop zone -->
+    <div class="ffdemo-main" style="margin-top:32px;">
+      <div class="ffdemo-dropzone" id="ffdemo-dropzone" aria-label="Drag and drop a mock FITS here">
+        <div class="ffdemo-drop-inner">
+          <h4 class="ffdemo-drop-h">Fit the full spectrum with FIREFLY</h4>
+          <p class="ffdemo-drop-p">Click any "FIREFLY ➜ Fit" button in the gallery to run FIREFLY's full spectral fitting for that DESI galaxy.</p>
+        </div>
+
+        <!-- Loader overlay -->
+        <div class="ffdemo-loader-overlay" id="ffdemo-loader" role="status" aria-live="polite">
+          <div class="ffdemo-wave" aria-hidden="true">
+            <!-- simple SVG spectrum-looking drawing animated -->
+            <svg viewBox="0 0 900 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#1976d2"/>
+                  <stop offset="55%" stop-color="#ea5358"/>
+                </linearGradient>
+              </defs>
+              <path class="wave-line" d="M0 70 C60 40 120 100 180 60 C240 20 300 100 360 80 C420 60 480 90 540 50 C600 10 660 120 720 70 C780 20 840 80 900 60" />
+            </svg>
+          </div>
+          <div class="ffdemo-loader-msg" id="ffdemo-loader-msg">Preparing demo...</div>
+          <div class="ffdemo-note" id="ffdemo-loader-sub">This is a demo workflow; real FIREFLY runs happen on a compute backend.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results (hidden until demo finishes) -->
+    <div class="ffdemo-results" id="ffdemo-results" aria-live="polite">
+      <img id="ffdemo-result-spectrum" class="ffdemo-result-spectrum" src="" alt="Fitted spectrum (mock)">
+      <div class="ffdemo-result-plots">
+        <img id="ffdemo-result-lookback" src="" alt="Lookback time (mock)">
+        <img id="ffdemo-result-metallicity" src="" alt="Metallicity (mock)">
+      </div>
+
+      <div class="ffdemo-params" id="ffdemo-params">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+        </div>
+        <table id="ffdemo-params-table" style="margin-top:8px;">
+          <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="ffdemo-note" style="margin:15px 10px 10px 10px;">FIREFLY produces a wide range of different stellar parameters including SSP specific contributions</div>
+      </div>
+      <p>Credits: Samuel Helps (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></p>
+    </div>
+
+  </div> <!-- /ffdemo-wrap -->
+
+  <!-- Footer quick note -->
+  <div style="max-width:1200px;margin:18px auto;color:var(--ffdemo-dim);font-size:13px;padding:0 18px;">
+    <p style="margin:6px 0 12px 0;">Tip: to produce FIREFLY outputs for your own data, run FIREFLY locally after cloning the repository. This demo is a teaching tool and does not execute the full FIREFLY algorithm in the browser.</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Demo JavaScript -->
+  <script>
+  /****************************************************************
+   * FIREFLY Demo page script (centred dropbox variant)
+   * - Edit `galaxyData` to point to your real thumbnails and results
+   * - Edit `loaderSteps` to change messages and durations
+   ****************************************************************/
+
+  // Loader steps (editable), delay in seconds
+  const loaderSteps = [
+    { msg: "Reading FITS file and extracting arrays", delay: 2 },
+    { msg: "Matching resolutions", delay: 1 },
+    { msg: "Normalising stellar continuum", delay: 2 },
+    { msg: "Applying high-pass filter", delay: 2 },
+    { msg: "Retrieving MaStar model grid", delay: 2 },
+    { msg: "Initial Fitting: Comparing all models against the data", delay: 4 },
+    { msg: "Initial Fitting: Evaluating χ²", delay: 2 },
+    { msg: "Initial Fitting: Selecting best model", delay: 1.5 },
+    { msg: "Measuring offsets between data and filtered fit", delay: 2 },
+    { msg: "Correcting for dust attenuation", delay: 4 },
+    { msg: "Final Fitting: Gathering stellar population parameters", delay: 3 },
+    { msg: "Reconstructing star formation history", delay: 2 },
+    { msg: "Generating plots and tables", delay: 1.5 }
+  ];
+
+  // Galaxy data (20 entries) — replace paths with your real assets
+  const galaxyData = {
+    "galaxy01": {
+      thumb: "images/DemoGalaxies/galaxy01_thumb.jpg",
+      legacyUrl: "https://legacysurvey.org/viewer/?r=IC203164",
+      spectrum: "images/DemoGalaxies/6_spectrum_(EDR_300000-305000).png",
+      lookback: "images/DemoGalaxies/6_lookback_time_(EDR_300000-305000).png",
+      metallicity: "images/DemoGalaxies/6_metallicity_(EDR_300000-305000).png",
+      params: [['ID', '39633066573956304'], ['RA', '102.18652219570546'], ['DEC', '39.37921409765479'], ['Redshift', '0.2909215303074386'], ['Signal_to_Noise_Ratio', '21.285907745361328'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.4344059902884741'], ['age_lightW_up_1sig', '0.4344059902884741'], ['age_lightW_low_1sig', '0.4344059902884741'], ['Light_Weighted_Z_H', '-0.0338969830429875'], ['metallicity_lightW_up_1sig', '-0.0338969830429875'], ['metallicity_lightW_low_1sig', '-0.0338969830429875'], ['age_massW', '0.4750261230392166'], ['age_massW_up_1sig', '0.4750261230392166'], ['age_massW_low_1sig', '0.4750261230392166'], ['metallicity_massW', '-0.0002805866101291'], ['metallicity_massW_up_1sig', '-0.0002805866101291'], ['metallicity_massW_low_1sig', '-0.0002805866101291'], ['total_mass', '10.655096326590426'], ['log_M_Msun', '10.447408895207772'], ['living_stars_mass', '10.359196486822103'], ['remnant_mass', '9.71179436104616'], ['remnant_mass_in_whitedwarfs', '9.509113205989207'], ['remnant_mass_in_neutronstars', '8.766900496519128'], ['remnant_mass_blackholes', '9.125759483838456'], ['mass_of_ejecta', '10.230074432947278'], ['E_B_V', '0.0'], ['ssp_number', '2'], ['total_mass_ssp_0', '10.652344115819584'], ['stellar_mass_ssp_0', '10.446204317162254'], ['log_age_ssp_0', '0.4771212547196624'], ['metal_ssp_0', '0.0'], ['SFR_ssp_0', '10.175222861099922'], ['weightMass_ssp_0', '0.99806821212853'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '7.939143327095539'], ['stellar_mass_ssp_1', '7.889857377608307'], ['log_age_ssp_1', '-1.949999788779242'], ['metal_ssp_1', '-0.7'], ['SFR_ssp_1', '9.88914311587478'], ['weightMass_ssp_1', '0.0019317878714698'], ['weightLight_ssp_1', '0.0909090909090909']]
+    },
+    "galaxy02": { thumb:"images/galaxy02_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/16_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/16_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/16_metallicity_(EDR_300000-305000).png", params:[['ID', '39633061888921944'], ['RA', '102.31992565189668'], ['DEC', '39.21771882656515'], ['Redshift', '0.4250574928467064'], ['Signal_to_Noise_Ratio', '12.801419258117676'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.9156782532818888'], ['age_lightW_up_1sig', '0.9156782532818888'], ['age_lightW_low_1sig', '0.4341243745725177'], ['Light_Weighted_Z_H', '-0.0338969830429875'], ['metallicity_lightW_up_1sig', '-0.0002805866101291'], ['metallicity_lightW_low_1sig', '-0.0338969830429875'], ['age_massW', '0.949148192978426'], ['age_massW_up_1sig', '0.949148192978426'], ['age_massW_low_1sig', '0.4752530264186075'], ['metallicity_massW', '-0.0035275233644913'], ['metallicity_massW_up_1sig', '0.2321067372496034'], ['metallicity_massW_low_1sig', '-0.0035275233644913'], ['total_mass', '11.25698063934562'], ['log_M_Msun', '11.029077871757444'], ['living_stars_mass', '10.907599340857688'], ['remnant_mass', '10.416468709402514'], 
+['remnant_mass_in_whitedwarfs', '10.264348315321516'], ['remnant_mass_in_neutronstars', '9.37046670011753'], ['remnant_mass_blackholes', '9.729392350026917'], ['mass_of_ejecta', 
+'10.868238015388274'], ['E_B_V', '0.0'], ['ssp_number', '2'], ['total_mass_ssp_0', '11.25190731826227'], ['stellar_mass_ssp_0', '11.022317449776176'], ['log_age_ssp_0', '0.9542425094393248'], ['metal_ssp_0', '0.0'], ['SFR_ssp_0', '10.297664808822946'], ['weightMass_ssp_0', '0.988133959823616'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '9.33139730748936'], ['stellar_mass_ssp_1', '9.217891539455078'], ['log_age_ssp_1', '-0.1549019599857432'], ['metal_ssp_1', '-0.7'], ['SFR_ssp_1', '9.486299267475102'], ['weightMass_ssp_1', '0.0118660401763839'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy03": { thumb:"images/galaxy03_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/50_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/50_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/50_metallicity_(EDR_300000-305000).png", params:[['ID', '39633061893113754'], ['RA', '102.51830675466442'], ['DEC', '39.25069392625754'], ['Redshift', '0.4452596755213459'], ['Signal_to_Noise_Ratio', '8.101043701171875'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '-0.2533842709790803'], ['age_lightW_up_1sig', '-0.2533842709790803'], ['age_lightW_low_1sig', '-0.2533842709790803'], ['Light_Weighted_Z_H', '-0.020136634957375'], ['metallicity_lightW_up_1sig', '-0.020136634957375'], ['metallicity_lightW_low_1sig', '-0.020136634957375'], ['age_massW', '-0.2306479873546311'], ['age_massW_up_1sig', '-0.2306479873546311'], ['age_massW_low_1sig', '-0.2306479873546311'], ['metallicity_massW', '-0.0035275233644913'], ['metallicity_massW_up_1sig', '-0.0035275233644913'], ['metallicity_massW_low_1sig', '-0.0035275233644913'], ['total_mass', '10.138081523686832'], ['log_M_Msun', '9.982702889141116'], ['living_stars_mass', '9.930951773477256'], ['remnant_mass', '9.03321965366814'], ['remnant_mass_in_whitedwarfs', '8.687716206085232'], ['remnant_mass_in_neutronstars', '8.256044412248375'], ['remnant_mass_blackholes', '8.614857509258751'], ['mass_of_ejecta', '9.62953591457296'], ['E_B_V', '0.3768844221105528'], ['ssp_number', '2'], ['total_mass_ssp_0', '10.137487853030136'], ['stellar_mass_ssp_0', '9.976714427043571'], ['log_age_ssp_0', '-0.2218487496163563'], ['metal_ssp_0', '0.0'], ['SFR_ssp_0', '10.359336602646492'], ['weightMass_ssp_0', '0.989433915950266'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '8.166015120976402'], ['stellar_mass_ssp_1', '8.119243092536255'], ['log_age_ssp_1', '-2.0'], ['metal_ssp_1', '-0.33'], ['SFR_ssp_1', '10.166015120976402'], ['weightMass_ssp_1', '0.010566084049734'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy04": { thumb:"images/galaxy04_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/91_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/91_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/91_metallicity_(EDR_300000-305000).png", params:[['ID', '39633071246412790'], ['RA', '102.66725346735156'], ['DEC', '39.868482385194845'], ['Redshift', '0.2706041719781327'], ['Signal_to_Noise_Ratio', '18.47280502319336'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.6947461636804269'], ['age_lightW_up_1sig', '0.7147375782342427'], ['age_lightW_low_1sig', '0.6828952590134776'], ['Light_Weighted_Z_H', '-0.0035275233644913'], ['metallicity_lightW_up_1sig', '-0.0002805866101291'], ['metallicity_lightW_low_1sig', '-0.0338969830429875'], ['age_massW', '0.6976590415908298'], ['age_massW_up_1sig', '0.7119373884739193'], ['age_massW_low_1sig', '0.6918136166652646'], ['metallicity_massW', '-0.0002805866101291'], ['metallicity_massW_up_1sig', '-0.0002805866101291'], ['metallicity_massW_low_1sig', '-0.0167636079722687'], ['total_mass', '10.81625676934012'], ['log_M_Msun', '10.59857900111209'], ['living_stars_mass', '10.493822734579062'], ['remnant_mass', '9.929648903584088'], ['remnant_mass_in_whitedwarfs', '9.75589541322148'], ['remnant_mass_in_neutronstars', '8.931328783993555'], ['remnant_mass_blackholes', '9.29014290272659'], ['mass_of_ejecta', '10.414854326629822'], ['E_B_V', '0.0'], ['ssp_number', '2'], ['total_mass_ssp_0', '10.817375433932586'], ['stellar_mass_ssp_0', '10.598556154869849'], ['log_age_ssp_0', '0.6989700043360189'], ['metal_ssp_0', '0.0'], ['SFR_ssp_0', '10.118405429596567'], ['weightMass_ssp_0', '0.999965388413766'], ['weightLight_ssp_0', '0.99009900990099'], ['total_mass_ssp_1', '6.356611969090363'], ['stellar_mass_ssp_1', '6.319598044132498'], ['log_age_ssp_1', '-2.3000002024454176'], ['metal_ssp_1', '-1.0'], ['SFR_ssp_1', '8.65661217153578'], ['weightMass_ssp_1', '3.46115862338861e-05'], ['weightLight_ssp_1', '0.0099009900990099']] },
+    "galaxy05": { thumb:"images/galaxy05_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/170_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/170_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/170_metallicity_(EDR_300000-305000).png", params:[['ID', '39633042964222647'], ['RA', '100.84123967000971'], ['DEC', '38.33166693281851'], ['Redshift', '0.5613770124349037'], ['Signal_to_Noise_Ratio', '7.388019561767578'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '-0.0348893011358097'], ['age_lightW_up_1sig', '0.2622409850497816'], ['age_lightW_low_1sig', '-0.0348893011358097'], ['Light_Weighted_Z_H', '0.313097822001661'], ['metallicity_lightW_up_1sig', '0.3390330308345735'], ['metallicity_lightW_low_1sig', '-0.6927551722802424'], ['age_massW', '0.0012034945698751'], ['age_massW_up_1sig', '0.4774084342338772'], ['age_massW_low_1sig', '0.0012034945698751'], ['metallicity_massW', '0.3492778271259671'], ['metallicity_massW_up_1sig', '0.3492778271259671'], ['metallicity_massW_low_1sig', '-0.6927551722802424'], ['total_mass', '10.725888871556126'], ['log_M_Msun', '10.545209336104804'], ['living_stars_mass', '10.481594292116268'], ['remnant_mass', '9.67956552653926'], ['remnant_mass_in_whitedwarfs', '9.401870607800806'], ['remnant_mass_in_neutronstars', '8.837335522217908'], ['remnant_mass_blackholes', '9.196227751143471'], ['mass_of_ejecta', '10.251585038006642'], ['E_B_V', '0.3090452261306532'], ['ssp_number', '2'], ['total_mass_ssp_0', '10.722339285565312'], ['stellar_mass_ssp_0', '10.543262873446633'], ['log_age_ssp_0', '0.0'], ['metal_ssp_0', '0.35'], ['SFR_ssp_0', '10.722339285565312'], ['weightMass_ssp_0', '0.996680756288513'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '8.244822353624444'], ['stellar_mass_ssp_1', '8.195698233399511'], ['log_age_ssp_1', '-2.049999969853415'], ['metal_ssp_1', '-0.7'], ['SFR_ssp_1', '10.29482232347786'], ['weightMass_ssp_1', '0.0033192437114869'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy06": { thumb:"images/galaxy06_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/194_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/194_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/194_metallicity_(EDR_300000-305000).png", params:[['ID', '39633047716365460'], ['RA', '100.7306681787326'], ['DEC', '38.43684539058032'], ['Redshift', '8.8270389328481e-05'], ['Signal_to_Noise_Ratio', '111.69132995605467'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.8609212468721781'], ['age_lightW_up_1sig', '0.9995254445607742'], ['age_lightW_low_1sig', '0.8609212468721781'], ['Light_Weighted_Z_H', '-1.6155606664188544'], ['metallicity_lightW_up_1sig', '-1.0058087762047685'], ['metallicity_lightW_low_1sig', '-1.7749199472659898'], ['age_massW', '0.9005259411692854'], ['age_massW_up_1sig', '1.0408199529604518'], ['age_massW_low_1sig', '0.9005259411692854'], ['metallicity_massW', '-2.0293056462659385'], ['metallicity_massW_up_1sig', '-2.0293056462659385'], ['metallicity_massW_low_1sig', '-2.0293056462659385'], ['total_mass', '4.758829270593739'], ['log_M_Msun', '4.5255711200525885'], ['living_stars_mass', '4.388486163333717'], ['remnant_mass', '3.95803558655355'], ['remnant_mass_in_whitedwarfs', '3.820826646691727'], ['remnant_mass_in_neutronstars', '2.874261149471114'], ['remnant_mass_blackholes', '3.233201127636132'], ['mass_of_ejecta', '4.382529787043314'], ['E_B_V', '0.0'], ['ssp_number', '2'], ['total_mass_ssp_0', '4.758544829355135'], ['stellar_mass_ssp_0', '4.52189793810335'], ['log_age_ssp_0', '0.9030899869919436'], ['metal_ssp_0', '-2.25'], ['SFR_ssp_0', '3.855454842363191'], ['weightMass_ssp_0', '0.9944929806162566'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '2.501859712368955'], ['stellar_mass_ssp_1', '2.450993953677703'], ['log_age_ssp_1', '-1.499999953328896'], ['metal_ssp_1', '-0.7'], ['SFR_ssp_1', '4.001859665697851'], ['weightMass_ssp_1', '0.0055070193837434'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy07": { thumb:"images/galaxy07_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/270_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/270_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/270_metallicity_(EDR_300000-305000).png", params:[['ID', '39633066565567330'], ['RA', '101.5128777278633'], ['DEC', '39.5685036954774'], ['Redshift', '0.4232811845876005'], ['Signal_to_Noise_Ratio', '6.354280471801758'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.9219587019878086'], ['age_lightW_up_1sig', '0.9535187710617592'], ['age_lightW_low_1sig', '0.8776891879344668'], ['Light_Weighted_Z_H', '-0.5343100962541386'], ['metallicity_lightW_up_1sig', '-0.4921695427791864'], ['metallicity_lightW_low_1sig', '-0.8668135230133681'], ['age_massW', '0.9387758071867188'], ['age_massW_up_1sig', '0.9535187710617592'], ['age_massW_low_1sig', '0.8322395509924302'], ['metallicity_massW', '-0.6927551722802424'], ['metallicity_massW_up_1sig', '-0.6332834124998247'], ['metallicity_massW_low_1sig', '-0.9742230415633246'], ['total_mass', '10.786160615391005'], ['log_M_Msun', '10.549742619736817'], ['living_stars_mass', '10.412712286668691'], ['remnant_mass', '9.98205987796617'], 
+['remnant_mass_in_whitedwarfs', '9.84493551013663'], ['remnant_mass_in_neutronstars', '8.898089398829466'], ['remnant_mass_blackholes', '9.256983855867842'], ['mass_of_ejecta', '10.405451503514142'], ['E_B_V', '0.0452261306532663'], ['ssp_number', '2'], ['total_mass_ssp_0', '10.763763092484163'], ['stellar_mass_ssp_0', '10.526994544930863'], ['log_age_ssp_0', '0.9542425094393248'], ['metal_ssp_0', '-1.0'], ['SFR_ssp_0', '9.809520583044838'], ['weightMass_ssp_0', '0.953145795266967'], ['weightLight_ssp_0', '0.9090909090909092'], 
+['total_mass_ssp_1', '9.455352327029813'], ['stellar_mass_ssp_1', '9.257578564720882'], ['log_age_ssp_1', '0.3010299956639812'], ['metal_ssp_1', '0.35'], ['SFR_ssp_1', '9.154322331365831'], ['weightMass_ssp_1', '0.046854204733033'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy08": { thumb:"images/galaxy08_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/475_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/475_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/475_metallicity_(EDR_300000-305000).png", params:[['ID', '39633080528407273'], ['RA', '102.41584161530912'], ['DEC', '40.20307698620588'], ['Redshift', '0.3268623619271493'], ['Signal_to_Noise_Ratio', '15.222122192382812'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.6644895720155835'], ['age_lightW_up_1sig', '0.6828952590134775'], ['age_lightW_low_1sig', '0.6581768207923337'], ['Light_Weighted_Z_H', '0.2006872519396923'], ['metallicity_lightW_up_1sig', '0.2006872519396923'], ['metallicity_lightW_low_1sig', '0.1623903367207919'], ['age_massW', '0.6918136166652644'], ['age_massW_up_1sig', '0.6976590415908296'], ['age_massW_low_1sig', '0.6918136166652644'], ['metallicity_massW', '0.2006872519396923'], ['metallicity_massW_up_1sig', '0.2006872519396923'], ['metallicity_massW_low_1sig', '0.1861925676849614'], ['total_mass', '10.947094620484974'], ['log_M_Msun', '10.783091350922156'], ['living_stars_mass', '10.71261485765958'], ['remnant_mass', '9.958589508014423'], ['remnant_mass_in_whitedwarfs', '9.74291647498963'], ['remnant_mass_in_neutronstars', '9.031044241882034'], ['remnant_mass_blackholes', '9.395151688894858'], ['mass_of_ejecta', '10.442577844373009'], ['E_B_V', '0.0376884422110552'], ['ssp_number', '2'], ['total_mass_ssp_0', '10.938071728875787'], ['stellar_mass_ssp_0', '10.773153845476664'], ['log_age_ssp_0', '0.6989700043360189'], ['metal_ssp_0', '0.2'], ['SFR_ssp_0', '10.239101724539768'], ['weightMass_ssp_0', '0.9809730651511284'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '9.225783476966964'], ['stellar_mass_ssp_1', '9.137625141067527'], ['log_age_ssp_1', '-0.0457574905606751'], ['metal_ssp_1', '0.2'], ['SFR_ssp_1', '9.271540967527638'], ['weightMass_ssp_1', '0.0190269348488715'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy09": { thumb:"images/galaxy09_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/546_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/546_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/546_metallicity_(EDR_300000-305000).png", params:[['ID', '39633075881120627'], ['RA', '101.53795494793825'], ['DEC', '40.013376330997765'], ['Redshift', '0.5111882485981417'], ['Signal_to_Noise_Ratio', '5.025443077087402'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.8613530409583751'], ['age_lightW_up_1sig', '0.8645275026941763'], ['age_lightW_low_1sig', '0.2685243873327937'], ['Light_Weighted_Z_H', '-0.2459408514077218'], ['metallicity_lightW_up_1sig', '0.0457175850307908'], ['metallicity_lightW_low_1sig', '-0.3628746265382031'], ['age_massW', '0.9023662804390512'], ['age_massW_up_1sig', '0.9023662804390512'], ['age_massW_low_1sig', '0.2868468880882571'], ['metallicity_massW', '-0.3271134230166517'], ['metallicity_massW_up_1sig', '0.030919648354746'], ['metallicity_massW_low_1sig', '-0.3271134230166517'], ['total_mass', '11.004911457619892'], ['log_M_Msun', '10.77455627355807'], ['living_stars_mass', '10.651114006718505'], ['remnant_mass', '10.16797568316244'], 
+['remnant_mass_in_whitedwarfs', '10.017448951319173'], ['remnant_mass_in_neutronstars', '9.11822593474684'], ['remnant_mass_blackholes', '9.477043157448517'], ['mass_of_ejecta', 
+'10.617959448869296'], ['E_B_V', '0.0'], ['ssp_number', '2'], ['total_mass_ssp_0', '11.00418163980318'], ['stellar_mass_ssp_0', '10.774370662539171'], ['log_age_ssp_0', '0.9030899869919436'], ['metal_ssp_0', '-0.33'], ['SFR_ssp_0', '10.101091652811236'], ['weightMass_ssp_0', '0.9997088351182434'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '7.468447101796165'], ['stellar_mass_ssp_1', '7.405282914828429'], ['log_age_ssp_1', '-2.149999867728904'], ['metal_ssp_1', '0.2'], ['SFR_ssp_1', '9.618446969525069'], ['weightMass_ssp_1', '0.0002911648817566'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy10": { thumb:"images/galaxy10_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/560_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/560_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/560_metallicity_(EDR_300000-305000).png", params:[['ID', '39633075881120746'], ['RA', '101.54423824790578'], ['DEC', '39.9036114160346'], ['Redshift', '0.3562760459030561'], ['Signal_to_Noise_Ratio', '18.22165870666504'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.80454363087673'], ['age_lightW_up_1sig', '0.8106289638701919'], ['age_lightW_low_1sig', '0.80454363087673'], ['Light_Weighted_Z_H', '-0.0002805866101291'], ['metallicity_lightW_up_1sig', '-0.0002805866101291'], ['metallicity_lightW_low_1sig', '-0.0002805866101291'], ['age_massW', '0.8435890717715828'], ['age_massW_up_1sig', '0.8435890717715828'], ['age_massW_low_1sig', '0.8398387573905636'], ['metallicity_massW', '-0.0002805866101291'], ['metallicity_massW_up_1sig', '-0.0002805866101291'], ['metallicity_massW_low_1sig', '-0.0067989183213312'], ['total_mass', '11.15860102421792'], ['log_M_Msun', '10.933851420292171'], ['living_stars_mass', '10.818650891868836'], ['remnant_mass', '10.301193819368066'], ['remnant_mass_in_whitedwarfs', '10.141492488985795'], ['remnant_mass_in_neutronstars', '9.27281950103375'], ['remnant_mass_blackholes', '9.631643426181675'], ['mass_of_ejecta', '10.765781694973809'], ['E_B_V', '0.0'], ['ssp_number', '2'], ['total_mass_ssp_0', '11.157863955483265'], ['stellar_mass_ssp_0', '10.932307924408228'], ['log_age_ssp_0', '0.8450980400142568'], ['metal_ssp_0', '0.0'], ['SFR_ssp_0', '10.312765915469006'], ['weightMass_ssp_0', '0.997556205344234'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '8.54699129169585'], ['stellar_mass_ssp_1', '8.48380106529998'], ['log_age_ssp_1', '-1.6500000268811803'], ['metal_ssp_1', '0.0'], ['SFR_ssp_1', '10.19699131857703'], ['weightMass_ssp_1', '0.002443794655766'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy11": { thumb:"images/galaxy11_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/809_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/809_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/809_metallicity_(EDR_300000-305000).png", params:[['ID', '39633057216468007'], ['RA', '104.53949214188764'], ['DEC', '38.88753993354855'], ['Redshift', '-0.0001642826664864'], ['Signal_to_Noise_Ratio', '96.9962921142578'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '-0.0293671074471465'], ['age_lightW_up_1sig', '-0.0293671074471465'], ['age_lightW_low_1sig', '-0.0293671074471465'], ['Light_Weighted_Z_H', '-0.8007368148514149'], ['metallicity_lightW_up_1sig', '-0.8007368148514149'], ['metallicity_lightW_low_1sig', '-0.8007368148514149'], ['age_massW', '-0.0096886310444593'], ['age_massW_up_1sig', '-0.0096886310444593'], ['age_massW_low_1sig', '-0.0096886310444593'], ['metallicity_massW', '-1.0058087762047685'], ['metallicity_massW_up_1sig', '-1.0058087762047685'], ['metallicity_massW_low_1sig', '-1.0058087762047685'], ['total_mass', '4.6496177034976585'], ['log_M_Msun', '4.4591520359025765'], ['living_stars_mass', '4.39207243609327'], ['remnant_mass', '3.61485000518984'], ['remnant_mass_in_whitedwarfs', '3.3578285569821857'], ['remnant_mass_in_neutronstars', '2.747737257568584'], ['remnant_mass_blackholes', '3.10744436998431'], ['mass_of_ejecta', '4.1694984364673084'], ['E_B_V', '0.0'], ['ssp_number', '2'], ['total_mass_ssp_0', '4.616441777305274'], ['stellar_mass_ssp_0', '4.4295829682996'], ['log_age_ssp_0', '0.0'], ['metal_ssp_0', '-1.8'], ['SFR_ssp_0', '4.616441777305274'], ['weightMass_ssp_0', '0.9492350332854368'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '3.344632124781318'], ['stellar_mass_ssp_1', '3.2775047018700927'], ['log_age_ssp_1', '-0.6989700043360187'], ['metal_ssp_1', '0.2'], ['SFR_ssp_1', '4.043602129117336'], ['weightMass_ssp_1', '0.0507649667145631'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy12": { thumb:"images/galaxy12_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/1660_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/1660_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/1660_metallicity_(EDR_300000-305000).png", params:[['ID', '39633089860734544'], ['RA', '111.51301406145542'], ['DEC', '40.78465686040673'], ['Redshift', '0.2276985184968985'], ['Signal_to_Noise_Ratio', '8.135509490966797'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.6976590415908298'], ['age_lightW_up_1sig', '0.8985790471730408'], ['age_lightW_low_1sig', '0.542253135572214'], ['Light_Weighted_Z_H', '-0.0741532131155168'], ['metallicity_lightW_up_1sig', '-0.0741532131155168'], ['metallicity_lightW_low_1sig', '-0.6474054077953142'], ['age_massW', '0.7746111660455233'], ['age_massW_up_1sig', '0.8985790471730408'], ['age_massW_low_1sig', '0.5856811822313983'], ['metallicity_massW', '-0.2130471873308261'], ['metallicity_massW_up_1sig', '-0.149322262872164'], ['metallicity_massW_low_1sig', '-0.7089888726150425'], ['total_mass', '10.131544406333374'], ['log_M_Msun', '9.946918706262874'], ['living_stars_mass', '9.8547232255331'], ['remnant_mass', '9.228561481258089'], ['remnant_mass_in_whitedwarfs', '9.054746948730502'], ['remnant_mass_in_neutronstars', '8.22795045328962'], ['remnant_mass_blackholes', '8.590232378710507'], ['mass_of_ejecta', '9.677032122382156'], ['E_B_V', '0.0226130653266331'], ['ssp_number', '2'], ['total_mass_ssp_0', '9.669136125057806'], ['stellar_mass_ssp_0', '9.560958279543785'], ['log_age_ssp_0', '0.3010299956639812'], ['metal_ssp_0', '0.2'], ['SFR_ssp_0', '9.368106129393825'], ['weightMass_ssp_0', '0.3431434782724717'], ['weightLight_ssp_0', '0.5'], ['total_mass_ssp_1', '9.95113089212724'], ['stellar_mass_ssp_1', '9.716895958172469'], ['log_age_ssp_1', '0.9030899869919436'], ['metal_ssp_1', '-1.0'], ['SFR_ssp_1', '9.048040905135297'], ['weightMass_ssp_1', '0.6568565217275283'], ['weightLight_ssp_1', '0.5']] },
+    "galaxy13": { thumb:"images/galaxy13_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/2330_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/2330_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/2330_metallicity_(EDR_300000-305000).png", params:[['ID', '39633117094349759'], ['RA', '110.23008390066688'], ['DEC', '42.2388278007648'], ['Redshift', '0.2258964704350658'], ['Signal_to_Noise_Ratio', '14.298599243164062'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.6665341897421089'], ['age_lightW_up_1sig', '0.9077256268531582'], ['age_lightW_low_1sig', '0.2595106193378748'], ['Light_Weighted_Z_H', '0.0457175850307908'], ['metallicity_lightW_up_1sig', '0.1324677455846725'], ['metallicity_lightW_low_1sig', '-0.2459408514077218'], ['age_massW', '0.6899093565593467'], ['age_massW_up_1sig', '0.9250930390246732'], ['age_massW_low_1sig', '0.2932025111526414'], ['metallicity_massW', '0.0155996534143622'], ['metallicity_massW_up_1sig', '0.1442216682392086'], ['metallicity_massW_low_1sig', '-0.3340339614205105'], ['total_mass', '10.510056096034742'], ['log_M_Msun', '10.291831643511308'], ['living_stars_mass', '10.18846738431326'], ['remnant_mass', '9.617760166049914'], ['remnant_mass_in_whitedwarfs', '9.442077521770946'], ['remnant_mass_in_neutronstars', '8.623336003886363'], ['remnant_mass_blackholes', '8.98214910089674'], ['mass_of_ejecta', '10.104940597088746'], ['E_B_V', '0.0'], ['ssp_number', '2'], ['total_mass_ssp_0', '10.49697649742802'], ['stellar_mass_ssp_0', '10.278157218365282'], ['log_age_ssp_0', '0.6989700043360189'], ['metal_ssp_0', '0.0'], ['SFR_ssp_0', '9.798006493092'], ['weightMass_ssp_0', '0.9718155543167591'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '8.959402149345737'], ['stellar_mass_ssp_1', '8.783137137744466'], ['log_age_ssp_1', '-0.0457574905606751'], ['metal_ssp_1', '0.35'], ['SFR_ssp_1', '9.005159639906411'], ['weightMass_ssp_1', '0.0281844456832407'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy14": { thumb:"images/galaxy14_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/3378_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/3378_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/3378_metallicity_(EDR_300000-305000).png", params:[['ID', '39633148056699697'], ['RA', '109.09154539026125'], ['DEC', '44.12307287727354'], ['Redshift', '0.3774052391247635'], ['Signal_to_Noise_Ratio', '9.908002853393556'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.6576842951403656'], ['age_lightW_up_1sig', '0.8618697156596493'], ['age_lightW_low_1sig', '0.2594824363709824'], ['Light_Weighted_Z_H', '-0.6927551722802424'], ['metallicity_lightW_up_1sig', '-0.6332834124998247'], ['metallicity_lightW_low_1sig', '-0.9742230415633246'], ['age_massW', '0.6986586088057275'], ['age_massW_up_1sig', '0.902838138167696'], ['age_massW_low_1sig', '0.3004803316306188'], ['metallicity_massW', '-0.6927551722802424'], ['metallicity_massW_up_1sig', '-0.6927551722802424'], ['metallicity_massW_low_1sig', '-1.0058087762047685'], ['total_mass', '10.651300369719424'], ['log_M_Msun', '10.440066343680924'], ['living_stars_mass', '10.33608303937672'], ['remnant_mass', '9.768290864308838'], ['remnant_mass_in_whitedwarfs', '9.600160097073864'], ['remnant_mass_in_neutronstars', '8.757441776981288'], ['remnant_mass_blackholes', '9.11750620088596'], ['mass_of_ejecta', '10.234618315213156'], ['E_B_V', '0.3090452261306532'], ['ssp_number', '2'], ['total_mass_ssp_0', '10.649813777632476'], ['stellar_mass_ssp_0', '10.439202893121877'], ['log_age_ssp_0', '0.6989700043360189'], ['metal_ssp_0', '-0.7'], ['SFR_ssp_0', '9.95084377329646'], ['weightMass_ssp_0', '0.9986297409086504'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '7.787211973881738'], ['stellar_mass_ssp_1', '7.738087853656804'], ['log_age_ssp_1', '-2.049999969853415'], ['metal_ssp_1', '-0.7'], ['SFR_ssp_1', '9.837211943735152'], ['weightMass_ssp_1', '0.0013702590913496'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy15": { thumb:"images/galaxy15_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/3440_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/3440_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/3440_metallicity_(EDR_300000-305000).png", params:[['ID', '39633139303186894'], ['RA', '109.95761425440216'], ['DEC', '43.54482942839831'], ['Redshift', '0.5840478234437176'], ['Signal_to_Noise_Ratio', '4.948601722717285'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '-0.1829337560495574'], ['age_lightW_up_1sig', '-0.1329960847923298'], ['age_lightW_low_1sig', '-1.0156225017656808'], ['Light_Weighted_Z_H', '-0.4184708178602142'], ['metallicity_lightW_up_1sig', '0.2166810670636327'], ['metallicity_lightW_low_1sig', '-0.6474054077953142'], ['age_massW', '0.8316877210702681'], ['age_massW_up_1sig', '0.8920994497148874'], ['age_massW_low_1sig', '-0.3042481967722069'], ['metallicity_massW', '0.3375495590870574'], ['metallicity_massW_up_1sig', '0.3390330308345735'], ['metallicity_massW_low_1sig', '-0.3780465017336157'], ['total_mass', '10.296105436544217'], ['log_M_Msun', '10.07461688691931'], ['living_stars_mass', '9.962186744362327'], ['remnant_mass', '9.432712335417133'], ['remnant_mass_in_whitedwarfs', '9.272721956752656'], ['remnant_mass_in_neutronstars', '8.404456398779267'], ['remnant_mass_blackholes', '8.764043929161632'], ['mass_of_ejecta', '9.893268794270146'], ['E_B_V', '0.6633165829145728'], ['ssp_number', '2'], ['total_mass_ssp_0', '8.802343467555902'], ['stellar_mass_ssp_0', '8.753286176922852'], ['log_age_ssp_0', '-2.100000128334196'], ['metal_ssp_0', '-0.7'], ['SFR_ssp_0', '10.902343595890098'], ['weightMass_ssp_0', '0.0322118024166102'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '10.280108762514576'], ['stellar_mass_ssp_1', '10.05338311085203'], ['log_age_ssp_1', '0.8450980400142568'], ['metal_ssp_1', '0.35'], ['SFR_ssp_1', '9.43501072250032'], ['weightMass_ssp_1', '0.9677881975833896'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy16": { thumb:"images/galaxy16_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/3451_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/3451_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/3451_metallicity_(EDR_300000-305000).png", params:[['ID', '39633057208079436'], ['RA', '103.94081458600634'], ['DEC', '39.01943995212044'], ['Redshift', '0.4117326287644486'], ['Signal_to_Noise_Ratio', '10.367624282836914'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', 
+'0.6027937698135251'], ['age_lightW_up_1sig', '0.6027937698135251'], ['age_lightW_low_1sig', '0.6027937698135251'], ['Light_Weighted_Z_H', '-0.2237372944835138'], ['metallicity_lightW_up_1sig', '-0.2237372944835138'], ['metallicity_lightW_low_1sig', '-0.2237372944835138'], ['age_massW', '0.6401471471697209'], ['age_massW_up_1sig', '0.6401471471697209'], 
+['age_massW_low_1sig', '0.6401471471697209'], ['metallicity_massW', '-0.1271041765293974'], ['metallicity_massW_up_1sig', '-0.1271041765293974'], ['metallicity_massW_low_1sig', '-0.1271041765293974'], ['total_mass', '10.81365921951201'], ['log_M_Msun', '10.605856660949414'], ['living_stars_mass', '10.509901814607058'], ['remnant_mass', '9.90304484282705'], ['remnant_mass_in_whitedwarfs', '9.720114702126354'], ['remnant_mass_in_neutronstars', '8.922171437388547'], ['remnant_mass_blackholes', '9.281890799427202'], ['mass_of_ejecta', '10.392456195448212'], ['E_B_V', '0.0979899497487437'], ['ssp_number', '2'], ['total_mass_ssp_0', '10.313595818710542'], ['stellar_mass_ssp_0', '10.130151319555644'], ['log_age_ssp_0', '0.4771212547196624'], ['metal_ssp_0', '-0.7'], ['SFR_ssp_0', '9.83647456399088'], ['weightMass_ssp_0', '0.3165426568722623'], ['weightLight_ssp_0', '0.5'], ['total_mass_ssp_1', '10.64787498942995'], ['stellar_mass_ssp_1', '10.42905571036721'], ['log_age_ssp_1', '0.6989700043360189'], ['metal_ssp_1', '0.0'], ['SFR_ssp_1', '9.94890498509393'], ['weightMass_ssp_1', '0.6834573431277376'], ['weightLight_ssp_1', '0.5']] },
+    "galaxy17": { thumb:"images/galaxy17_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/3508_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/3508_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/3508_metallicity_(EDR_300000-305000).png", params:[['ID', '39633061914087633'], ['RA', '104.22926154095944'], ['DEC', '39.279686812215374'], ['Redshift', '0.3248554693412653'], ['Signal_to_Noise_Ratio', '20.265857696533203'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.8028533429142743'], ['age_lightW_up_1sig', '0.999276236162694'], ['age_lightW_low_1sig', '0.658176820792334'], ['Light_Weighted_Z_H', '-0.3271134230166517'], ['metallicity_lightW_up_1sig', '-0.020136634957375'], ['metallicity_lightW_low_1sig', '-0.3703943147065667'], ['age_massW', '0.8420456947963983'], ['age_massW_up_1sig', '0.999276236162694'], ['age_massW_low_1sig', '0.6976590415908298'], ['metallicity_massW', '-0.3271134230166517'], ['metallicity_massW_up_1sig', '-0.0002805866101291'], ['metallicity_massW_low_1sig', '-0.3554829267391846'], ['total_mass', '10.99347099163953'], ['log_M_Msun', '10.768108516031653'], ['living_stars_mass', '10.650157491228727'], ['remnant_mass', '10.144384365820924'], ['remnant_mass_in_whitedwarfs', '9.988111551291398'], ['remnant_mass_in_neutronstars', '9.108202877204286'], ['remnant_mass_blackholes', '9.467016194501973'], ['mass_of_ejecta', '10.602696392279412'], ['E_B_V', '0.0'], ['ssp_number', '2'], ['total_mass_ssp_0', '10.99072151275891'], ['stellar_mass_ssp_0', '10.76311657384091'], ['log_age_ssp_0', '0.8450980400142568'], ['metal_ssp_0', '-0.33'], ['SFR_ssp_0', '10.145623472744653'], ['weightMass_ssp_0', '0.9918843329808584'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '8.903584702104252'], ['stellar_mass_ssp_1', '8.826100171784818'], ['log_age_ssp_1', '-1.5999999017104352'], ['metal_ssp_1', '-0.33'], ['SFR_ssp_1', '10.503584603814687'], ['weightMass_ssp_1', '0.0081156670191416'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy18": { thumb:"images/galaxy18_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/3657_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/3657_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/3657_metallicity_(EDR_300000-305000).png", params:[['ID', '39633061914086263'], ['RA', '104.15593177846972'], ['DEC', '39.17660217126163'], ['Redshift', '0.2438241577224999'], ['Signal_to_Noise_Ratio', '20.38354110717773'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.970821622524016'], ['age_lightW_up_1sig', '0.9963673072321813'], ['age_lightW_low_1sig', '0.963013034239276'], ['Light_Weighted_Z_H', '-0.037406289053882'], ['metallicity_lightW_up_1sig', '-0.037406289053882'], ['metallicity_lightW_low_1sig', '-0.040944183088397'], ['age_massW', '0.993438762671222'], ['age_massW_up_1sig', '0.997824207214137'], ['age_massW_low_1sig', '0.993438762671222'], ['metallicity_massW', '-0.0100951427517251'], ['metallicity_massW_up_1sig', '-0.0067989183213312'], ['metallicity_massW_low_1sig', '-0.020136634957375'], ['total_mass', '10.928677639861371'], ['log_M_Msun', '10.69716140134301'], ['living_stars_mass', '10.57187223855557'], ['remnant_mass', '10.096150995215798'], ['remnant_mass_in_whitedwarfs', '9.947600174423496'], ['remnant_mass_in_neutronstars', '9.041585648017271'], ['remnant_mass_blackholes', '9.400414937067476'], ['mass_of_ejecta', '10.542551737173358'], ['E_B_V', '0.0376884422110552'], ['ssp_number', '2'], ['total_mass_ssp_0', '10.917504939013016'], ['stellar_mass_ssp_0', '10.686364939855974'], ['log_age_ssp_0', '1.0'], ['metal_ssp_0', '0.0'], ['SFR_ssp_0', '9.917504939013016'], ['weightMass_ssp_0', '0.976729361110922'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', 
+'9.294539002814991'], ['stellar_mass_ssp_1', '9.087271482361947'], ['log_age_ssp_1', '0.4771212547196624'], ['metal_ssp_1', '-1.0'], ['SFR_ssp_1', '8.817417748095329'], ['weightMass_ssp_1', '0.0232706388890779'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy19": { thumb:"images/galaxy19_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/3772_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/3772_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/3772_metallicity_(EDR_300000-305000).png", params:[['ID', '616093904709615970'], ['RA', '108.94172312858606'], ['DEC', '44.19784086320654'], ['Redshift', '0.5408590006789697'], ['Signal_to_Noise_Ratio', '0.6873485445976257'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '-0.5090367470507511'], ['age_lightW_up_1sig', '0.001203494569875'], ['age_lightW_low_1sig', '-0.54812211592559'], ['Light_Weighted_Z_H', '-0.2877576036649182'], ['metallicity_lightW_up_1sig', '0.3099422376318478'], ['metallicity_lightW_low_1sig', '-0.4725396287084554'], ['age_massW', '-0.5090367470507511'], ['age_massW_up_1sig', '0.6315937631392607'], 
+['age_massW_low_1sig', '-0.5910760994413051'], ['metallicity_massW', '-0.2574833572665022'], ['metallicity_massW_up_1sig', '0.125259602790817'], ['metallicity_massW_low_1sig', '-0.6063466016488109'], ['total_mass', '8.812659836421451'], ['log_M_Msun', '8.682806413452553'], ['living_stars_mass', '8.638405821688679'], ['remnant_mass', '7.670399687539063'], ['remnant_mass_in_whitedwarfs', '7.256594053544681'], ['remnant_mass_in_neutronstars', '6.942330380667985'], ['remnant_mass_blackholes', '7.301143477678361'], ['mass_of_ejecta', '8.282819572261612'], ['E_B_V', '0.0603015075376884'], ['ssp_number', '2'], ['total_mass_ssp_0', '8.751743450808851'], ['stellar_mass_ssp_0', '8.606899027985843'], ['log_age_ssp_0', '-0.5228787452803376'], ['metal_ssp_0', '-0.33'], ['SFR_ssp_0', '9.274622196089188'], ['weightMass_ssp_0', '0.8382169186891525'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '8.037320131066796'], ['stellar_mass_ssp_1', '7.887905107418827'], ['log_age_ssp_1', '-0.3979400086720376'], ['metal_ssp_1', '0.0'], ['SFR_ssp_1', '8.435260139738833'], ['weightMass_ssp_1', '0.1617830813108475'], ['weightLight_ssp_1', '0.0909090909090909']] },
+    "galaxy20": { thumb:"images/galaxy20_thumb.jpg", legacyUrl:"#", spectrum:"images/DemoGalaxies/3964_spectrum_(EDR_300000-305000).png", lookback:"images/DemoGalaxies/3964_lookback_time_(EDR_300000-305000).png", metallicity:"images/DemoGalaxies/3964_metallicity_(EDR_300000-305000).png", params:[['ID', '39633147901516273'], ['RA', '96.55992531460562'], ['DEC', '43.987192476598096'], ['Redshift', '0.0005686928742477'], ['Signal_to_Noise_Ratio', '70.66744232177734'], ['Survey_Type', 'OTHER_dark'], ['Model_Type', 'gold'], ['Initial_Mass_Function', 'Kroupa'], ['Converged', 'True'], ['Light_Weighted_Age_log_Gyr', '0.6561372275757557'], ['age_lightW_up_1sig', '0.6561372275757557'], ['age_lightW_low_1sig', '0.6561372275757557'], ['Light_Weighted_Z_H', '-0.6771064776146363'], ['metallicity_lightW_up_1sig', '-0.6771064776146363'], ['metallicity_lightW_low_1sig', '-0.6771064776146363'], ['age_massW', '0.6995739309790399'], ['age_massW_up_1sig', '0.6995739309790399'], ['age_massW_low_1sig', '0.6995739309790399'], ['metallicity_massW', '-2.0293056462659385'], ['metallicity_massW_up_1sig', '-2.0293056462659385'], ['metallicity_massW_low_1sig', '-2.0293056462659385'], ['total_mass', '6.231407122060784'], ['log_M_Msun', '6.001071779030472'], ['living_stars_mass', '5.882951205511562'], ['remnant_mass', '5.377890518249625'], ['remnant_mass_in_whitedwarfs', '5.221542497747257'], ['remnant_mass_in_neutronstars', '4.341882637950748'], ['remnant_mass_blackholes', '4.700695944557149'], ['mass_of_ejecta', '5.837423691231881'], ['E_B_V', '0.0'], ['ssp_number', '2'], ['total_mass_ssp_0', '6.227665581423128'], ['stellar_mass_ssp_0', '6.000647031768092'], ['log_age_ssp_0', '0.6989700043360189'], ['metal_ssp_0', '-2.25'], ['SFR_ssp_0', '5.52869557708711'], ['weightMass_ssp_0', '0.9993668104524636'], ['weightLight_ssp_0', '0.9090909090909092'], ['total_mass_ssp_1', '3.029474396320494'], ['stellar_mass_ssp_1', '2.991205699802624'], ['log_age_ssp_1', '-2.2500002511435824'], ['metal_ssp_1', '0.35'], ['SFR_ssp_1', '5.2794746474640775'], ['weightMass_ssp_1', '0.0006331895475362'], ['weightLight_ssp_1', '0.0909090909090909']] }
+  };
+
+  // Preload images
+  function preloadImages(){
+    Object.values(galaxyData).forEach(g=>{
+      if(g.thumb) (new Image()).src = g.thumb;
+      if(g.spectrum) (new Image()).src = g.spectrum;
+      if(g.lookback) (new Image()).src = g.lookback;
+      if(g.metallicity) (new Image()).src = g.metallicity;
+    });
+  }
+  preloadImages();
+
+  // Elements
+  const dropzone = document.getElementById('ffdemo-dropzone');
+  const loaderEl = document.getElementById('ffdemo-loader');
+  const loaderMsg = document.getElementById('ffdemo-loader-msg');
+  const resultsEl = document.getElementById('ffdemo-results');
+  const resSpectrum = document.getElementById('ffdemo-result-spectrum');
+  const resLookback = document.getElementById('ffdemo-result-lookback');
+  const resMetallicity = document.getElementById('ffdemo-result-metallicity');
+  const paramsTableBody = document.querySelector('#ffdemo-params-table tbody');
+
+  // Drag/drop handlers
+  dropzone.addEventListener('dragover', (e)=>{
+    e.preventDefault();
+    dropzone.classList.add('dragover');
+  });
+  dropzone.addEventListener('dragleave', (e)=>{
+    dropzone.classList.remove('dragover');
+  });
+  dropzone.addEventListener('drop', (e)=>{
+    e.preventDefault();
+    dropzone.classList.remove('dragover');
+    const f = e.dataTransfer.files[0];
+    if(!f) return;
+    const name = f.name.toLowerCase();
+    const base = name.replace(/\..+$/, '');
+    if(galaxyData[base]){
+      runDemoForGalaxy(base);
+    } else {
+      const keys = Object.keys(galaxyData);
+      const choice = prompt("Mock FITS filename not recognised. Enter galaxy id (e.g. galaxy01) or pick 1-"+keys.length, keys[0]);
+      if(choice && galaxyData[choice]) runDemoForGalaxy(choice);
+      else alert("No matching galaxy chosen.");
+    }
+  });
+
+  // Download mock FITS and optionally autorun
+// Replace the existing downloadMockFITS function with this.
+// Behaviour:
+// - if autorun === true: scroll to dropzone, highlight it, then run the demo (no download)
+// - if autorun === false: behave as before and offer a file download
+
+function downloadMockFITS(galaxyId, autorun=false){
+  const dropzone = document.getElementById('ffdemo-dropzone');
+
+  // Smooth-scroll the dropzone into view and briefly highlight it
+  if (dropzone) {
+    dropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // add a short-lived class to emphasise the dropzone
+    dropzone.classList.add('ffdemo-highlight');
+    // remove after 1.1s (match the autorun delay below)
+    setTimeout(()=> dropzone.classList.remove('ffdemo-highlight'), 1100);
+  }
+
+  if (autorun) {
+    // Wait a short time for the scroll/highlight to start, then run the demo
+    setTimeout(()=> runDemoForGalaxy(galaxyId), 700);
+    return;
+  }
+
+  // If autorun is false, keep the previous download behaviour
+  const filename = galaxyId + ".fits";
+  const blob = new Blob([galaxyId + " - mock FIREFLY FITS placeholder"], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+
+  // Run demo: show loader then results
+  function runDemoForGalaxy(galaxyId){
+    if(!galaxyData[galaxyId]){ alert("No demo data for "+galaxyId); return; }
+    resultsEl.classList.remove('show');
+    resultsEl.style.display = 'none';
+    loaderEl.classList.add('show');
+
+    // Step through loader messages
+    let cumulative = 0;
+    if(loaderSteps.length === 0){
+      loaderMsg.textContent = "Preparing demo...";
+    } else {
+      loaderSteps.forEach((step, i) => {
+        setTimeout(()=> loaderMsg.textContent = step.msg, cumulative*1000);
+        cumulative += Math.max(0, step.delay || 1);
+      });
+    }
+
+    setTimeout(()=> {
+      loaderEl.classList.remove('show');
+      showResults(galaxyId);
+    }, cumulative*1000 + 250);
+  }
+
+  // Render results
+
+
+// Robust showResults: handles arrays-of-pairs, objects, and logs helpful errors
+function showResults(galaxyId){
+  const g = galaxyData[galaxyId];
+  if(!g){
+    console.error('No galaxy data for', galaxyId);
+    alert('No demo data for ' + galaxyId);
+    return;
+  }
+
+  // images
+  resSpectrum.src = g.spectrum || "";
+  resSpectrum.alt = g.spectrum ? ("Fitted spectrum for " + galaxyId) : "No spectrum available";
+  resLookback.src = g.lookback || "";
+  resMetallicity.src = g.metallicity || "";
+
+  // clear table
+  paramsTableBody.innerHTML = "";
+
+  // If params is an object, convert to pairs
+  let pairs = [];
+  if (Array.isArray(g.params)) {
+    // Accept either [ [k,v], [k,v] ] or [ "k", "v", ... ] (defensive)
+    if(g.params.length && Array.isArray(g.params[0])) {
+      pairs = g.params;
+    } else {
+      // try to chunk sequential array into pairs
+      for (let i=0; i<g.params.length; i+=2){
+        const k = g.params[i], v = g.params[i+1];
+        if (typeof k !== 'undefined') pairs.push([k, typeof v !== 'undefined' ? v : '']);
+      }
+    }
+  } else if (g.params && typeof g.params === 'object') {
+    pairs = Object.entries(g.params);
+  } else {
+    console.warn('Unknown params format for', galaxyId, g.params);
+  }
+
+  // Populate table
+  pairs.forEach(row=>{
+    try {
+      const tr = document.createElement('tr');
+      const t1 = document.createElement('td'); t1.textContent = String(row[0]);
+      const t2 = document.createElement('td'); t2.textContent = String(row[1]);
+      tr.appendChild(t1);
+      tr.appendChild(t2);
+      paramsTableBody.appendChild(tr);
+    } catch(err) {
+      console.error('Failed to render row', row, err);
+    }
+  });
+
+  // show results area (existing behaviour)
+  resultsEl.style.display = 'flex';
+  setTimeout(()=> resultsEl.classList.add('show'), 20);
+  resultsEl.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+
+  </script>
+
+
+<footer>
+  <div style="max-width:1200px; margin:auto; padding: 20px; display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:20px; font-size:0.95em;">
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Infomation</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="index.html#intro" style="color:white; text-decoration:none;">About</a></li>
+        <li><a href="index.html#models" style="color:white; text-decoration:none;">Models</a></li>
+        <li><a href="index.html#contact" style="color:white; text-decoration:none;">Usage</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Get Started</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="installation.html" style="color:white; text-decoration:none;">Installation</a></li>
+        <li><a href="configuration.html" style="color:white; text-decoration:none;">Configuration</a></li>
+        <li><a href="start-fitting.html" style="color:white; text-decoration:none;">Launch</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Projects</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="publications.html" style="color:white; text-decoration:none;">Publications</a></li>
+        <li><a href="desi.html" style="color:white; text-decoration:none;">DESI</a></li>
+        <li><a href="sdss.html" style="color:white; text-decoration:none;">SDSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Data</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="demofitter.html" style="color:white; text-decoration:none;">FIREFLY Demo</a></li>
+        <li><a href="index.html#gallery" style="color:white; text-decoration:none;">Gallery</a></li>
+        <li><a href="index.html#sky-map" style="color:white; text-decoration:none;">Sky Map</a></li>
+      </ul>
+    </div>
+  </div>
+  <div style="width:100%;margin:auto;">
+    <canvas id="spectralWidget" style="width:100%;height:auto;"></canvas>
+  </div>
+  <p style="font-size: 0.85em; color: #868686;">
+    &copy; 2026 Samuel Helps (FIREFLY Collaboration) | Code: 
+    <a href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W" target="_blank">Wilkinson et al. (2017)</a>, 
+    <a href="https://ui.adsabs.harvard.edu/abs/2022MNRAS.510.1538N" target="_blank">Neumann et al. (2022)</a> |
+    Site & Infrastructure: Samuel Helps |
+    <a href="credits.html">Credits</a>
+  </p>
+  <p style="font-size: 0.85em; color: #868686;">
+    Code licensed under <a href="../LICENSE.md">MIT</a> | Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+  </p>
+</footer>
+
+<script>
+const canvas = document.getElementById('spectralWidget');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = 150;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// Generate synthetic data and model
+const N = 600;
+let spectrum = new Array(N);
+let model = new Array(N);
+let wavelength = new Array(N);
+for (let i = 0; i < N; i++) {
+    const x = i / N * 10;
+    wavelength[i] = x;
+    spectrum[i] = 15 + 6 * Math.sin(x * 0.6) + Math.random() * 2;
+    model[i] = 15 + 6 * Math.sin(x * 0.6 + 0.1) + Math.random() * 1; // trailing model
+}
+
+let progress = 0;
+const fadeLength = 80; // Number of points over which to fade out
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const margin = 0;
+    const w = canvas.width - 2 * margin;
+    const h = canvas.height - 2 * margin;
+
+    const maxY = Math.max(...spectrum) + 5;
+    const minY = Math.min(...spectrum) - 5;
+
+    const toCanvas = (x, y) => [
+        margin + (x / 10) * w,
+        canvas.height - margin - ((y - minY) / (maxY - minY)) * h
+    ];
+
+    // Draw spectrum with fade
+    ctx.lineWidth = 2;
+    for (let i = Math.max(1, progress - fadeLength); i < progress && i < N; i++) {
+        let alpha = (i - (progress - fadeLength)) / fadeLength; // 0..1 fade factor
+        ctx.strokeStyle = `rgba(70,130,180,${alpha.toFixed(2)})`; // steelblue fade
+
+        ctx.beginPath();
+        const [x0, y0] = toCanvas(wavelength[i - 1], spectrum[i - 1]);
+        const [x1, y1] = toCanvas(wavelength[i], spectrum[i]);
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.stroke();
+    }
+
+    // Draw model with fade
+    for (let i = Math.max(1, progress - fadeLength - 20); i < progress - 20 && i < N; i++) {
+        if(i < 1) continue;
+        let alpha = (i - (progress - fadeLength - 20)) / fadeLength; // same fade factor shifted by delay
+        if(alpha < 0) alpha = 0;
+        if(alpha > 1) alpha = 1;
+
+        ctx.strokeStyle = `rgba(218,165,32,${alpha.toFixed(2)})`; // goldenrod fade
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        const [x0, y0] = toCanvas(wavelength[i - 1], model[i - 1]);
+        const [x1, y1] = toCanvas(wavelength[i], model[i]);
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.stroke();
+    }
+
+    // Increment progress and loop
+    if (progress < N + fadeLength + 20) {
+        progress += 2;
+        requestAnimationFrame(draw);
+    } else {
+        progress = 0; // Loop animation
+        setTimeout(() => requestAnimationFrame(draw), 1000);
+    }
+}
+
+draw();
+</script>
+</body>
+</html>

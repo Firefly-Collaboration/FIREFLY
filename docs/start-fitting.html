@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Launch - FIREFLY</title>
+  <link rel="stylesheet" href="css\style.css" />
+  <script src="js\script.js" defer></script>
+
+<!-- Highlight.js (CDN) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<!-- Optional: add languages you want to pre-load (makes highlighting a bit faster/safer) -->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+
+<!-- Initialize after the lib loads -->
+<script>
+  // runs automatically when scripts defer-loaded and DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.hljs) hljs.highlightAll();
+  });
+</script>
+
+</head>
+<body>
+  <!-- Topbar: black bar with logo, title, and menu icon -->
+  <div class="topbar" id="topbar">
+  <div class="logo-area">
+    <a href="index.html" class="home-link">
+      <img src="images/AIfly.png" alt="Logo" class="logo-img" />
+      <span class="firefly-title">FIREFLY</span>
+    </a>
+  </div>
+<!-- From Uiverse.io by vinodjangid07 --> 
+  <button class="Btn-git" onclick="window.open('https://github.com/FireflySpectra/firefly_release', '_blank')">
+    <svg class="svgIcon-git" viewBox="0 0 496 512" height="1.4em" xmlns="https://github.com/FireflySpectra/firefly_release"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+    <span class="text-git">Github</span>
+  </button>
+  <div class="menu-icon" id="menuIcon" tabindex="0" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+    <div class="menu-drawer" id="menuDrawer">
+      <ul>
+        <li><a href=index.html#intro">About</a></li>
+        <li><a href="demofitter.html">FIREFLY Demo</a></li>
+        <li>
+          <a href="index.html#install">Install →</a>
+          <ul>
+            <li><a href="installation.html">Installation</a></li>
+            <li><a href="configuration.html">Configuration</a></li>
+            <li><a href="start-fitting.html">Launch</a></li>
+          </ul>
+        </li>
+        <li><a href="index.html#models">Models</a></li>
+        <li>
+          <a href="index.html#surveys">Surveys →</a>
+          <ul>
+            <li><a href="desi.html">DESI</a></li>
+            <li><a href="sdss.html">SDSS</a></li>
+          </ul>
+        </li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="index.html#contact">Usage</a></li>
+      </ul>
+    </div>
+  </div>
+
+<div class="image-credit-wrapper">
+<header class="hero-startfitting"></header>
+<div class="image-credit">Credit: Samuel Helps (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+</div>
+  <header><h1>Launch</h1></header>
+  
+  <div id="star-background"></div>
+
+<main class="documentation-content config-section">
+
+<div class="rocket-button-row">
+  <button class="rocket-button" onclick="document.querySelector('.other-launch').scrollIntoView({ behavior: 'smooth' });"> 
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path fill="currentColor" d="M5 13c0-5.088 2.903-9.436 7-11.182C16.097 3.564 19 7.912 19 13c0 .823-.076 1.626-.22 2.403l1.94 1.832a.5.5 0 0 1 .095.603l-2.495 4.575a.5.5 0 0 1-.793.114l-2.234-2.234a1 1 0 0 0-.707-.293H9.414a1 1 0 0 0-.707.293l-2.234 2.234a.5.5 0 0 1-.793-.114l-2.495-4.575a.5.5 0 0 1 .095-.603l1.94-1.832C5.077 14.626 5 13.823 5 13zm1.476 6.696l.817-.817A3 3 0 0 1 9.414 18h5.172a3 3 0 0 1 2.121.879l.817.817.982-1.8-1.1-1.04a2 2 0 0 1-.593-1.82c.124-.664.187-1.345.187-2.036 0-3.87-1.995-7.3-5-8.96C8.995 5.7 7 9.13 7 13c0 .691.063 1.372.187 2.037a2 2 0 0 1-.593 1.82l-1.1 1.039.982 1.8zM12 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"></path>
+    </svg>
+    <span>GENERIC</span>
+  </button>
+  <button class="rocket-button" onclick="document.querySelector('.DESI-launch').scrollIntoView({ behavior: 'smooth' });"> 
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path fill="currentColor" d="M5 13c0-5.088 2.903-9.436 7-11.182C16.097 3.564 19 7.912 19 13c0 .823-.076 1.626-.22 2.403l1.94 1.832a.5.5 0 0 1 .095.603l-2.495 4.575a.5.5 0 0 1-.793.114l-2.234-2.234a1 1 0 0 0-.707-.293H9.414a1 1 0 0 0-.707.293l-2.234 2.234a.5.5 0 0 1-.793-.114l-2.495-4.575a.5.5 0 0 1 .095-.603l1.94-1.832C5.077 14.626 5 13.823 5 13zm1.476 6.696l.817-.817A3 3 0 0 1 9.414 18h5.172a3 3 0 0 1 2.121.879l.817.817.982-1.8-1.1-1.04a2 2 0 0 1-.593-1.82c.124-.664.187-1.345.187-2.036 0-3.87-1.995-7.3-5-8.96C8.995 5.7 7 9.13 7 13c0 .691.063 1.372.187 2.037a2 2 0 0 1-.593 1.82l-1.1 1.039.982 1.8zM12 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"></path>
+    <span>DESI</span>
+  </button>
+  <button class="rocket-button" onclick="document.querySelector('.SDSS-launch').scrollIntoView({ behavior: 'smooth' });"> 
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path fill="currentColor" d="M5 13c0-5.088 2.903-9.436 7-11.182C16.097 3.564 19 7.912 19 13c0 .823-.076 1.626-.22 2.403l1.94 1.832a.5.5 0 0 1 .095.603l-2.495 4.575a.5.5 0 0 1-.793.114l-2.234-2.234a1 1 0 0 0-.707-.293H9.414a1 1 0 0 0-.707.293l-2.234 2.234a.5.5 0 0 1-.793-.114l-2.495-4.575a.5.5 0 0 1 .095-.603l1.94-1.832C5.077 14.626 5 13.823 5 13zm1.476 6.696l.817-.817A3 3 0 0 1 9.414 18h5.172a3 3 0 0 1 2.121.879l.817.817.982-1.8-1.1-1.04a2 2 0 0 1-.593-1.82c.124-.664.187-1.345.187-2.036 0-3.87-1.995-7.3-5-8.96C8.995 5.7 7 9.13 7 13c0 .691.063 1.372.187 2.037a2 2 0 0 1-.593 1.82l-1.1 1.039.982 1.8zM12 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"></path>
+    </svg>
+    <span>SDSS</span>
+  </button>
+  <button class="rocket-button" onclick="document.querySelector('.Compare-DESI-SDSS-launch').scrollIntoView({ behavior: 'smooth' });"> 
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path fill="currentColor" d="M5 13c0-5.088 2.903-9.436 7-11.182C16.097 3.564 19 7.912 19 13c0 .823-.076 1.626-.22 2.403l1.94 1.832a.5.5 0 0 1 .095.603l-2.495 4.575a.5.5 0 0 1-.793.114l-2.234-2.234a1 1 0 0 0-.707-.293H9.414a1 1 0 0 0-.707.293l-2.234 2.234a.5.5 0 0 1-.793-.114l-2.495-4.575a.5.5 0 0 1 .095-.603l1.94-1.832C5.077 14.626 5 13.823 5 13zm1.476 6.696l.817-.817A3 3 0 0 1 9.414 18h5.172a3 3 0 0 1 2.121.879l.817.817.982-1.8-1.1-1.04a2 2 0 0 1-.593-1.82c.124-.664.187-1.345.187-2.036 0-3.87-1.995-7.3-5-8.96C8.995 5.7 7 9.13 7 13c0 .691.063 1.372.187 2.037a2 2 0 0 1-.593 1.82l-1.1 1.039.982 1.8zM12 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"></path>
+    </svg>
+    <span>Compare DESI-SDSS</span>
+  </button>
+  <button class="rocket-button" onclick="document.querySelector('.MaNGA-launch').scrollIntoView({ behavior: 'smooth' });"> 
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path fill="currentColor" d="M5 13c0-5.088 2.903-9.436 7-11.182C16.097 3.564 19 7.912 19 13c0 .823-.076 1.626-.22 2.403l1.94 1.832a.5.5 0 0 1 .095.603l-2.495 4.575a.5.5 0 0 1-.793.114l-2.234-2.234a1 1 0 0 0-.707-.293H9.414a1 1 0 0 0-.707.293l-2.234 2.234a.5.5 0 0 1-.793-.114l-2.495-4.575a.5.5 0 0 1 .095-.603l1.94-1.832C5.077 14.626 5 13.823 5 13zm1.476 6.696l.817-.817A3 3 0 0 1 9.414 18h5.172a3 3 0 0 1 2.121.879l.817.817.982-1.8-1.1-1.04a2 2 0 0 1-.593-1.82c.124-.664.187-1.345.187-2.036 0-3.87-1.995-7.3-5-8.96C8.995 5.7 7 9.13 7 13c0 .691.063 1.372.187 2.037a2 2 0 0 1-.593 1.82l-1.1 1.039.982 1.8zM12 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"></path>
+    </svg>
+    <span>MaNGA</span>
+  </button>
+
+</div>
+
+
+<section class="intro" style="margin-top: 2em;">
+  <h2>Launching FIREFLY for Full Spectral Fitting</h2>
+  <p>
+    Once your input data is prepared and you have configured FIREFLY with your desired settings, you can start fitting galaxy spectra. Navigate the repository to the Launch section and follow the instructions for your specific dataset.
+</section>
+
+  <div class="notebook-image">
+    <div class="image-credit-wrapper">
+    <img src="images/LaunchWF.jpg" alt="Launch of FIREFLY" />
+    <div class="image-credit">Credit: Samuel Helps (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+  </div>
+  </div>
+
+<!-- =========================== GENERIC =========================== -->
+
+<section class="other-launch">
+
+  <h3>GENERIC — Custom Data / Other Surveys</h3>
+
+  <p>
+    At its very core, FIREFLY is a Python package that can be run on any
+    input spectrum, provided the minimal required inputs are given. FIREFLY provides
+    a base-level initialisation script, <code>firefly.py</code>, that runs the fitting procedure from the most basic setup and initialisation format.
+    <code>read_firefly.py</code> is also provided to read and plot the output file in its shortest and simplest form. 
+  </p><p>These generic scripts have been designed to be adapted and redeveloped to read in different data formats you may have, and run FIREFLY on variety of unique data sources.
+    When adapting these base-level FIREFLY scripts to new data, it is recommended to fit oly a single galaxy spectrum first, to verify that the input data is being read correctly and the outputs are sensible, before scaling up to larger samples or parallel runs on High Performance Computing (HPC) systems.
+  </p>
+
+<!-- IMPORTS -->
+<h4>Imports — Packages required to launch FIREFLY</h4>
+
+<p>
+  FIREFLY is intentionally lightweight and depends mainly on <code>numpy</code>, <code>astropy</code>, and its own internal modules <code>firefly_setup</code> and <code>firefly_models</code>.  
+</p>
+
+<pre><code class="language-python"># -----------------------------
+# firefly.py (core)
+# -----------------------------
+import sys, os
+import time
+import numpy as np
+
+# Astropy core I/O + cosmology
+from astropy.io import fits
+import astropy.cosmology as co
+
+# FIREFLY internals
+import firefly_setup as fs
+import firefly_models as fm
+
+# -----------------------------
+# read_firefly.py (viewer)
+# -----------------------------
+import sys
+import numpy as np
+from astropy.io import fits
+import matplotlib.pyplot as plt</code></pre>
+<p>
+  The key imports that FIREFLY uses are:
+<ul>
+  <li>
+    <b><code>firefly_setup</code> (imported as <code>fs</code>)</b> -
+    Creates the “<i>spec</i>” container that FIREFLY fits.  
+    The module handles; filtering, masking, Milky Way dust correction, instrumental resolutions and all input validation
+  </li>
+  <li>
+    <b><code>firefly_models</code> (imported as <code>fm</code>)</b> -
+    Loads the model library and handles model interpolation, dust grid generation, chi-squared minimisation, PDF sampling for age, metallicity, mass, and writing output tables.
+  </li>
+  <li>
+    <b><code>numpy</code></b> - FIREFLY spectral data structures are 
+    simple <code>numpy.ndarray</code> objects. Used for wavelength grids, flux arrays, loading data and numerical operations.
+  </li>
+  <li>
+    <b><code>astropy.cosmology</code></b> - FIREFLY embeds the <code>Planck15</code> cosmology by default and is only required if you want cosmology-anchored stellar population ages.
+  </li>
+  <li>
+    <b><code>astropy.io.fits</code></b> - Critical for the reading or writing of any input/output <code>*.fits</code> file spectral data. Rewuired for the handling of any multi-extension FITS tables (<code>HDUList</code>, <code>BinTableHDU</code>)
+  </li>
+  <li>
+    <b><code>matplotlib.pyplot</code></b> - Used only in <code>read_firefly.py</code> for basic visualisation of spectra + model fits.
+  </li>
+  <li>
+    <b><code>sys</code>, <code>os</code>, <code>time</code></b> -
+    Standard Python utilities for paths, script timers, and environment-handling.
+  </li>
+</ul>
+
+
+
+<h4>Additional imports needed when adapting and scaling-up FIREFLY</h4>
+
+<p>
+  These are <b>not required</b> by FIREFLY itself, but may become essential when 
+  preparing new types of input data or creating parallel runners:
+</p>
+
+<ul>
+  <li>
+    <b><code>argparse</code></b> -  
+    Highly recommended for creating flexible and robust wrapper scripts around FIREFLY
+  </li>
+  <li>
+    <b><code>multiprocessing</code>, <code>concurrent.futures</code>, <code>subprocess</code></b> -  
+    Essential for implementing custom parallelisation strategies and managing multiple processes for distributed computing tasks.
+  </li>
+  <li>
+    <b><code>fcntl</code></b> - Provides file locking mechanisms, useful for managing concurrent file access in parallel processing.
+  </li>
+  <li>
+    <b><code>pandas</code></b> -  
+    If your results are stored in CSV catalogs or you need fast table joins.
+  </li>
+</ul>
+
+  <!-- MINIMAL INPUTS -->
+  <h4>Minimal inputs to FIREFLY</h4>
+
+  <ul>
+    <li>Wavelength array (Å)</li>
+    <li>Flux array - default units: <code>flux_units = 1e-17</code></li>
+    <li>Error or inverse-variance array</li>
+    <li>Redshift, RA, Dec, velocity dispersion</li>
+    <li>Instrumental resolution (<code>r_instrument</code>)</li>
+  </ul>
+
+  <!-- LOADING EXAMPLE -->
+  <h4>Initialising FIREFLY</h4>
+  <p>Loading a spectrum (example from <code>firefly.py</code>):</p>
+  <pre><code class="language-python">input_file = os.path.join(repo_root, "Data", "example_data", "SDSS_ex", "spec-0266-51602-0001.dat")
+data = np.loadtxt(input_file, unpack=True)
+
+wavelength = data[0,:]
+flux      = data[1,:]
+error     = data[2,:]
+restframe_wavelength = wavelength/(1+redshift)
+
+redshift  = 0.021275453
+ra= 145.89219 ; dec= 0.059372
+vdisp     = 135.89957
+
+# simple constant resolution example (also in firefly.py)
+r_instrument = np.full(len(wavelength), 2000.0)</code></pre>
+
+  <!-- OPEN SINGLE SPECTRUM -->
+  <p>Opening the spectrum inside FIREFLY:</p>
+
+  <pre><code class="language-python"># Define input object to pass data on to firefly modules and initiate run
+spec=fs.firefly_setup(input_file,milky_way_reddening=milky_way_reddening, \
+                                  N_angstrom_masked=N_angstrom_masked,\
+                                  hpf_mode=hpf_mode,data_wave_medium = data_wave_medium)
+
+# Open single spectrum from arrays
+spec.openSingleSpectrum(wavelength, flux, error, redshift, ra, dec, vdisp, emlines, r_instrument)</code></pre>
+
+  <!-- MODEL RUNNER -->
+  <p>Preparing and running the model fit (from <code>firefly.py</code>):</p>
+
+  <pre><code class="language-python"># Prepare model templates
+model = fm.StellarPopulationModel(spec, output_file, cosmo, models = model_key, \
+                                          model_libs = model_lib, imfs = imfs, \
+                                          age_limits = [age_min,age_max], downgrade_models = True, \
+                                          data_wave_medium = data_wave_medium, fit_wave_medium=fit_wave_medium,Z_limits = Z_limits, \
+                                          suffix=suffix, use_downgraded_models = False, \
+                                          dust_law=dust_law, max_ebv=max_ebv, num_dust_vals=num_dust_vals, \
+                                          dust_smoothing_length=dust_smoothing_length,max_iterations=max_iterations, \
+                                          pdf_sampling=pdf_sampling, flux_units=flux_units)
+
+# Initiate fit
+model.fit_models_to_data()</code></pre>
+
+  <!-- WRITE OUTPUT -->
+  <p>Writing the output FITS file:</p>
+
+  <pre><code class="language-python">prihdr = fm.pyfits.Header()
+prihdr['FILE'] = os.path.basename(output_file)
+prihdu = fm.pyfits.PrimaryHDU(header=prihdr)
+tables = [prihdu]
+
+tables.append(model.tbhdu)
+complete_hdus = fm.pyfits.HDUList(tables)
+complete_hdus.writeto(output_file)</code></pre>
+
+  <!-- READ OUTPUT -->
+  <p>Reading + plotting FIREFLY results (<code>read_firefly.py</code>):</p>
+
+  <pre><code class="language-python"># Read in FIREFLY output file (alter as needed using sys.argv or hard-coded paths)
+hdul = fits.open(sys.argv[1])
+# or
+hdul = fits.open("spFly-spec-0266-51602-0001.fits")
+
+data = hdul[1].data
+
+wave  = data['wavelength']
+flux  = data['original_data']
+model = data['firefly_model']
+
+# Print out some of the header information
+hdul.close()
+hdul.info()
+
+print('age: '+str(np.around(10**hdul[1].header['age_lightW'],decimals=2))+' Gyr')
+print('[Z/H]: '+str(np.around(hdul[1].header['metallicity_lightW'],decimals=2))+' dex')
+print('log M/Msun: '+str(np.around(hdul[1].header['stellar_mass'],decimals=2)))
+print('E(B-V): '+str(np.around(hdul[1].header['EBV'],decimals=2))+' mag')
+
+import matplotlib.pyplot as plt
+plt.plot(wave, flux)
+plt.plot(wave, model)
+plt.show()</code></pre>
+
+  <p>Plotting the star formation history and Z/H distribution</p>
+  <pre><code class="language-python"># Plot the star formation history
+fig1=plt.figure()
+plt.xlim(0,15)
+plt.xlabel('lookback time (Gyr)')
+plt.ylabel('frequency')
+#plt.bar(10**(csp_age),csp_light,width=1,align='center',edgecolor='k',linewidth=2)
+plt.bar(10**(csp_age),csp_light,width=1,align='center',alpha=0.5)
+plt.scatter(10**(csp_age),csp_light)
+plt.show()
+
+# Plot the metallicity distribution
+fig2=plt.figure()
+plt.xlim(-2,0.5)
+plt.xlabel('[Z/H] (dex)')
+plt.ylabel('frequency')
+#plt.bar(10**(csp_age),csp_light,width=1,align='center',edgecolor='k',linewidth=2)
+plt.bar(csp_Z,csp_light,width=0.1,align='center',alpha=0.5)
+plt.scatter(csp_Z,csp_light)
+plt.show()</code></pre>
+
+<!-- ARGPARSE -->
+<h4>Implementing command-line arguments with <code>argparse</code></h4>
+<p>
+Instead of editing hardcoded variables for new runs, command-line arguments allow a new FIREFLY pipline to be completly flexible and scalable. <code>argparse</code> is a widely used Python library and proves very effective when creating quick and easy-to-use wrappers for FIREFLY.
+</p>
+
+<pre><code class="language-python"># Import argparse into your new launch wrapper
+import argparse
+
+# Define some command-line arguments (example that could be added to firefly.py)
+parser = argparse.ArgumentParser(description="Run FIREFLY on a single spectrum")
+parser.add_argument("--input", required=True, help="Input spectrum file")
+parser.add_argument("--output", required=True, help="Output spFly FITS file")
+parser.add_argument("--spec-index", type=int, default=None, help="Index for multi-object")
+args = parser.parse_args()
+
+# args.input, args.output, args.spec_index can now be passed trough the pipeline
+</code></pre>
+
+<p>Example usage:</p>
+<pre><code class="language-bash"># Single spectrum
+python firefly_WRAPPER.py --input spectrum.fits --output spFly-spectrum.fits
+
+# Multi-object FITS file
+python firefly_WRAPPER.py --input desi_chunk.fits --spec-index 42 --output spFly-042.fits</code></pre>
+
+<!-- PARALLEL -->
+<h4>Implementing Parallel Processing - SLURM (HPC cluster execution)</h4>
+
+<p>
+On HPC systems, the SLURM scheduler controls allocations of resources for your submitted jobs and so just like the DESI pipeline custom <code>SBATCH</code> scripts can be created for your new FIREFLY launch wrapper.
+Inputs, output, indices and configuration variables can then also be parsed through the pipeline from the <code>SBATCH</code> script.
+</p>
+
+<pre><code class="language-bash">#!/bin/bash
+#SBATCH --job-name=firefly
+#SBATCH --cpus-per-task=32
+#SBATCH --time=04:00:00
+#SBATCH --output=firefly_%j.log
+
+export FF_MAX_WORKERS=$SLURM_CPUS_PER_TASK
+
+# Pass input, output, and optional spec index to the Python script
+python firefly_WRAPPER.py \
+  --input new_survey.fits \
+  --output spFly_new_results.fits \
+  --spec-index 42</code></pre>
+
+<p>Or process a range of spectra in a loop:</p>
+<pre><code class="language-bash">#!/bin/bash
+#SBATCH --job-name=firefly_array
+#SBATCH --cpus-per-task=32
+#SBATCH --array=0-999%10
+#SBATCH --time=04:00:00
+#SBATCH --output=firefly_%a.log
+
+export FF_MAX_WORKERS=$SLURM_CPUS_PER_TASK
+
+# Use SLURM_ARRAY_TASK_ID to process different spectra in parallel jobs
+SPEC_INDEX=$SLURM_ARRAY_TASK_ID
+python firefly_WRAPPER.py \
+  --input new_survey.fits \
+  --output spFly_${SPEC_INDEX}.fits \
+  --spec-index $SPEC_INDEX</code></pre>
+
+<p>These are some examples to scale up FIREFLY on new data using parallel processing and parse arguments. But providing FIREFLY is given the required spectral inputs and metadata, cutom wrappers can be made for any new galaxy data sources. As seen from the various survey pipelines FIREFLY provides, the code can be tailored and expanded to explore different spectral data on a large-scale.
+</p>
+    <h3>Tips & Best Practices</h3>
+    <ul>
+      <li>Verify units and calibration: ensure flux is in 10<sup>-17</sup> erg/s/cm²/Å and wavelengths are consistently vacuum or air as expected.</li>
+      <li>Check redshift-dependent age limits: FIREFLY constrains template ages by the spectrum's redshift, be sure to adjust this if you want to use a different cosmology.</li>
+      <li>Monitor job status: use <code>squeue --me</code> in the HPC terminal to check running/pending SLURM jobs and <code>scancel</code> to abort if needed.</li>
+      <li>Organise outputs: direct each array job to its own folder or filename prefix (like the DESI pipelines) to avoid any overwriting and clarity between different runs.</li>
+      <li>If resources are tight, adjust HPC memory allocations and lower spectra per job or reduce dust smoothing to speed up fitting.</li>
+    </ul>
+  </section>
+
+  <div class="notebook-image">
+    <div class="image-credit-wrapper">
+    <img src="images/firefly_workflow.png" alt="FIREFLY Workflow" />
+    <div class="image-credit">Credit: Samuel Helps (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+  </div>
+  </div>
+
+<!-- =========================== DESI =========================== -->
+
+<section class="DESI-launch">
+  <h3>DESI</h3>
+  <p>FIREFLY provides two different pipeline options to fit DESI galaxies. The recommended <b>All-In-One (AIO) launch on NERSC</b>, and the <b>SCIAMA / other HPC</b> method that uses pre-generated FIREFLY-ready FITS files which you then launch FIREFLY upon.</p>
+  <p>(Note: For the purposes of this workflow we present a DESI-DR1 example for the FIREFLY AIO pipeline and a DESI-EDR example for the SCIAMA / other HPC pipeline. Both wrappers can be easily converted to fit the other data release by changing between the hard-coded data tags: 'iron' for DESI-DR1 and 'fuji' for DESI-EDR.)</p>
+
+  <h4>Option 1: FIREFLY 'All-in-one' launch scripts on NERSC</h4>
+  <p>
+    If you have a NERSC account you can run the FIREFLY AIO pipeline which retrieves DESI data
+    directly from the shared filesystem, runs the fitting and produces an output <code>spFly-<TARGETID>.fits</code> with the results.
+    The pipline is designed to be launched via SLURM using the provided SBATCH script (<code>SBATCH_Iron.sh</code>) which manages job submission and resource allocation.
+  </p>
+
+  <p>The <code>--job-name</code>, <code>--account</code>, CPU and memoryallocation settings can be adjusted for the number of galaxies you intend to fit as well as managing individual resource allocation.</p>
+  <pre><code class="language-bash">#!/bin/bash
+#!/bin/bash
+#SBATCH --job-name=IRON_AIO
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=128
+#SBATCH --mem=256G
+#SBATCH --time=2-00:00:00
+#SBATCH --constraint=cpu
+#SBATCH --qos=regular
+#SBATCH --account=desi
+#SBATCH --output=../slurm_output/firefly_fit_%j.out
+#SBATCH --error=../slurm_output/firefly_fit_%j.err
+</code></pre>
+
+  <p>
+    Define the range of DESI targets to fit. You can modify these values directly in the SBATCH script or pass them as command-line arguments.
+  </p>
+
+<pre><code class="language-bash"># --- Job Configuration ---
+# Define the start and end indices for this specific job run.
+# This makes it easy to submit different batches.
+START_INDEX=2600000
+END_INDEX=2700000</code></pre>
+
+  <p>
+    Make sure to correct the script path with your personal NERSC username before submitting the job to the NERSC SLURM scheduler.</p>
+
+    <pre><code class="language-bash">SCRIPT_PATH="/global/cfs/cdirs/desi/users/~~~USERNAME~~~/FIREFLY/Launch/DESI/NERSC/run_scripts/SBATCH_Iron.sh" </code></pre>
+  <p>Submit the job to SLURM using the <code>sbatch</code> command in a NERSC terminal.</p>
+<pre><code class="language-bash">cd FIREFLY/Launch/DESI/NERSC/run_scripts
+sbatch SBATCH_Iron.sh
+</code></pre>
+<p>SLURM will then return something like:</p>
+<pre><code class="language-bash">Submitted batch job 12345678</code></pre>
+<p>Once the job begins the logs from the nodes will automatically appear in the <code>slurm_output</code> folder as:</p>
+<pre><code class="language-bash">firefly_fit_12345678.out
+firefly_fit_12345678.err
+</code></pre>
+  <p>
+    <b>Usage notes:</b>
+    <ul>
+      <li>Run a small test first (tens-hundreds of spectra) to confirm the environment and job submission work properly.</li>
+      <li>Adjust CPU and memory settings based on the number of spectra to ensure efficient resource usage.</li>
+      <li>Monitor progress on the nodes with the job output and error files and examine generated <code>spFly-*.fits</code> files in your output directory.</li>
+  </ul></p>
+
+  <h4>Option 2: Launch FIREFLY on SCIAMA / other HPC</h4>
+  <p>
+    If you have already generated FIREFLY-ready FITS files using NERSC or via manual download, you can run FIREFLY on SCIAMA or another HPC system by following these steps:
+  </p>
+  <ol>
+    <li>Run the <code>NERSC_fits_create.py</code> or <code>Local_fits_create.py</code> script to create  FIREFLY-ready FITS files.</li>
+    <li>Transfer the generated FITS files to the target HPC (e.g. SCIAMA) via manually or using <code>rsync</code>/<code>scp</code> (dependant on HPC permissions)</li>
+    <li>Run FIREFLY on each block of galaxies SBATCH scripts on the target cluster.</li>
+  </ol>
+
+  <p>Before submitting a job first select the output mode you want from the the initialisation script <code>firefly_DESI_EDR.py</code></p>
+  <pre><code class="language-python">#      CSV ONLY setting        #
+csv_only = False               # Set to True to run read_firefly_DESI_EDR_CSV.py instead of read_firefly_DESI_EDR.py</code></pre>
+  <ul>
+    <li>When set to <code>True</code> the pipline will just produce the master CSV file for the galaxies in the batch block (e.g:<code>DESI_EDR_VAC/master_files/EDR_master_10000-20000.csv</code>).</li>
+    <li>When set to <code>False</code> the pipline will create a new output directory for that galaxy block with the master CSV file, the plotted spectra with best fit models, look back time and metallicty plots for each galaxy. This output directory will have the following stucture (automatically changing file names for the specified galaxy block range):</li>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DESI_EDR_10000-20000/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── lookback_time_plots_10000-20000/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 0_lookback_time_(EDR_10000-20000).png<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 1_lookback_time_(EDR_10000-20000).png<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── ..._lookback_time_(EDR_10000-20000).png<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── master_files/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── EDR_master_10000-20000.csv<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── metallicity_plots_10000-20000/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 0_metallicity_(EDR_10000-20000).png<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 1_metallicity_(EDR_10000-20000).png<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── ..._metallicity_(EDR_10000-20000).png<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── spectra_plots_10000-20000/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 0_spectrum_(EDR_10000-20000).png<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 1_spectrum_(EDR_10000-20000).png<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── ..._spectrum_(EDR_10000-20000).png
+  </ul>
+
+<p>(<b>Important:</b> Make sure the initialisation script points to the correct input FITS files, the correct Firefly output directory, and that any module loads or environment paths are appropriate for your HPC system).</p>
+
+<p>Now open a terminal on SCIAMA/other HPC system and navigate to the DESI launch scripts for SCIAMA:</p>
+
+<pre><code class="language-bash">cd FIREFLY/Launch/DESI/SCIAMA/run_scripts/
+</code></pre>
+
+<p>You can list the available batch scripts with:</p>
+
+<pre><code class="language-bash">ls FIREFLY/Launch/DESI/SCIAMA/run_scripts/
+</code></pre>
+
+<pre><code>SBATCH_Fuji.sh
+SBATCHrev_Fuji.sh
+SBATCHidx_Fuji.sh
+</code></pre>
+
+<p>Inside this directory you will find three different batch scripts for launching FIREFLY on DESI-EDR.  
+These exist as options to help avoid issues such as out-of-memory (OOM) kills, variation in node memory availability, and different execution behaviours between HPC systems.</p>
+
+<ul>
+  <li><b>SBATCH_Fuji.sh: Standard forward-order processing</b>
+    <ul>
+      <li>Splits the DESI galaxy block into CPU-sized chunks.</li>
+      <li>Fits each galaxy from index 0 → last index within each chunk.</li>
+      <li>Recommended for normal, stable FIREFLY runs on SCIAMA.</li>
+      <li>Best used when memory pressure is predictable and low.</li>
+    </ul>
+  </li>
+
+  <li><b>SBATCHrev_Fuji.sh: Reverse-order processing</b>
+    <ul>
+      <li>Processes galaxies in a reverse index order (last → first).</li>
+      <li>Helps avoid OOM kills caused by bad memory clustering or model ordering.</li>
+      <li>Useful when the forward-order processing misses some galaxies on certain nodes.</li>
+    </ul>
+  </li>
+
+  <li><b>SBATCHidx_Fuji.sh: Missing-galaxy recovery</b>
+    <ul>
+      <li>Scans the out master CSV file for any missing or failed galaxy fits.</li>
+      <li>Creates a list of only the missing indices and reruns FIREFLY for them.</li>
+      <li>Ideal for cleanup after large runs or for OOM-kill recovery.</li>
+      <li>Ensures the final dataset is complete to the best of FIREFLY's ability, meaning the missing fits left are usually as a result of instrument related errors.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Be sure to adapt the job configuration settings to match your HPC system's resources and job requirements:</p>
+<pre><code class="language-bash">#!/bin/bash
+#SBATCH --job-name=desifirefly
+#SBATCH --partition=sciama3-5.q
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=up2013158@myport.ac.uk
+#SBATCH --ntasks=32
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=10G
+</code></pre>
+
+In this example, we allocate 32 tasks (number of CPUs) with 10 GB of memory per CPU. Adjust these values based on your specific needs and the size of the galaxy block you are processing.</p>
+<p>To adjust the size of the galaxy block for different numbers of galaxies, modify the <code>spectra_end</code> (number of galaxies in fits file) and <code>chunk_size</code> (number of galaxies divided by number of task or CPUs) variables in the script:</p>
+<pre><code class="language-bash">spectra_start=0
+spectra_end=10000
+
+# Export the file range for output directory naming
+export DESI_FILE_RANGE=$RANGE
+
+chunk_size=313
+</code></pre>
+
+<p>Make sure to correct the paths in the script with your personal SCIAMA/other HPC username before submitting the job to the SLURM scheduler:</p>
+<pre><code class="language-bash">export PYTHONPATH='/users/~~~USERNAME~~~/FIREFLY/python:$PYTHONPATH'
+export DESI_INPUT_FILE=$INPUT_FILE
+
+cd /users/~~~USERNAME~~~/FIREFLY
+</code></pre>
+
+<p>Finally launch FIREFLY on SCIAMA or another HPC system, submitting the job to SLURM using the <code>sbatch</code> command the HPC terminal:</p>
+
+<pre><code class="language-bash">sbatch SBATCH_Fuji.sh DESI_EDR_10000-20000.fits
+</code></pre>
+</section>
+
+<div class="notebook-image">
+  <div class="image-credit-wrapper">
+  <img src="images/952_spectrum_(EDR_100000-105000).png" alt="DESI spectrum" />
+  <div class="image-credit">Credit: Samuel Helps (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+</div>
+</div>
+
+<!-- =========================== SDSS =========================== -->
+
+<section class="SDSS-launch">
+  <h3>SDSS</h3>
+
+  <p>
+    FIREFLY for SDSS is driven from a single initialisation script, <code>firefly_sdss.py</code>. The script reads one SDSS FITS input, runs the fitting procedure and writes a single FIREFLY output file.
+  </p>
+
+  <h4>Run command</h4>
+  <p>From the launch directory containing <code>firefly_sdss.py</code> run:</p>
+  <pre><code class="language-bash">python firefly_sdss.py</code></pre>
+
+  <h4>Input (what the script expects)</h4>
+  <p>The script opens the FITS and extracts the arrays/headers shown here (these must be present in the input file):</p>
+  <pre><code class="language-python">input_file='example_data/spec-0266-51602-0001.fits'
+hdul = fits.open(input_file)
+
+# extracted by the script
+redshift = hdul[2].data['Z'][0]
+wavelength = 10**hdul[1].data['loglam']
+flux = hdul[1].data['flux']
+error = hdul[1].data['ivar']**(-0.5)
+ra = hdul[0].header['RA']
+dec = hdul[0].header['DEC']
+vdisp = hdul[2].data['VDISP'][0]</code></pre>
+
+  <h4>Output (where results are written)</h4>
+  <p>The script creates an <code>output</code> folder (if missing) and writes a single FITS file named from the input basename:</p>
+  <pre><code class="language-python">outputFolder = os.path.join( os.getcwd(), 'output')
+output_file = os.path.join( outputFolder , 'spFly-' + os.path.basename( input_file )[0:-5] ) + ".fits"</code></pre>
+
+  <p>If the output file already exists the script prompts before overwriting:</p>
+  <pre><code class="language-python">if os.path.isfile(output_file):
+    answer = input('** Do you want to continue? (Y/N)')
+    if (answer=='N' or answer=='n'):
+        sys.exit()
+    os.remove(output_file)</code></pre>
+
+  <h4>Reading FIREFLY outputs</h4>
+  <p>The FIREFLY result FITS produced by the SDSS script can be inspected with the provided <code>read_firefly.pyu</code> utility. Run it on the output file:</p>
+  <pre><code class="language-bash">python read_firefly.pyu output/spFly-<your-input-basename>.fits</code></pre>
+
+  <p>The <code>read_firefly.pyu</code> script (usage shown below) opens the FITS, prints the primary/header info and derived quantities (light-weighted age, [Z/H], stellar mass, E(B-V)) and plots the original spectrum and best-fit model. It also plots the SSP contributions as lookback-time and metallicity histograms.</p>
+
+  <pre><code class="language-python"># read_firefly.pyu — behaviour (summary of what it does)
+hdul = fits.open(sys.argv[1])
+data = hdul[1].data
+wave = data['wavelength']
+flux = data['original_data']
+model = data['firefly_model']
+# prints header, age, metallicity, stellar mass, E(B-V)
+# plots spectrum + model and two bar plots: lookback-time (age) and [Z/H] histograms</code></pre>
+
+  <h4>Scaling / batch notes</h4>
+  <p>
+    The SDSS initialization script processes the single input file specified by <code>input_file</code>. There is no built-in loop or multiprocessing in this file — to process many SDSS spectra you must invoke the script once per input file (the script will produce one <code>spFly-*.fits</code> result per invocation). Each resulting FITS can be inspected with <code>read_firefly.pyu</code>.
+  </p>
+
+  <h4>Run flow & final message</h4>
+  <p>When the run finishes the script writes the FITS and prints a completion time, for example:</p>
+  <pre><code class="language-python">complete_hdus.writeto(output_file)
+print()
+print ("Done... total time:", int(time.time()-t0) ,"seconds.")
+print()</code></pre>
+</section>
+
+
+
+
+
+<!-- =========================== DESI vs SDSS =========================== -->
+
+<section class="Compare-DESI-SDSS-launch">
+  <h3>DESI ↔ SDSS — Dual launch & comparison pipeline</h3>
+
+  <p>
+    To compare the the same galaxies from DESI and SDSS this piplines uses the <a href="https://astrosparcl.datalab.noirlab.edu/sparc/" target="_blank">SPARCL</a> (SPectra Analysis and Retrievable Catalog Lab) client to match galaxies from the two surveys then runs FIREFLY on both data sets at once to produce side-by-side comparison fits of matched galaxies from DESI and SDSS.
+    The pipline queries the SPARCL Python client to quickly retrive the spectra from each survey, please refer to <a href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W" target="_blank">Juneau et al. 2024</a> when using the software and the example <a href="https://github.com/astro-datalab/notebooks-latest/blob/master/03_ScienceExamples/DESI/02_DESI_SDSS_Comparison.ipynb" target="_blank">notebook</a> by Ragadeepika Pucha (U.Utah), Stéphanie Juneau (NOIRLab), and the Astro Data Lab Team.
+  </p>
+
+  <h4>Step 1 - match DESI + SDSS galaxies on NERSC (SPARCL)</h4>
+  <p>
+    Run the retrieval script <code>sparcl_compare.py</code> on NERSC. The script:
+  </p>
+  <ul>
+    <li>Queries SPARCL for SDSS and DESI spectra within a specified RA/Dec/redshift window set near the top of the script (e.g. <code>RA_MIN/RA_MAX</code>, <code>DEC_MIN/DEC_MAX</code>, <code>Z_MIN/Z_MAX</code>).</li>
+    <li>Matches objects on-sky using <code>search_around_sky</code> with a maximum tolerance set by <code>MATCH_RADIUS_ARCSEC</code> (default <code>0.5</code> arcsec) to produce SDSS ↔ DESI pairs.</li>
+    <li>Retrieves the matched spectra and resamples if necessary (resampling to a linear base grid when wave arrays differ so firefly can fit comparitively), then trims leading/trailing zero/NaN/ivar==0 pixels for each spectrum and drops spectra with fewer than <code>MIN_GOOD_PIXELS</code>.</li>
+    <li>Writes two FIREFLY-ready FITS files: <code>&lt;~~~SAMPLE~~~&gt;_sdss_dr16.fits</code> and <code>&lt;~~~SAMPLE~~~&gt;_desi_dr1.fits</code>.</li>
+  </ul>
+
+  <p>Key settings (from the <code>sparcl_compare.py</code> script):</p>
+  <pre><code class="language-python"># matching and limits
+MATCH_RADIUS_ARCSEC = 0.5
+LIMIT = 5000
+OUT_PREFIX = "greatwall_sample"
+
+# resampling / trimming
+FORCE_RESAMPLE = False
+MIN_GOOD_PIXELS = 10
+# optional fastspec vdisp mapping:
+FASTSPEC_PATH = "/global/cfs/cdirs/desi/public/edr/vac/edr/fastspecfit/fuji/v3.2/catalogs/fastspec-fuji.fits"</code></pre>
+
+  <p>Ensure the a python environment with <code>sparclclient</code> is installed and run the SPARCL retrieval script on NERSC:</p>
+  <pre><code class="language-bash">python sparcl_compare.py</code></pre>
+
+  <p>As we use the SPARCL client the script is quick and will output the following FIREFLY-ready FITS files:</p>
+  <pre><code class="language-bash">greatwall_sample_sdss_dr16.fits
+greatwall_sample_desi_dr1.fits</code></pre>
+
+  <h4>Step 2 - transfer the sample FITS files to the target HPC (e.g. SCIAMA)</h4>
+  <p>
+    Place the two FITS into the sample data folder expected by the compare SBATCH wrapper on the target cluster. The example SBATCH file expects the files to be in:
+  </p>
+  <pre><code class="language-bash">FIREFLY/firefly/Data/DESI-SDSS_samples/</code></pre>
+  <p>Note: the transfer step could instead be done on NERSC (i.e. run the next stage on NERSC, another HPC or locally) - the compare pipeline just needs read-access to the two FITS files from the sample.</p>
+
+  <h4>Step 3 - launch FIREFLY DESI ↔ SDSS comparative fitting on the HPC (e.g. SCIAMA)</h4>
+
+  <p>
+    The 'compare' workflow on the HPC is implemented by:
+    <ul>
+      <li><code>firefly_DESI-SDSS_compare.py</code> - loads the two matched FITS (DESI + SDSS), loops over a the specifed index range and runs FIREFLY on each matched pair, producing temporary per-spectrum output FITS files for DESI and SDSS, then calls the read script to create comparison plots and update master CSVs.</li>
+      <li><code>read_firefly_DESI-SDSS_compare.py</code> - analyses the two FIREFLY per-spectrum outputs, extracts the derivered steller population parameters, appends/updates the master CSVs, and produces the combined comparison figures. It stores outputs under a sample-specific base directory.</li>
+      <li><code>SBATCH_compare.sh</code> - orchestrates splitting the galaxy indices into chunks and launching parallel <code>srun</code> tasks for <code>firefly_DESI-SDSS_compare.py</code>, submitting the jobs to SLURM.</li>
+    </ul>
+  </p>
+
+  <p>The <code>SBATCH_compare.sh</code> script sets the required environment variables <code>DESI_INPUT_FILE</code> and <code>SDSS_INPUT_FILE</code> from the sample name you provide. It expects the two matched files to be named as <code>${SAMPLE}_sample_desi_dr1.fits</code> and <code>${SAMPLE}_sample_sdss_dr16.fits</code> inside <code>DESI-SDSS_sample_data</code>.</p>
+  <p>Finally launch the FIREFLY comparivite fitting pipline on SCIAMA/other HPC, submitting the job to SLURM using the <code>sbatch</code> command the HPC terminal:</p>
+  <pre><code class="language-bash"># run without wavelength cut
+sbatch SBATCH_compare.sh greatwall
+
+# run with wavelength cut mode (SDSS-driven crop -> crop DESI to same range)
+sbatch SBATCH_compare.sh greatwall cut</code></pre>
+
+<p>There is two method choices for the comparative fitting, specifed with the optional <code>cut</code> varible in the terminal SBATCH job submission. The <code>cut</code> selector defines the treatment of wavelength cropping (<b>CUT_MODE</b>):</p>
+      <pre><code class="language-python"># in firefly_DESI-SDSS_compare.py
+cut_mode = os.environ.get('CUT_MODE', '').lower()
+if cut_mode == 'cut':
+    # compute min/max valid SDSS wavelength (non-zero)
+    # crop SDSS to that range and crop DESI to the same min/max (no resampling)
+    # (prints: "Applied wavelength cut: min - max Å")
+else:
+    # no cut applied; use full wavelength ranges
+</code></pre>
+
+  <p>After the run completes, inspect the output directory (<code>greatwall_compare_NoCut</code>) and use the <code>analyse_compare_results.py</code> script in the analysis folder to generate summary plots and statistics comparing the two surveys.
+
+  <p>(Note: If you need to install SPARCL client onto the python enviroment you use on NERSC install via <code>pip install sparclclient</code> and consult the SPARCL client documentation for more infomation)</p>
+
+</section>
+
+<div class="notebook-image">
+  <div class="image-credit-wrapper">
+  <img src="images/28_comparison_desi.png" alt="DESI vs SDSS comparison" />
+  <div class="image-credit">Credit: Samuel Helps (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+</div>
+</div>
+
+<!-- =========================== MaNGA =========================== -->
+
+<section class="MaNGA-launch">
+  <h3>MaNGA</h3>
+
+  <p>
+    FIREFLY uses a single MaNGA initialization script which can fit a single Voronoi bin or (optionally) all bins via multiprocessing. Set the plate/IFU and either a single <code>bin_number</code> or <code>'all'</code>.
+  </p>
+
+  <h4>Run command</h4>
+  <p>From the launch MaNGA directory containing <code>firefly_manga.py</code> run:</p>
+  <pre><code class="language-bash">python firefly_manga.py</code></pre>
+
+  <h4>Input / basic configuration</h4>
+  <p>Paths and identifiers are set inside the script:</p>
+  <pre><code class="language-python"># Paths to input files
+manga_data_dir = os.path.join(repo_root, "Data", "example_data", "MANGA_ex")
+logcube_dir = manga_data_dir
+maps_dir    = manga_data_dir
+dap_file = os.path.join(manga_data_dir, "dapall-v3_1_1-3.1.0.fits")
+suffix = ""
+
+# Define plate number, IFU number, bin number
+plate = 8080
+ifu = 12701
+bin_number = 0 #'all' if entire IFU, otherwise bin number
+</code></pre>
+
+  <h4>Output layout</h4>
+  <p>The script creates a per-plate/IFU output directory and writes one FITS per bin using a filename pattern:</p>
+  <pre><code class="language-python">output_dir = os.path.join(repo_root, "Results", "manga")
+
+direc = os.path.join(output_dir,str(plate),str(ifu))
+# per-bin output inside f()
+
+output_file = direc + '/spFly-' + str(plate) + '-' + str(ifu) + '-bin' + str(i)</code></pre>
+
+  <h4>Running all bins (multiprocessing)</h4>
+  <p>The script reads the MAPS file to discover unique bin IDs and — if <code>bin_number == 'all'</code> — launches a multiprocessing pool across detected CPU cores:</p>
+  <pre><code class="language-python">maps_header = fits.open(maps)
+unique_bin_number = list(np.unique(maps_header['BINID'].data)[1:])
+print('Number of bins = {}'.format(len(unique_bin_number)))
+
+if bin_number=='all':
+    N = f_mp(unique_bin_number)
+else:
+    f(bin_number)</code></pre>
+
+  <p>The multiprocessing wrapper maps the per-bin function <code>f</code> across all bins using <code>multiprocessing.cpu_count()</code>:</p>
+  <pre><code class="language-python">def f_mp(unique_bin_number):
+    if __name__ == '__main__':
+        pool = Pool(processes=multiprocessing.cpu_count())
+        pool.map(f, unique_bin_number)
+        pool.close()
+        pool.join()</code></pre>
+
+  <p>The <code>read_firefly.pyu</code> script opens the given FITS, prints headers, prints derived values (light-weighted age, [Z/H], stellar mass, E(B-V)), plots spectrum vs model and shows SSP lookback-time and metallicity bar plots for the fitted result.</p>
+
+  <h4>Scaling notes</h4>
+  <ul>
+    <li>To process the whole IFU set <code>bin_number = 'all'</code> - the script will then use multiprocessing to run <code>f</code> across the bins discovered in the MAPS file.</li>
+    <li>Outputs are organised under <code>output/manga/&lt;plate&gt;/&lt;ifu&gt;/</code> with one <code>spFly-...</code> FITS per bin; each output can be inspected with <code>read_firefly.pyu</code>.</li>
+  </ul>
+
+  <h4>Run flow & final message</h4>
+  <p>Each bin is prepared via <code>fs.firefly_setup</code>, model templates are prepared and <code>model.fit_models_to_data()</code> is called. The script prints the total wall time at the end:</p>
+  <pre><code class="language-python"># per-bin fit (summary)
+spec = fs.firefly_setup(maps, milky_way_reddening=milky_way_reddening, \
+                        N_angstrom_masked=N_angstrom_masked, hpf_mode=hpf_mode, \
+                        data_wave_medium=data_wave_medium)
+spec.openMANGASpectrum(logcube, dap_file, galaxy_bin_number, plate, ifu, emlines, mpl=mpl)
+
+model = fm.StellarPopulationModel(spec, output_file, cosmo, models = model_key, ...)
+model.fit_models_to_data()
+
+# final print
+print('Time to complete: ', (time.time())-t0)</code></pre>
+</section>
+</main>
+
+
+  <script>
+    const starContainer = document.getElementById('star-background');
+    for (let i = 0; i < 200; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+
+      const size = Math.random() * 2 + 1;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.opacity = Math.random();
+      star.style.animationDuration = `${Math.random() * 4 + 1}s`;
+      star.style.animationDelay = `${Math.random() * 5}s`;
+
+      starContainer.appendChild(star);
+    }
+  </script>
+
+
+<footer>
+  <div style="max-width:1200px; margin:auto; padding: 20px; display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:20px; font-size:0.95em;">
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Infomation</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="index.html#intro" style="color:white; text-decoration:none;">About</a></li>
+        <li><a href="index.html#models" style="color:white; text-decoration:none;">Models</a></li>
+        <li><a href="index.html#contact" style="color:white; text-decoration:none;">Usage</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Get Started</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="installation.html" style="color:white; text-decoration:none;">Installation</a></li>
+        <li><a href="configuration.html" style="color:white; text-decoration:none;">Configuration</a></li>
+        <li><a href="start-fitting.html" style="color:white; text-decoration:none;">Launch</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Projects</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="publications.html" style="color:white; text-decoration:none;">Publications</a></li>
+        <li><a href="desi.html" style="color:white; text-decoration:none;">DESI</a></li>
+        <li><a href="sdss.html" style="color:white; text-decoration:none;">SDSS</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Data</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="demofitter.html" style="color:white; text-decoration:none;">FIREFLY Demo</a></li>
+        <li><a href="index.html#gallery" style="color:white; text-decoration:none;">Gallery</a></li>
+        <li><a href="index.html#sky-map" style="color:white; text-decoration:none;">Sky Map</a></li>
+      </ul>
+    </div>
+  </div>
+  <div style="width:100%;margin:auto;">
+    <canvas id="spectralWidget" style="width:100%;height:auto;"></canvas>
+  </div>
+  <p style="font-size: 0.85em; color: #868686;">
+    &copy; 2026 Samuel Helps (FIREFLY Collaboration) | Code: 
+    <a href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W" target="_blank">Wilkinson et al. (2017)</a>, 
+    <a href="https://ui.adsabs.harvard.edu/abs/2022MNRAS.510.1538N" target="_blank">Neumann et al. (2022)</a> |
+    Site & Infrastructure: Samuel Helps |
+    <a href="credits.html">Credits</a>
+  </p>
+  <p style="font-size: 0.85em; color: #868686;">
+    Code licensed under <a href="../LICENSE.md">MIT</a> | Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+  </p>
+</footer>
+
+<script>
+const canvas = document.getElementById('spectralWidget');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = 150;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// Generate synthetic data and model
+const N = 600;
+let spectrum = new Array(N);
+let model = new Array(N);
+let wavelength = new Array(N);
+for (let i = 0; i < N; i++) {
+    const x = i / N * 10;
+    wavelength[i] = x;
+    spectrum[i] = 15 + 6 * Math.sin(x * 0.6) + Math.random() * 2;
+    model[i] = 15 + 6 * Math.sin(x * 0.6 + 0.1) + Math.random() * 1; // trailing model
+}
+
+let progress = 0;
+const fadeLength = 80; // Number of points over which to fade out
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const margin = 0;
+    const w = canvas.width - 2 * margin;
+    const h = canvas.height - 2 * margin;
+
+    const maxY = Math.max(...spectrum) + 5;
+    const minY = Math.min(...spectrum) - 5;
+
+    const toCanvas = (x, y) => [
+        margin + (x / 10) * w,
+        canvas.height - margin - ((y - minY) / (maxY - minY)) * h
+    ];
+
+    // Draw spectrum with fade
+    ctx.lineWidth = 2;
+    for (let i = Math.max(1, progress - fadeLength); i < progress && i < N; i++) {
+        let alpha = (i - (progress - fadeLength)) / fadeLength; // 0..1 fade factor
+        ctx.strokeStyle = `rgba(70,130,180,${alpha.toFixed(2)})`; // steelblue fade
+
+        ctx.beginPath();
+        const [x0, y0] = toCanvas(wavelength[i - 1], spectrum[i - 1]);
+        const [x1, y1] = toCanvas(wavelength[i], spectrum[i]);
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.stroke();
+    }
+
+    // Draw model with fade
+    for (let i = Math.max(1, progress - fadeLength - 20); i < progress - 20 && i < N; i++) {
+        if(i < 1) continue;
+        let alpha = (i - (progress - fadeLength - 20)) / fadeLength; // same fade factor shifted by delay
+        if(alpha < 0) alpha = 0;
+        if(alpha > 1) alpha = 1;
+
+        ctx.strokeStyle = `rgba(218,165,32,${alpha.toFixed(2)})`; // goldenrod fade
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        const [x0, y0] = toCanvas(wavelength[i - 1], model[i - 1]);
+        const [x1, y1] = toCanvas(wavelength[i], model[i]);
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.stroke();
+    }
+
+    // Increment progress and loop
+    if (progress < N + fadeLength + 20) {
+        progress += 2;
+        requestAnimationFrame(draw);
+    } else {
+        progress = 0; // Loop animation
+        setTimeout(() => requestAnimationFrame(draw), 1000);
+    }
+}
+
+draw();
+</script>
+
+</body>
+</html>

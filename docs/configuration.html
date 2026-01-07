@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Configuration - FIREFLY</title>
+  <link rel="stylesheet" href="css\style.css" /> 
+  <script src="js\script.js" defer></script>
+
+<!-- Highlight.js (CDN) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<!-- Optional: add languages you want to pre-load (makes highlighting a bit faster/safer) -->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+
+<!-- Initialize after the lib loads -->
+<script>
+  // runs automatically when scripts defer-loaded and DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.hljs) hljs.highlightAll();
+  });
+</script>
+</head>
+<body>
+  <!-- Topbar: black bar with logo, title, and menu icon -->
+  <div class="topbar" id="topbar">
+  <div class="logo-area">
+    <a href="index.html" class="home-link">
+      <img src="images/AIfly.png" alt="Logo" class="logo-img" />
+      <span class="firefly-title">FIREFLY</span>
+    </a>
+  </div>
+<!-- From Uiverse.io by vinodjangid07 --> 
+  <button class="Btn-git" onclick="window.open('https://github.com/FireflySpectra/firefly_release', '_blank')">
+    <svg class="svgIcon-git" viewBox="0 0 496 512" height="1.4em" xmlns="https://github.com/FireflySpectra/firefly_release"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+    <span class="text-git">Github</span>
+  </button>
+  <div class="menu-icon" id="menuIcon" tabindex="0" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+    <div class="menu-drawer" id="menuDrawer">
+      <ul>
+        <li><a href=index.html#intro">About</a></li>
+        <li><a href="demofitter.html">FIREFLY Demo</a></li>
+        <li>
+          <a href="index.html#install">Install →</a>
+          <ul>
+            <li><a href="installation.html">Installation</a></li>
+            <li><a href="configuration.html">Configuration</a></li>
+            <li><a href="start-fitting.html">Launch</a></li>
+          </ul>
+        </li>
+        <li><a href="index.html#models">Models</a></li>
+        <li>
+          <a href="index.html#surveys">Surveys →</a>
+          <ul>
+            <li><a href="desi.html">DESI</a></li>
+            <li><a href="sdss.html">SDSS</a></li>
+          </ul>
+        </li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="index.html#contact">Usage</a></li>
+      </ul>
+    </div>
+  </div>
+
+<div class="image-credit-wrapper">
+<header class="hero-spectra"></header>
+<div class="image-credit">Credit: Samuel Helps (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+</div>
+
+  <header><h1>Configuration</h1></header>
+  <main class="documentation-content config-section">
+    <div id="star-background"></div>
+    <section class="intro">
+      <h2>Configuring FIREFLY for Spectral Fitting</h2>
+      <p>
+        Before launching into full spectral fitting with FIREFLY, it's essential to prepare your input data and define your fitting configuration.
+        This guide walks you through the different settings FIREFLY has available, how to define your desired model parameters, and construct the appropriate input FITS files that FIREFLY requires.
+      </p>
+    </section>
+
+    <section class="options">
+      <h3>Configuration Options</h3>
+      <p>FIREFLY offers multiple degrees of freedom in modeling:</p>
+      <ul>
+        <li><b>Model Grids</b>: <code>MaStar</code> or <code>m11</code></li>
+          <pre><code class="language-python"># choose model: 'm11','m11-sg','MaStar'
+model_key = 'MaStar'</code></pre>
+        <li><b>Model Libraries (flavour)</b>: e.g. <code>gold</code> for MaStar</li>
+          <pre><code class="language-python"># m11: 'MILES', 'STELIB', 'ELODIE', 'MARCS'
+# MaStar: 'gold'
+model_lib = ['gold']</code></pre>        
+        <li><b>Initial Mass Functions (IMF)</b>: Kroupa or Salpeter</li>
+          <pre><code class="language-python"># choose IMF: 'kr' (Kroupa), 'ss' (Salpeter)
+imfs = ['kr']</code></pre>
+        <li><b>Dust Parameters</b>: max E(B-V), number of values, smoothing length</li>
+          <pre><code class="language-python"># set parameters for dust determination: 'on', 'hpf_only' (i.e. E(B-V)=0)
+hpf_mode = 'on' 
+
+# Only change the following parameters, if you know what you are doing.
+max_ebv = 1.5                   
+num_dust_vals = 200             
+dust_smoothing_length = 200 
+max_iterations = 10
+pdf_sampling = 300  </code></pre>
+        <li><b>Dust Law</b>: Calzetti (recommended), Allen or Prevot</li>
+          <pre><code class="language-python"># 'calzetti', 'allen', 'prevot'
+dust_law = 'calzetti'</code></pre>
+        <li><b>Milky Way Reddening</b>: Correct for Milky Way reddening</li>
+          <pre><code class="language-python"># set whether to correct for Milky Way reddening
+milky_way_reddening=True</code></pre>
+        <li><b>Age and Metallicity Limits</b>: Use <code>AoU</code> for age of the universe or set manually</li>
+          <pre><code class="language-python"># minimum age and metallicity of models to be used 
+# choose age in Gyr or 'AoU' for the age of the Universe
+age_limits = [0,'AoU']
+Z_limits = [-3.,3.]</code></pre>
+        <li><b>Emission Line Masking</b>: Customise masking options for fitting</li>
+          <pre><code class="language-python"># set to value>0 for masking (20 recommended), otherwise 0
+N_angstrom_masked=0 
+# set emission lines to be masked, comment-out lines that should not be masked
+emlines = [
+		'He-II',    # 'He-II:  3202.15A, 4685.74'
+		'Ne-V',     # 'Ne-V:   3345.81, 3425.81'
+		'O-II',     # 'O-II:   3726.03, 3728.73'
+		'Ne-III',   # 'Ne-III: 3868.69, 3967.40'
+		'H-ζ',      # 'H-ζ:     3889.05'
+		'H-ε',      # 'H-ε:     3970.07'
+		'H-δ',      # 'H-δ:     4101.73'
+		'H-γ',      # 'H-γ:     4340.46'
+		'O-III',    # 'O-III:  4363.15, 4958.83, 5006.77'
+		'Ar-IV',    # 'Ar-IV:  4711.30, 4740.10'
+		'H-β',      # 'H-β:     4861.32'
+		'N-I',      # 'H-I:    5197.90, 5200.39'
+		'He-I',     # 'He-I:   5875.60'
+		'O-I',      # 'O-I:    6300.20, 6363.67'
+		'N-II',     # 'N-II:   6547.96, 6583.34'
+		'H-α',      # 'H-α:     6562.80'
+		'S-II',     # 'S-II:   6716.31, 6730.68'
+		'Ar-III',   # 'Ar-III: 7135.67'
+				]</code></pre>
+        <li><b>Resolution</b>: Specify the instrument resolution of the survey. e.g. R=5000 for DESI</li>
+          <pre><code class="language-python">r_instrument = np.zeros(len(wavelength))
+r_instrument.fill(5000)</code></pre>
+        <li><b>Wavelength Fitting Options</b>: Specify fitting options for wavelength calibration</li>
+          <pre><code class="language-python"># specify data medium: 'air', 'vaccum'
+data_wave_medium = 'vacuum'
+# specify whether you would like to fit in air or vacuum wavelengths
+fit_wave_medium='vacuum'</code></pre>
+        <li><b>Flux Units</b>: Firefly assumes flux units of erg/s/A/cm^2</li>
+          <pre><code class="language-python"># choose factor in case flux is scaled
+# (e.g. flux_units=10**(-17) for MaNGA)
+flux_units=10**(-17)</code></pre>
+      </ul>
+    </section>
+
+    <section class="requirements">
+      <h3>Input Data Requirements</h3>
+      <ul>
+        <li><b>Spectrum arrays</b>: <code>WAVE</code>, <code>FLUX</code>, <code>IVAR</code></li>
+        <li><b>Redshift</b>: required for cosmological age estimation</li>
+        <li><b>Metadata</b>: <code>ID</code>, <code>RA</code>, <code>DEC</code>, <code>SNR</code>, <code>VDISP</code></li>
+          <pre><code class="language-python"># Get spectrum data
+wavelength = hdul[1].data['WAVE'][i]
+flux = hdul[1].data['FLUX'][i]
+error = hdul[1].data['IVAR'][i]
+redshift = hdul[1].data['REDSHIFT'][i]
+ra = hdul[1].data['RA'][i]
+dec = hdul[1].data['DEC'][i]
+vdisp = hdul[1].data['VDISP'][i]
+snr = hdul[1].data['SNR'][i]
+id = hdul[1].data['ID'][i]</code></pre>      
+      </ul>
+    </section>
+
+    <section class="fits-structure">
+      <h3>Input FITS File Structure</h3>
+      <p>Most FIREFLY lanch piplines expect a multi-spectrum FITS file with the following structure:</p>
+      <ul>
+        <li><b>Primary HDU</b>: contains global metadata (e.g. model key, redshift, SNR)</li>
+        <li><b>Binary Table HDU</b>: per-spectrum data arrays (<code>FLUX</code>, <code>WAVE</code>, <code>IVAR</code>)</li>
+      </ul>
+      <p>Each spectrum must be self-contained with associated metadata embedded either in the header or the table structure.</p>
+    </section>
+
+    <section class="generation">
+      <h3>Creating FITS Files for FIREFLY</h3>
+      <p>The repository presents three different methods you can use to generate the input FITS files for FIREFLY (Note: these examples are for DESI):</p>
+
+      <h4>Option 1: FIREFLY 'All-in-one' launch scripts on NERSC</h4>
+      <p>The <code>firefly(AIO)_DESI_DR1.py</code> and <code>firefly(AIO)_DESI_EDR.py</code> scripts offer the quickest and most efficent way to fit DESI spectra. Because NERSC already hosts all DESI data releases, these scripts can read everything directly from the shared filesystem and fit the spectra straight away. If you have a NERSC account, this method handles all data retrieval internally, letting you skip the fits file creation needed in other approaches.</p>
+      <p>On NERSC, launch these runs through SLURM using the provided <code>SBATCH_Fuji.sh</code> (DESI-EDR) and <code>SBATCH_Iron.sh</code> (DESI-DR1) batch scripts. The only part that usually needs editing in the sbatch files is the desired galaxy index range you want to fit and the correct path to the firefly(AIO) script:</p>
+      <pre><code class="language-bash">START_INDEX=2600000
+END_INDEX=2700000
+SCRIPT_PATH="/global/cfs/cdirs/desi/users/helpss/FIREFLY/firefly/Launch/DESI/NERSC/run_scripts/SBATCH_Iron.sh" 
+</code></pre>
+
+<h4>Option 2: NERSC → FIREFLY File Builder (for SCIAMA or other HPCs)</h4>
+  <p>If you want to run FIREFLY on another HPC system (e.g. SCIAMA) but still take advantage of NERSC's fast access to DESI spectra, the <code>NERSC_fits_create.py</code> script provides the ideal workflow. It retrieves all required DESI spectral data on NERSC, merges the B/R/Z arms, attaches the required metadata and FastSpecFit values, and outputs fully FIREFLY-ready FITS files that can be copied to any external machine for fitting.</p>
+  <p>To choose which galaxies to export, edit the index range at the top of the script:</p>
+  <pre><code class="language-python">START_SPECTRUM = 5000
+END_SPECTRUM   = 10000</code></pre>
+  <p>These indices correspond to rows in the DESI EDR <code>zall-pix-fuji.fits</code> catalog. (Note: this method was used to fit over a million galaxies on SCIAMA which utilised blocks of 5000 spectra per fits file for speed and memory optismisation on the HPC).</p>
+  <p><b>Running the script on NERSC</b></p>
+  <p>Once the desired galaxy index range is set, simply run the script via a terminal on NERSC:</p>
+  <pre><code class="language-bash">python NERSC_fits_create.py</code></pre>
+  <p>This will create an output file in your NERSC directory:</p>
+  <pre><code class="language-bash">Data/DESI/DESI_EDR_data/DESI_EDR_5000-10000.fits</code></pre>
+  <p>(<b>Important:</b> Ensure that all the file input and output paths are corrected for your placement the scirpt in your NERSC directory or within the cloned FIREFLY repoistory uploaded to NERSC. Remember that all file paths on NERSC require an extra <code>/</code> before <code>global</code>.)<p>
+  <p><b>What this script does</b></p>
+  <ul>
+    <li>Reads the EDR <code>zall-pix-fuji.fits</code> and FastSpecFit catalogs</li>
+    <li>Selects galaxies using optional filters (SPECTYPE, redshift, subsurvey, etc.)</li>
+    <li>Retrieves each matching <code>coadd</code> file directly from the NERSC DESI data tree</li>
+    <li>Merges B/R/Z wavelength, flux and ivar into single arrays</li>
+    <li>Computes velocity dispersion (FastSpecFit or resolution-based)</li>
+    <li>Computes a median SNR per spectrum</li>
+    <li>Writes FIREFLY-compatible FITS files with columns:</li>
+    <ul>
+      <li><code>ID</code>, <code>WAVE</code>, <code>FLUX</code>, <code>IVAR</code></li>
+      <li><code>REDSHIFT</code>, <code>RA</code>, <code>DEC</code></li>
+      <li><code>VDISP</code>, <code>SNR</code>, <code>SURVEY_TYPE</code></li>
+    </ul>
+  </ul>
+
+      <h4>Option 3: Manual Download FITS Builder (DESI)</h4>
+      <p>If you do not have access to NERSC you can still manually download galaxy spectra from the public <a href="https://data.desi.lbl.gov/public/" target="_blank">DESI data directory</a> or run the <code>Local_fits_create.py</code> script on a normal machine to generate FIREFLY-compatible FITS files.</p>
+      <ul>
+        <li><b>Step 1</b>: Edit the top of <code>Local_fits_create.py</code> to set the range of galaxies you want to process</li>
+        <pre><code class="language-python">START_SPECTRUM = 0      # Starting index in the DESI galaxy catalog
+END_SPECTRUM = 5000     # Ending index (non-inclusive)</code></pre>
+To process the next 5000 galaxies, simply update the index values on the next run:
+        <pre><code class="language-python">START_SPECTRUM = 5000
+END_SPECTRUM = 10000</code></pre>
+        <li><b>Step 2</b>: Run the Script</li>
+        <pre><code class="language-bash">python Local_fits_create.py</code></pre>
+This will create an output file named like:
+        <pre><code class="language-bash">Data/DESI/DESI_EDR_data/DESI_EDR_5000-10000.fits
+</code></pre>
+        <li><b>What This Script Does</b>
+        <ul>
+          <li>Downloads required DESI EDR catalogs (<code>zall-fuji.fits</code> and <code>fastspec-fuji.fits</code>) if not already cached</li>
+          <li>Filters for galaxies and selects the index range you specify</li>
+          <li>For each galaxy:</li>
+          <ul>
+            <li>Fetches the matching <code>coadd</code> spectrum from the public DESI archive</li>
+            <li>Merges the B/R/Z data arms for concatenated arrays of <code>FLUX</code>, <code>WAVE</code> and <code>IVAR</code></li>
+            <li>Computes velocity dispersion from FastSpec or spectral resolution</li>
+            <li>Calculates median signal-to-noise (SNR), redshift, RA/Dec, and target type</li>
+        </ul>
+          <li>Writes all this data into a single multi-extension FITS file</li>
+        </ul>
+        </li>
+      <p>(Note: Although all the online files should remain the same, the output paths and directory structure set in this script may need to be altered to the desired destination on your machine. This method downloads large numbers of spectra and therefore is heavily dependent on your internet connection speed and is may be slow.)</p>
+      </section>
+
+  </main>
+
+
+
+  <script>
+    const starContainer = document.getElementById('star-background');
+    for (let i = 0; i < 200; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+
+      const size = Math.random() * 2 + 1;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.opacity = Math.random();
+      star.style.animationDuration = `${Math.random() * 4 + 1}s`;
+      star.style.animationDelay = `${Math.random() * 5}s`;
+
+      starContainer.appendChild(star);
+    }
+  </script>
+
+<footer>
+  <div style="max-width:1200px; margin:auto; padding: 20px; display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:20px; font-size:0.95em;">
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Infomation</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="index.html#intro" style="color:white; text-decoration:none;">About</a></li>
+        <li><a href="index.html#models" style="color:white; text-decoration:none;">Models</a></li>
+        <li><a href="index.html#contact" style="color:white; text-decoration:none;">Usage</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Get Started</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="installation.html" style="color:white; text-decoration:none;">Installation</a></li>
+        <li><a href="configuration.html" style="color:white; text-decoration:none;">Configuration</a></li>
+        <li><a href="start-fitting.html" style="color:white; text-decoration:none;">Launch</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Projects</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="publications.html" style="color:white; text-decoration:none;">Publications</a></li>
+        <li><a href="desi.html" style="color:white; text-decoration:none;">DESI</a></li>
+        <li><a href="sdss.html" style="color:white; text-decoration:none;">SDSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Data</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="demofitter.html" style="color:white; text-decoration:none;">FIREFLY Demo</a></li>
+        <li><a href="index.html#gallery" style="color:white; text-decoration:none;">Gallery</a></li>
+        <li><a href="index.html#sky-map" style="color:white; text-decoration:none;">Sky Map</a></li>
+      </ul>
+    </div>
+  </div>
+  <div style="width:100%;margin:auto;">
+    <canvas id="spectralWidget" style="width:100%;height:auto;"></canvas>
+  </div>
+  <p style="font-size: 0.85em; color: #868686;">
+    &copy; 2026 Samuel Helps (FIREFLY Collaboration) | Code: 
+    <a href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W" target="_blank">Wilkinson et al. (2017)</a>, 
+    <a href="https://ui.adsabs.harvard.edu/abs/2022MNRAS.510.1538N" target="_blank">Neumann et al. (2022)</a> |
+    Site & Infrastructure: Samuel Helps |
+    <a href="credits.html">Credits</a>
+  </p>
+  <p style="font-size: 0.85em; color: #868686;">
+    Code licensed under <a href="../LICENSE.md">MIT</a> | Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+  </p>
+</footer>
+
+<script>
+const canvas = document.getElementById('spectralWidget');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = 150;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// Generate synthetic data and model
+const N = 600;
+let spectrum = new Array(N);
+let model = new Array(N);
+let wavelength = new Array(N);
+for (let i = 0; i < N; i++) {
+    const x = i / N * 10;
+    wavelength[i] = x;
+    spectrum[i] = 15 + 6 * Math.sin(x * 0.6) + Math.random() * 2;
+    model[i] = 15 + 6 * Math.sin(x * 0.6 + 0.1) + Math.random() * 1; // trailing model
+}
+
+let progress = 0;
+const fadeLength = 80; // Number of points over which to fade out
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const margin = 0;
+    const w = canvas.width - 2 * margin;
+    const h = canvas.height - 2 * margin;
+
+    const maxY = Math.max(...spectrum) + 5;
+    const minY = Math.min(...spectrum) - 5;
+
+    const toCanvas = (x, y) => [
+        margin + (x / 10) * w,
+        canvas.height - margin - ((y - minY) / (maxY - minY)) * h
+    ];
+
+    // Draw spectrum with fade
+    ctx.lineWidth = 2;
+    for (let i = Math.max(1, progress - fadeLength); i < progress && i < N; i++) {
+        let alpha = (i - (progress - fadeLength)) / fadeLength; // 0..1 fade factor
+        ctx.strokeStyle = `rgba(70,130,180,${alpha.toFixed(2)})`; // steelblue fade
+
+        ctx.beginPath();
+        const [x0, y0] = toCanvas(wavelength[i - 1], spectrum[i - 1]);
+        const [x1, y1] = toCanvas(wavelength[i], spectrum[i]);
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.stroke();
+    }
+
+    // Draw model with fade
+    for (let i = Math.max(1, progress - fadeLength - 20); i < progress - 20 && i < N; i++) {
+        if(i < 1) continue;
+        let alpha = (i - (progress - fadeLength - 20)) / fadeLength; // same fade factor shifted by delay
+        if(alpha < 0) alpha = 0;
+        if(alpha > 1) alpha = 1;
+
+        ctx.strokeStyle = `rgba(218,165,32,${alpha.toFixed(2)})`; // goldenrod fade
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        const [x0, y0] = toCanvas(wavelength[i - 1], model[i - 1]);
+        const [x1, y1] = toCanvas(wavelength[i], model[i]);
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.stroke();
+    }
+
+    // Increment progress and loop
+    if (progress < N + fadeLength + 20) {
+        progress += 2;
+        requestAnimationFrame(draw);
+    } else {
+        progress = 0; // Loop animation
+        setTimeout(() => requestAnimationFrame(draw), 1000);
+    }
+}
+
+draw();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large data files - Stellar population models
+firefly/Fitting_Engine/stellar_population_models/*.krz*
+firefly/Fitting_Engine/stellar_population_models/*.ssz*
+firefly/Fitting_Engine/stellar_population_models/*.fits.gz
+firefly/Fitting_Engine/stellar_population_models/EMILES_SSP/*.fits
+firefly/Fitting_Engine/stellar_population_models/SSP_M11_*/*.krz*
+firefly/Fitting_Engine/stellar_population_models/SSP_M11_*/*.ssz*
+
+# Large FITS data files
+firefly/Data/DESI/DESI_EDR_data/
+firefly/Data/DESI/fits_creator/
+firefly/Data/DESI-SDSS_samples/
+firefly/Data/example_data/**/*.fits
+
+# Large temporary/output files
+firefly/Fitting_Engine/temp_output/
+firefly/Fitting_Engine/data/*.fits
+
+# Results directory (if large)
+Results/
+
+# Jupyter/IPython
+.ipynb_checkpoints/
+*.ipynb
+
+# Misc
+*.log
+.cache/

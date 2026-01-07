@@ -1,0 +1,104 @@
+cff-version: 1.2.0
+message: "If you use FIREFLY in your research, please cite the papers listed below."
+title: "FIREFLY: Fitting Iteratively for Relative Likelihood Analysis"
+abstract: "FIREFLY is a chi-squared minimisation full fitting code for deriving stellar population properties from spectra. It fits combinations of single-burst stellar population models using the Bayesian Information Criterion and returns light- and mass-weighted ages, metallicities, dust attenuation, stellar mass, and star formation histories."
+version: "1.0.0"
+date-released: "2026-01-07"
+authors:
+  - family-names: "Wilkinson"
+    given-names: "David M."
+  - family-names: "Thomas"
+    given-names: "Daniel"
+  - family-names: "Comparat"
+    given-names: "Johan"
+  - family-names: "Neumann"
+    given-names: "Justus"
+  - family-names: "Gonzalez-Perez"
+    given-names: "Violeta"
+  - family-names: "Goddard"
+    given-names: "Daniel"
+  - family-names: "Meneses-Goytia"
+    given-names: "Sofia"
+  - family-names: "Helps"
+    given-names: "Samuel"
+  - family-names: "Graham"
+    given-names: "Kieran"
+  - family-names: "Hicks"
+    given-names: "Harry"
+  - family-names: "Westfall"
+    given-names: "Kyle"
+type: software
+keywords:
+  - "stellar populations"
+  - "full spectral fitting"
+  - "galaxies"
+  - "SDSS"
+  - "MaNGA"
+  - "DESI"
+  - "spectroscopy"
+
+preferred-citation:
+  type: article
+  title: "FIREFLY (Fitting Iteratively For Relative Likelihood Analysis): A full spectral fitting code"
+  authors:
+    - family-names: "Wilkinson"
+      given-names: "David M."
+    - family-names: "Maraston"
+      given-names: "Claudia"
+    - family-names: "Goddard"
+      given-names: "Daniel"
+    - family-names: "Thomas"
+      given-names: "Daniel"
+    - family-names: "Parikh"
+      given-names: "Taniya"
+  journal: "Monthly Notices of the Royal Astronomical Society"
+  year: 2017
+  volume: "472"
+  pages: "4297-4321"
+  doi: ""
+  url: "https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W"
+
+references:
+  - type: article
+    title: "FIREFLY (ASCL submission)"
+    authors:
+      - family-names: "Wilkinson"
+        given-names: "David M."
+    year: 2021
+    url: "https://ui.adsabs.harvard.edu/abs/2021ascl.soft08010W"
+    scope: "ASCL software reference for FIREFLY."
+
+  - type: article
+    title: "FIREFLY: Neumann et al. 2022"
+    authors:
+      - family-names: "Neumann"
+        given-names: "Justus"
+    journal: "Monthly Notices of the Royal Astronomical Society"
+    year: 2022
+    url: "https://ui.adsabs.harvard.edu/abs/2022MNRAS.513.5988N"
+    scope: "Cite when using FIREFLY MaNGA DR17 results."
+
+  - type: article
+    title: "MaStar: Maraston et al. 2020"
+    authors:
+      - family-names: "Maraston"
+        given-names: "Claudia"
+    journal: "Monthly Notices of the Royal Astronomical Society"
+    year: 2020
+    url: "https://ui.adsabs.harvard.edu/abs/2020MNRAS.496.2962M"
+    scope: "Cite when using MaStar stellar population models."
+
+  - type: article
+    title: "Stellar population models at high spectral resolution"
+    authors:
+      - family-names: "Maraston"
+        given-names: "Claudia"
+      - family-names: "Strömbäck"
+        given-names: "Gustav"
+    journal: "Monthly Notices of the Royal Astronomical Society"
+    year: 2011
+    volume: 418
+    issue: 4
+    pages: "2785-2814"
+    doi: "10.1111/j.1365-2966.2011.19738.x"
+    scope: "Cite when using M11 stellar population models."

@@ -1,0 +1,21 @@
+# Core scientific stack
+numpy
+scipy
+pandas
+astropy
+matplotlib
+
+# I/O and utilities
+fitsio
+psutil
+requests
+tqdm
+
+# DESI/SPARCL tooling
+desimodel
+desispec
+desitarget
+sparcl
+
+# Interactive/debug
+ipython

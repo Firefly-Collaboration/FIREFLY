@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FIREFLY - Full Spectral Fitting Code</title>
+  <link rel="stylesheet" href="css\style.css" />
+  <script src="js\script.js" defer></script> 
+</head>
+<body>
+  <!-- Topbar: black bar with logo, title, and menu icon -->
+  <div class="topbar" id="topbar">
+  <div class="logo-area">
+    <a href="index.html" class="home-link">
+      <img src="images/AIfly.png" alt="Logo" class="logo-img" />
+      <span class="firefly-title">FIREFLY</span>
+    </a>
+  </div>
+<!-- From Uiverse.io by vinodjangid07 --> 
+  <button class="Btn-git" onclick="window.open('https://github.com/FireflySpectra/firefly_release', '_blank')">
+    <svg class="svgIcon-git" viewBox="0 0 496 512" height="1.4em" xmlns="https://github.com/FireflySpectra/firefly_release"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+    <span class="text-git">Github</span>
+  </button>
+  <div class="menu-icon" id="menuIcon" tabindex="0" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+<div class="menu-drawer" id="menuDrawer">
+  <ul>
+    <li><a href="#intro">About</a></li>
+    <li><a href="demofitter.html">FIREFLY Demo</a></li>
+    <li>
+      <a href="#install">Install →</a>
+      <ul>
+        <li><a href="installation.html">Installation</a></li>
+        <li><a href="configuration.html">Configuration</a></li>
+        <li><a href="start-fitting.html">Launch</a></li>
+      </ul>
+    </li>
+    <li><a href="#models">Models</a></li>
+    <li>
+      <a href="#surveys">Surveys →</a>
+      <ul>
+        <li><a href="desi.html">DESI</a></li>
+        <li><a href="sdss.html">SDSS</a></li>
+      </ul>
+    </li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Usage</a></li>
+  </ul>
+</div>
+</div>
+</div>
+  <!-- Hero section only, no nav or section links at top -->
+  <div class="image-credit-wrapper">
+  <header class="hero ffx-hero-shell">
+    <div class="image-credit">
+      Credit: NSF–DOE Vera C. Rubin Observatory — <a href="https://rubinobservatory.org/gallery/collections/first-look-gallery/32ejonfcf955v6luvhdvbd746c" target="_blank" rel="noopener">CC BY 4.0</a>
+    </div>
+    <div class="hero-content ffx-hero-layer">
+      <h2>Full Spectral Fitting Code</h2>
+      <p class="ffx-hero-subhead"><b>F</b>itting <b>I</b>te<b>R</b>ativ<b>E</b>ly <b>F</b>or <b>L</b>ikelihood anal<b>Y</b>sis</p>
+      <a href="#install" class="btn ffx-hero-cta">Get Started</a>
+    </div>
+    <div class="ffx-scroll-cue" aria-hidden="true">
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+  </div>
+  
+
+  <section id="intro" class="section">
+    <div style="margin-top: 35px;">
+    <p>FIREFLY is a python-based full spectral fitting code designed to recover the physical properties of galaxies from their spectra. FIREFLY employs a prior-free chi-squared minimisation technique along with the latest stellar population libraries such as MaStar to analyse spectra from surveys like DESI and SDSS.</p>
+    <div style="margin-bottom: -20px;"></div>
+  </section>
+
+  <section id="about-firefly" class="section ffx-space-section ffx-section-motion">
+    <div class="ffx-space-layer ffx-space-stars-back" aria-hidden="true"></div>
+    <div class="ffx-space-layer ffx-space-stars-mid" aria-hidden="true"></div>
+    <div class="ffx-space-layer ffx-space-fog" aria-hidden="true"></div>
+    <div class="ffx-space-content">
+      <div class="ffx-space-grid">
+        <div class="ffx-space-text">
+          <p class="ffx-reveal">Traditional spectral fitting codes often introduce fixed priors or polynomial normalisations to stellar continuums to speed up fitting. While computationally efficient, these assumptions can bias the recovered ages and metallicities of stellar populations.</p>
+          <p class="ffx-reveal">In contrast, FIREFLY fits combinations of SSP components to converge on a best fit and reconstructs the star formation history of galaxies without imposing restrictive priors or arbitrary continuum corrections. This prior-free, iterative chi-squared minimisation technique ensures a unbiased parameter derivation, and the ability to accurately determine the stellar mass, age, and metallicity of galaxies.</p>
+          <div class="ffx-reveal">
+            <p>Developed in 2017 by the Institute of Cosmology and Gravitation (ICG, Portsmouth, UK), FIREFLY quickly established itself as a powerful tool for deriving the properties of millions of galaxies from large spectroscopic surveys. Its key advantages include: </p>
+            <ul>
+              <li>Preserving intrinsic SEDs: unlike other codes, FIREFLY does not apply arbitrary polynomials to normalise spectra, so the stellar continuum shapes are fully preserved for accurate comparison with model spectra.</li>
+              <li>Handling low S/N: FIREFLY recovers reliable stellar parameters down to a uniquely low S/N∼5, making it ideal for deeper surveys like DESI.</li>
+              <li>Multiple viable solutions: by using the Bayesian Information Criterion (BIC), FIREFLY retains several nearly-equivalent fits rather than a single best-fit, improving convergence with models and allowing for realistic error estimates on derived parameters.</li>
+            </ul>
+          </div>
+          <p class="ffx-reveal">These design choices make FIREFLY particularly well-suited for analysing the latest data from vast spectroscopic datasets like SDSS and DESI.</p>
+        </div>
+        <div class="ffx-space-media">
+          <div class="card-try ffx-reveal" style="margin-bottom: 1.5em;">
+            <div class="content-try">
+              <p class="heading-try" style="margin-top: 1em;">Try Now</p>
+              <p class="para-try">
+                Test FIREFLY for yourself with our quick demonstration tool  
+              </p>
+              <a href="demofitter.html" class="btn-try">FIREFLY Demo Tool →</a> 
+            </div>
+          </div>
+          <div class="ffx-space-imagewrap ffx-reveal">
+            <div class="image-credit-wrapper">
+            <img src="images/firefly_workflowW.png" alt="FIREFLY Workflow Diagram">
+            <div class="image-credit">Credit: Samuel Helps (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="install" class="section">
+  <h2>Begin Fitting with FIREFLY</h2>
+  <div class="grid">
+    <a href="installation.html" class="card-link">
+      <div class="card">
+        <div class="card-info">
+          <h3 class="title">Installation</h3>
+          <p>Clone the FIREFLY repository via GitHub</p>
+          <span class="card-link-hint">Learn more →</span>
+        </div>
+      </div>
+    </a>
+    <a href="configuration.html" class="card-link">
+      <div class="card">
+        <div class="card-info">
+          <h3 class="title">Configuration</h3>
+          <p>Format input data and specify SSP model choice, resolution, IMF, and dust model</p>
+          <span class="card-link-hint">Learn more →</span>
+        </div>
+      </div>
+    </a>
+    <a href="start-fitting.html" class="card-link">
+      <div class="card">
+        <div class="card-info">
+          <h3 class="title">Launch</h3>
+          <p>Fit galaxy spectra with tutorials included for DESI and SDSS.</p>
+          <span class="card-link-hint">Learn more →</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+  <section id="models" class="section ffx-space-section ffx-section-motion">
+    <div class="ffx-space-layer ffx-space-stars-back" aria-hidden="true"></div>
+    <div class="ffx-space-layer ffx-space-stars-mid" aria-hidden="true"></div>
+    <div class="ffx-space-layer ffx-space-fog" aria-hidden="true"></div>
+    <div class="ffx-space-content">
+      <div class="ffx-models-head">
+        <h2 class="ffx-reveal" style="text-align: center;">Stellar Population Models</h2>
+        <p class="ffx-reveal">Full spectral fitting relies on stellar population models made of libraries of Simple Stellar Populations (SSPs) - groups of coeval stars formed in single bursts. Each SSP model is synthesised by summing stellar spectra along an isochrone, accounting for an Initial Mass Function (IMF) and the population's stellar evolution.</p>
+        <p class="ffx-reveal">Classical isochrone synthesis computes the total luminosity from stars still on the main sequence, while the Fuel Consumption Theorem handles the post-main-sequence phases, where smaller numbers of bright stars can dominate a galaxy's stellar continuum. FIREFLY combines many SSP models (of different ages and metallicities) to reconstruct a galaxy's star formation history.</p>
+      </div>
+      <div class="ffx-models-grid">
+        <div class="ffx-models-copy">
+          <div class="ffx-reveal">
+            <p class="ffx-models-sub">Integrated into FIREFLY:</p>
+            <ul class="ffx-models-list">
+              <li>MaStar (<a href="https://academic.oup.com/mnras/article/496/3/2962/5850375">Maraston, Hill, Thomas, et al. 2020</a>)</li>
+              <li>M11 (<a href="https://academic.oup.com/mnras/article/418/4/2785/1030080">Maraston & Strömbäck 2011</a>)</li>
+            </ul>
+          </div>
+          <p class="ffx-reveal">The evolution of SSP models has greatly expanded in stellar parameter coverage over time. M05 (<a href="https://academic.oup.com/mnras/article/362/3/799/976732">Maraston 2005</a>) was the first to include treatment of Thermally-Pulsating AGB (TP-AGB) phase stars and their spectral contribution especially in intermediate-age populations. This improved the flux predictions in the near-infrared (IR) wavelength regime, vital for modelling high-redshift galaxies.</p>
+          <p class="ffx-reveal">M11 later merged the M05 framework with large empirical stellar libraries (Pickles, MILES, ELODIE, STELIB) and theoretical MARCS spectra for NIR modelling. M11 achieved a uniquely high spectral resolution (up to R≈20,000) and covered a broad metallicity range (-3.0 < [Fe/H] < +1.6). It also incorporated fully empirical TP-AGB spectra (Lançon & Mouhcine 2002). However, M11 still had limitations its parameter coverage, under-representing some more rare stellar types, particularly very low-mass stars, and had limited empirical UV/NIR coverage requiring artificial extensions to the edges of spectra.</p>
+        </div>
+        <div class="ffx-models-visual ffx-reveal">
+          <div class="ffx-space-imagewrap">
+            <div class="image-credit-wrapper">
+            <img src="images/ExMaStarSpectraL.png" alt="MaStar spectral coverage or visualisation">
+              <div class="image-credit">Credit: Samuel Helps (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ffx-models-bottom">
+        <p class="ffx-reveal">As the most recent and widely adopted model in the FIREFLY framework, MaStar represents a significant leap forward in stellar population synthesis. Its large and diverse empirical spectral library, based on ~60,000 stars from SDSS-IV/MaNGA, enables the derivation of galaxies features across a highly-sampled broad range of stellar parameters.</p>
+        <p class="ffx-reveal">The empirical inclusion of metal-poor and low-mass stars, previously under-represented, is especially critical for analysing passive populations, globular clusters, and dwarf galaxies. With coverage across 3622-10354 Å, MaStar has become the default choice for modern galaxy evolution studies.</p>
+        <p class="ffx-reveal">MaStar's high-S/N empirical stellar spectra cover a wide range of temperatures, gravities and metallicities (Seen in Table). Only the SSP energetics in the stellar library are modelled theoretically, keeping the intrinsic shape of the spectra directly from observations. The result is very high fidelity SSPs calibrated to the MaNGA resolution (R≈1800). FIREFLY showcases MaStar as its default model grid as it proves to outperforms earlier models, decreasing residuals near its wavelength limits (∼4,000Å and ∼10,000Å), better representing key spectral features.</p>
+      </div>
+      <div class="ffx-table-togglewrap ffx-reveal">
+        <button id="mastartable-toggle" class="ffx-table-toggle" aria-expanded="false" aria-controls="mastartable-container">
+          View MaStar Parameter Table
+          <span class="ffx-toggle-arrow" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div id="mastartable-container" class="table-container ffx-reveal ffx-table-collapsible">
+        <table class="dependencies-table" style="border-collapse: collapse; width: 100%;">
+          <thead>
+            <tr>
+              <th style="text-align: center;">Model</th>
+              <th style="text-align: center;">Wavelength Range<br>(min-max) / Å</th>
+              <th style="text-align: center;">Age Range<br>(min-max) / Gyr</th>
+              <th style="text-align: center;">Age Grid<br>N ages</th>
+              <th style="text-align: center;">Metallicity<br>[Fe/H]</th>
+              <th style="text-align: center;">HB Morphology</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td rowspan="8" style="text-align: center;">Th-MaStar</td>
+              <td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">1 - 15</td><td style="text-align: center;">15</td><td style="text-align: center;">[-2.3]</td><td style="text-align: center;">red</td>
+            </tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">1 - 15</td><td style="text-align: center;">15</td><td style="text-align: center;">[-2.3]</td><td style="text-align: center;">red</td></tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">1 - 15</td><td style="text-align: center;">15</td><td style="text-align: center;">[-2.3]</td><td style="text-align: center;">blue</td></tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">0.5 - 15</td><td style="text-align: center;">20</td><td style="text-align: center;">[-1.3]</td><td style="text-align: center;">red</td></tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">0.5 - 15</td><td style="text-align: center;">20</td><td style="text-align: center;">[-1.3]</td><td style="text-align: center;">blue</td></tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">0.2 - 15</td><td style="text-align: center;">23</td><td style="text-align: center;">[-0.3]</td><td style="text-align: center;">red</td></tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">0.2 - 15</td><td style="text-align: center;">24</td><td style="text-align: center;">[+0.0]</td><td style="text-align: center;">red</td></tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">0.2 - 15</td><td style="text-align: center;">25</td><td style="text-align: center;">[+0.3]</td><td style="text-align: center;">red</td></tr>
+
+            <tr>
+              <td rowspan="9" style="text-align: center;">E-MaStar</td>
+              <td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">10 - 15</td><td style="text-align: center;">15</td><td style="text-align: center;">[-2.3]</td><td style="text-align: center;">red</td>
+            </tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">10 - 15</td><td style="text-align: center;">15</td><td style="text-align: center;">[-2.3]</td><td style="text-align: center;">red</td></tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">6 - 15</td><td style="text-align: center;">15</td><td style="text-align: center;">[-2.3]</td><td style="text-align: center;">red</td></tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">6 - 15</td><td style="text-align: center;">15</td><td style="text-align: center;">[-2.3]</td><td style="text-align: center;">blue</td></tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">0.5 - 15</td><td style="text-align: center;">20</td><td style="text-align: center;">[-1.3]</td><td style="text-align: center;">red</td></tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">0.5 - 15</td><td style="text-align: center;">20</td><td style="text-align: center;">[-1.3]</td><td style="text-align: center;">blue</td></tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">0.4 - 15</td><td style="text-align: center;">21</td><td style="text-align: center;">[-0.3]</td><td style="text-align: center;">blue</td></tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">0.2 - 15</td><td style="text-align: center;">24</td><td style="text-align: center;">[+0.0]</td><td style="text-align: center;">blue</td></tr>
+            <tr><td style="text-align: center;">3621.6 - 10352.3</td><td style="text-align: center;">0.2 - 15</td><td style="text-align: center;">25</td><td style="text-align: center;">[+0.3]</td><td style="text-align: center;">blue</td></tr>
+          </tbody>
+          <caption>Parameter coverage of the MaStar SSP models, including both the earlier theoretical (Th-MaStar) and empirical (E-MaStar) model sets (<a href="https://academic.oup.com/mnras/article/496/3/2962/5850375">Maraston et al. 2020</a>).</caption>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="surveys" class="section">
+    <h2>Surveys</h2>
+    <p>FIREFLY has already analysed millions of galaxies from spectroscopic surveys, including:</p>
+    <div class="grid-2">
+      <!-- From Uiverse.io by StealthWorm --> 
+      <a href="desi.html" class="btn-2">
+        <strong>DESI</strong>
+        <div id="container-stars">
+          <div id="stars"></div>
+        </div>
+        <div id="glow">
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+      </a>
+      <a href="sdss.html" class="btn-2">
+        <strong>SDSS</strong>
+        <div id="container-stars">
+          <div id="stars"></div>
+        </div>
+        <div id="glow">
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+      </a>
+</button>
+  </section>
+  
+
+  <section id="gallery" class="section light">
+    <h2>Gallery</h2>
+    <div class="gallery">
+      <img src="images/EDR_2814R_bigpng.png" alt="Galaxy fit-legacy">
+      <figcaption> <b>(Left):</b> Extremely low-redshift DESI-EDR galaxy spectrum fit to MaStar using FIREFLY, corresponding to a metal-poor population with negligible dust attenuation. <b>(Right):</b> Optical counterpart of the same galaxy from the DESI Legacy Imaging Surveys (Dey et al., 2019) <a href="https://www.legacysurvey.org/viewer">https://www.legacysurvey.org/viewer</a>. The high S/N and proximity of this source makes it an ideal benchmark for validating fitting performance at very low-redshift. Credit: Samuel Helps (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></figcaption>
+      <img src="images/BGS_329.png" alt="Galaxy fit-SFH">
+      <figcaption> <b>(Left):</b> DESI-BGS sample galaxy spectrum fit to MaStar using FIREFLY, showing the original observed data (blue), best-fit MaStar model (orange), and residuals (black). Key stellar population parameters are displayed in the legend. <b>(Right):</b> Star formation history plot for the same BGS sample galaxy, showing a dominant early burst of star formation, consistent with an old, quenched stellar population, with minimal recent star formation activity. Credit: Samuel Helps (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></figcaption>
+      <img src="images/BGS_4748.png" alt="Galaxy fit-Z/H">
+      <figcaption> <b>(Left):</b> DESI-BGS sample galaxy spectrum fit to MaStar using FIREFLY, showing the increased residuals towards the UV end of the spectral range. <b>(Right):</b> Metallicity probability distribution for the same galaxy, indicating a bimodal solution with two dominant sub-solar and solar metallicities, highlighting the galaxies distinct chemical enrichment episodes. Credit: Samuel Helps (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></figcaption>
+      <img src="images/TRI_EDR_disso.png" alt="Parameter correlation">
+      <figcaption> Distribution and correlation of key stellar population parameters recovered from FIREFLY fits to DESI EDR galaxies. The top diagonal panels display the marginalised 1D histograms for each parameter, including redshift, stellar mass (log(M∗/M⊙)), metallicity [Z/H], dust attenuation E(B-V ), ejecta mass (log(Mejecta/M⊙)), and light-weighted age (log(Age/Gyr)). Off-diagonal panels show 2D density contours and scatter plots revealing interdependencies between parameters. Prominent trends include the mass-metallicity relation and downsizing with age. These distributions showcase the catalogues ability to provide key insights into the physical parameters that drive galaxy evolution across the DESI-EDR sample. Credit: Samuel Helps (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></figcaption>
+    </div>
+  </section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive Galaxy Sky Map</title>
+  <style>
+
+    #sky-map {
+      position: relative;
+      margin: 32px auto;
+      width: 100%;
+      height: 800px;
+      overflow: hidden;
+      background: black;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2.5s infinite ease-in-out;
+      z-index: 0;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    .galaxy-wrapper {
+      position: absolute;
+      transform: rotate(0deg); /* will be overridden dynamically */
+      z-index: 1;
+    }
+
+    .galaxy {
+      width: 50px;
+      height: 50px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 50%;
+      cursor: pointer;
+      animation: drift 60s infinite ease-in-out;
+      z-index: 2;
+
+      cursor: url('images/CursorAIfly.png'), auto;
+        /* Radial mask for soft edges */
+      -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 60%);
+      mask-image: radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 60%);
+      mask-size: cover;
+      mask-repeat: no-repeat;
+}
+    
+    @keyframes drift {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(4px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .data-box {
+      position: absolute;
+      background: rgb(255, 255, 255);
+      border: 1px solid #555;
+      border-radius: 10px;
+      color: black;
+      padding: 2px;
+      display: none;
+      width: 400px;
+      z-index: 99999;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .data-box img {
+      width: 100%;
+      border-radius: 4px;
+      margin-bottom: 5px;
+      z-index: 99999;
+
+    }
+  </style>
+</head>
+<body>
+  <div id="sky-map"></div>
+
+  <script>
+    const skyMap = document.getElementById('sky-map');
+
+    // Add stars
+    // Add stars with random size, opacity, and animation delay
+    for (let i = 0; i < 500; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.left = `${Math.random() * 100}%`;
+
+      // Random size between 0.5 and 2 pixels
+      const size = Math.random() * 1 + 1;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+
+      // Random opacity between 0.5 and 1
+      star.style.opacity = `${Math.random() * 0.5 + 0.5}`;
+
+      // Random animation delay between 0 and 5 seconds
+      star.style.animationDelay = `${Math.random() * 5}s`;
+
+      skyMap.appendChild(star);
+    }
+
+
+    // Galaxy data
+    const galaxyData = {
+      galaxy1: { name: 'galaxy1', image: 'images/galaxy1.png', spectra: 'images/10_spectrum_(EDR_100000-105000).png', other: 'images/10_lookback_time_(EDR_100000-105000).png' },
+      galaxy2: { name: 'galaxy2', image: 'images/galaxy2.png', spectra: 'images/21_spectrum_(EDR_100000-105000).png', other: 'images/21_lookback_time_(EDR_100000-105000).png' },
+      galaxy3: { name: 'galaxy3', image: 'images/galaxy3.png', spectra: 'images/61_spectrum_(EDR_100000-105000).png', other: 'images/61_lookback_time_(EDR_100000-105000).png' },
+      galaxy4: { name: 'galaxy4', image: 'images/galaxy4.png', spectra: 'images/136_spectrum_(EDR_100000-105000).png', other: 'images/136_lookback_time_(EDR_100000-105000).png' },
+      galaxy5: { name: 'galaxy5', image: 'images/galaxy5.png', spectra: 'images/169_spectrum_(EDR_100000-105000).png', other: 'images/169_lookback_time_(EDR_100000-105000).png' },
+      galaxy6: { name: 'galaxy6', image: 'images/galaxy6.png', spectra: 'images/172_spectrum_(EDR_100000-105000).png', other: 'images/172_lookback_time_(EDR_100000-105000).png' },
+      galaxy7: { name: 'galaxy7', image: 'images/galaxy7.png', spectra: 'images/181_spectrum_(EDR_100000-105000).png', other: 'images/181_lookback_time_(EDR_100000-105000).png' },
+      galaxy8: { name: 'galaxy8', image: 'images/galaxy8.png', spectra: 'images/187_spectrum_(EDR_100000-105000).png', other: 'images/187_lookback_time_(EDR_100000-105000).png' },
+      galaxy9: { name: 'galaxy9', image: 'images/galaxy9.png', spectra: 'images/261_spectrum_(EDR_100000-105000).png', other: 'images/261_lookback_time_(EDR_100000-105000).png' },
+      galaxy10: { name: 'galaxy10', image: 'images/galaxy10.png', spectra: 'images/400_spectrum_(EDR_100000-105000).png', other: 'images/400_lookback_time_(EDR_100000-105000).png' },
+      galaxy11: { name: 'galaxy11', image: 'images/galaxy11.png', spectra: 'images/443_spectrum_(EDR_100000-105000).png', other: 'images/443_lookback_time_(EDR_100000-105000).png' },
+      galaxy12: { name: 'galaxy12', image: 'images/galaxy12.png', spectra: 'images/628_spectrum_(EDR_100000-105000).png', other: 'images/628_lookback_time_(EDR_100000-105000).png' },
+      galaxy13: { name: 'galaxy13', image: 'images/galaxy13.png', spectra: 'images/653_spectrum_(EDR_100000-105000).png', other: 'images/653_lookback_time_(EDR_100000-105000).png' },
+      galaxy14: { name: 'galaxy14', image: 'images/galaxy14.png', spectra: 'images/716_spectrum_(EDR_100000-105000).png', other: 'images/716_lookback_time_(EDR_100000-105000).png' },
+      galaxy15: { name: 'galaxy15', image: 'images/galaxy15.png', spectra: 'images/823_spectrum_(EDR_100000-105000).png', other: 'images/823_lookback_time_(EDR_100000-105000).png' },
+      galaxy16: { name: 'galaxy16', image: 'images/galaxy16.png', spectra: 'images/952_spectrum_(EDR_100000-105000).png', other: 'images/952_lookback_time_(EDR_100000-105000).png' },
+      galaxy17: { name: 'galaxy17', image: 'images/galaxy17.png', spectra: 'images/1080_spectrum_(EDR_100000-105000).png', other: 'images/1080_lookback_time_(EDR_100000-105000).png' },
+      galaxy18: { name: 'galaxy18', image: 'images/galaxy18.png', spectra: 'images/1256_spectrum_(EDR_100000-105000).png', other: 'images/1256_lookback_time_(EDR_100000-105000).png' },
+      galaxy19: { name: 'galaxy19', image: 'images/galaxy19.png', spectra: 'images/1342_spectrum_(EDR_100000-105000).png', other: 'images/1342_lookback_time_(EDR_100000-105000).png' },
+      galaxy20: { name: 'galaxy20', image: 'images/galaxy20.png', spectra: 'images/1585_spectrum_(EDR_100000-105000).png', other: 'images/1585_lookback_time_(EDR_100000-105000).png' }
+    };
+
+    // Add galaxies
+    const placedPositions = [];
+    Object.keys(galaxyData).forEach((id) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'galaxy-wrapper';
+
+      const minDistance = 100; // in pixels
+
+      function isFarEnough(x, y) {
+        return placedPositions.every(pos => {
+          const dx = pos.x - x;
+          const dy = pos.y - y;
+          return Math.sqrt(dx * dx + dy * dy) >= minDistance;
+        });
+      }
+
+      let attempts = 0;
+      let xPercent, yPercent, xPx, yPx;
+      do {
+        xPercent = Math.random() * 85 + 5;
+        yPercent = Math.random() * 85 + 5;
+        xPx = (xPercent / 100) * skyMap.clientWidth;
+        yPx = (yPercent / 100) * skyMap.clientHeight;
+        attempts++;
+      } while (!isFarEnough(xPx, yPx) && attempts < 100);
+
+      placedPositions.push({ x: xPx, y: yPx });
+
+      wrapper.style.left = `${xPercent}%`;
+      wrapper.style.top = `${yPercent}%`;
+
+      wrapper.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
+
+      const galaxy = document.createElement('div');
+      galaxy.className = 'galaxy';
+      galaxy.dataset.id = id;
+      galaxy.style.backgroundImage = `url('${galaxyData[id].image}')`;
+
+      wrapper.appendChild(galaxy);
+      skyMap.appendChild(wrapper);
+    });
+
+    // Data box
+    const dataBox = document.createElement('div');
+    dataBox.className = 'data-box';
+    skyMap.appendChild(dataBox);
+
+    // Hover functionality
+    document.querySelectorAll('.galaxy').forEach(galaxy => {
+      galaxy.addEventListener('mouseenter', (e) => {
+        const id = e.target.dataset.id;
+        const data = galaxyData[id];
+        if (!data) return;
+
+        dataBox.innerHTML = `
+          <img src="${data.spectra}" alt="Spectra">
+        `;
+
+        dataBox.style.opacity = '0';
+        dataBox.style.visibility = 'hidden';
+        dataBox.style.display = 'block';
+
+
+        const mapRect = skyMap.getBoundingClientRect();
+        const galaxyRect = e.target.getBoundingClientRect();
+        const boxRect = dataBox.getBoundingClientRect();
+
+        // Use fixed box size
+        const boxWidth = 400;
+        const boxHeight = 200;
+
+        // Galaxy center relative to skyMap
+        const galaxyCenterX = galaxyRect.left - mapRect.left + galaxyRect.width / 2;
+        const galaxyCenterY = galaxyRect.top - mapRect.top + galaxyRect.height / 2;
+
+        // Try positions: above, right, left, below — in that order
+        const positions = [
+          { top: galaxyCenterY - boxHeight - 10, left: galaxyCenterX - boxWidth / 2 },  // above
+          { top: galaxyCenterY - boxHeight / 2, left: galaxyCenterX + 20 },             // right
+          { top: galaxyCenterY - boxHeight / 2, left: galaxyCenterX - boxWidth - 20 },  // left
+          { top: galaxyCenterY + 20, left: galaxyCenterX - boxWidth / 2 }               // below
+        ];
+
+        // Find a position that keeps the box fully within the map
+        let finalPos = positions.find(pos =>
+          pos.left >= 0 &&
+          pos.top >= 0 &&
+          pos.left + boxWidth <= mapRect.width &&
+          pos.top + boxHeight <= mapRect.height
+        );
+
+        // If none fits, clamp to safe area
+        if (!finalPos) {
+          finalPos = {
+            top: Math.min(Math.max(10, galaxyCenterY - boxHeight / 2), mapRect.height - boxHeight - 10),
+            left: Math.min(Math.max(10, galaxyCenterX - boxWidth / 2), mapRect.width - boxWidth - 10)
+          };
+        }
+
+        dataBox.style.left = `${finalPos.left}px`;
+        dataBox.style.top = `${finalPos.top}px`;
+
+
+        requestAnimationFrame(() => {
+          dataBox.style.visibility = 'visible';
+          dataBox.style.opacity = '1';
+        });
+
+      });
+
+      galaxy.addEventListener('mouseleave', () => {
+          dataBox.style.opacity = '0';
+          dataBox.style.visibility = 'hidden';
+      });
+    });
+  </script>
+
+
+
+
+  <section id="contact" class="section light">
+    <h2 class="ffx-reveal">Usage & Citation</h2>
+    <div style="text-align: left;">
+        <p class="ffx-reveal">If you use FIREFLY or its resources for work/research presented in a publication we ask that you please cite the following papers:</p>
+        <ul class="ffx-reveal">
+          <li>
+            FIREFLY: Wilkinson et al. 2017 —
+            <a href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W" target="_blank">ADS</a> |
+            <a href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W/exportcitation" target="_blank">BibTeX</a>
+          </li>
+          <li>
+            FIREFLY (ASCL): Wilkinson et al. 2021 —
+            <a href="https://ui.adsabs.harvard.edu/abs/2021ascl.soft08010W" target="_blank">ADS</a> |
+            <a href="https://ui.adsabs.harvard.edu/abs/2021ascl.soft08010W/exportcitation" target="_blank">BibTeX</a>
+          </li>
+          <li>
+            FIREFLY:  Neumann et al. 2022 —
+            <a href="https://ui.adsabs.harvard.edu/abs/2022MNRAS.513.5988N" target="_blank">ADS</a> |
+            <a href="https://ui.adsabs.harvard.edu/abs/2022MNRAS.513.5988N/exportcitation" target="_blank">BibTeX</a>
+          </li>
+          <li>
+            MaStar: Maraston et al. 2020 —
+            <a href="https://ui.adsabs.harvard.edu/abs/2020MNRAS.496.2962M" target="_blank">ADS</a> |
+            <a href="https://ui.adsabs.harvard.edu/abs/2020MNRAS.496.2962M/exportcitation" target="_blank">BibTeX</a>
+          </li>
+          <li>
+            M11: Maraston & Strömbäck 2011 —
+            <a href="https://ui.adsabs.harvard.edu/abs/2011MNRAS.418.2785M" target="_blank">ADS</a> |
+            <a href="https://ui.adsabs.harvard.edu/abs/2011MNRAS.418.2785M/exportcitation" target="_blank">BibTeX</a>
+          </li>
+        </ul>
+    </div>
+  </section>
+
+
+<footer>
+  <div style="max-width:1200px; margin:auto; padding: 20px; display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:20px; font-size:0.95em;">
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Infomation</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="index.html#intro" style="color:white; text-decoration:none;">About</a></li>
+        <li><a href="index.html#models" style="color:white; text-decoration:none;">Models</a></li>
+        <li><a href="index.html#contact" style="color:white; text-decoration:none;">Usage</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Get Started</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="installation.html" style="color:white; text-decoration:none;">Installation</a></li>
+        <li><a href="configuration.html" style="color:white; text-decoration:none;">Configuration</a></li>
+        <li><a href="start-fitting.html" style="color:white; text-decoration:none;">Launch</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Projects</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="publications.html" style="color:white; text-decoration:none;">Publications</a></li>
+        <li><a href="desi.html" style="color:white; text-decoration:none;">DESI</a></li>
+        <li><a href="sdss.html" style="color:white; text-decoration:none;">SDSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="color:#f7ba2b; margin-bottom:8px;">Data</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="demofitter.html" style="color:white; text-decoration:none;">FIREFLY Demo</a></li>
+        <li><a href="index.html#gallery" style="color:white; text-decoration:none;">Gallery</a></li>
+        <li><a href="index.html#sky-map" style="color:white; text-decoration:none;">Sky Map</a></li>
+      </ul>
+    </div>
+  </div>
+  <div style="width:100%;margin:auto;">
+    <canvas id="spectralWidget" style="width:100%;height:auto;"></canvas>
+  </div>
+  <p style="font-size: 0.85em; color: #868686;">
+    &copy; 2026 Samuel Helps (FIREFLY Collaboration) | Code: 
+    <a href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W" target="_blank">Wilkinson et al. (2017)</a>, 
+    <a href="https://ui.adsabs.harvard.edu/abs/2022MNRAS.510.1538N" target="_blank">Neumann et al. (2022)</a> |
+    Site & Infrastructure: Samuel Helps |
+    <a href="credits.html">Credits</a>
+  </p>
+  <p style="font-size: 0.85em; color: #868686;">
+    Code licensed under <a href="../LICENSE.md">MIT</a> | Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+  </p>
+</footer>
+
+<script>
+const canvas = document.getElementById('spectralWidget');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = 150;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// Generate synthetic data and model
+const N = 600;
+let spectrum = new Array(N);
+let model = new Array(N);
+let wavelength = new Array(N);
+for (let i = 0; i < N; i++) {
+    const x = i / N * 10;
+    wavelength[i] = x;
+    spectrum[i] = 15 + 6 * Math.sin(x * 0.6) + Math.random() * 2;
+    model[i] = 15 + 6 * Math.sin(x * 0.6 + 0.1) + Math.random() * 1; // trailing model
+}
+
+let progress = 0;
+const fadeLength = 80; // Number of points over which to fade out
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const margin = 0;
+    const w = canvas.width - 2 * margin;
+    const h = canvas.height - 2 * margin;
+
+    const maxY = Math.max(...spectrum) + 5;
+    const minY = Math.min(...spectrum) - 5;
+
+    const toCanvas = (x, y) => [
+        margin + (x / 10) * w,
+        canvas.height - margin - ((y - minY) / (maxY - minY)) * h
+    ];
+
+    // Draw spectrum with fade
+    ctx.lineWidth = 2;
+    for (let i = Math.max(1, progress - fadeLength); i < progress && i < N; i++) {
+        let alpha = (i - (progress - fadeLength)) / fadeLength; // 0..1 fade factor
+        ctx.strokeStyle = `rgba(70,130,180,${alpha.toFixed(2)})`; // steelblue fade
+
+        ctx.beginPath();
+        const [x0, y0] = toCanvas(wavelength[i - 1], spectrum[i - 1]);
+        const [x1, y1] = toCanvas(wavelength[i], spectrum[i]);
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.stroke();
+    }
+
+    // Draw model with fade
+    for (let i = Math.max(1, progress - fadeLength - 20); i < progress - 20 && i < N; i++) {
+        if(i < 1) continue;
+        let alpha = (i - (progress - fadeLength - 20)) / fadeLength; // same fade factor shifted by delay
+        if(alpha < 0) alpha = 0;
+        if(alpha > 1) alpha = 1;
+
+        ctx.strokeStyle = `rgba(218,165,32,${alpha.toFixed(2)})`; // goldenrod fade
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        const [x0, y0] = toCanvas(wavelength[i - 1], model[i - 1]);
+        const [x1, y1] = toCanvas(wavelength[i], model[i]);
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.stroke();
+    }
+
+    // Increment progress and loop
+    if (progress < N + fadeLength + 20) {
+        progress += 2;
+        requestAnimationFrame(draw);
+    } else {
+        progress = 0; // Loop animation
+        setTimeout(() => requestAnimationFrame(draw), 1000);
+    }
+}
+
+draw();
+</script>
+
+
+
+
+
+
+
+
+  
+</body>
+</html>
+

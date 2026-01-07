@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SDSS - FIREFLY</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+  <!-- Topbar -->
+  <div class="topbar" id="topbar">
+    <div class="logo-area">
+      <a href="index.html" class="home-link">
+        <img src="images/AIfly.png" alt="Logo" class="logo-img" />
+        <span class="firefly-title">FIREFLY</span>
+      </a>
+    </div>
+
+    <button class="Btn-git" onclick="window.open('https://github.com/FireflySpectra/firefly_release', '_blank')">
+      <svg class="svgIcon-git" viewBox="0 0 496 512" height="1.4em" xmlns="http://www.w3.org/2000/svg"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+      <span class="text-git">Github</span>
+    </button>
+
+    <div class="menu-icon" id="menuIcon" tabindex="0" aria-label="Open menu"><span></span><span></span><span></span></div>
+    <div class="menu-drawer" id="menuDrawer">
+      <ul>
+        <li><a href=index.html#intro">About</a></li>
+        <li><a href="demofitter.html">FIREFLY Demo</a></li>
+        <li>
+          <a href="index.html#install">Install →</a>
+          <ul>
+            <li><a href="installation.html">Installation</a></li>
+            <li><a href="configuration.html">Configuration</a></li>
+            <li><a href="start-fitting.html">Launch</a></li>
+          </ul>
+        </li>
+        <li><a href="index.html#models">Models</a></li>
+        <li>
+          <a href="index.html#surveys">Surveys →</a>
+          <ul>
+            <li><a href="desi.html">DESI</a></li>
+            <li><a href="sdss.html">SDSS</a></li>
+          </ul>
+        </li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="index.html#contact">Usage</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Hero + credit -->
+  <div class="image-credit-wrapper">
+    <header class="hero-sdss"></header>
+    <div class="image-credit">
+      Credit: SDSS/David Law — <a href="https://www.sdss.org/science/image-gallery/" target="_blank" rel="noopener">CC BY 4.0</a>
+    </div>
+  </div>
+
+  <header><h1 class="ffx-reveal">SDSS</h1></header>
+
+  <section class="section light">
+
+
+<div class="sdss-timeline-wrapper ffx-reveal">
+
+  <div class="sdss-timeline-line"></div>
+
+  <!-- SDSS-I -->
+  <a href="https://classic.sdss.org/home.php"
+     target="_blank"
+     class="sdss-stage above"
+     style="left: 16%;">
+    <div class="sdss-connector"></div>
+    <span class="sdss-dot"></span>
+    <div class="sdss-label">
+      <strong>SDSS-I</strong>
+      <span>2000 - 2005</span>
+      <p>Conducted large-scale deep imaging and spectroscopy over ~8,000 deg², producing multi-colour imaging and spectra of over 700,000 galaxies, quasars and stars</p>
+    </div>
+  </a>
+
+  <!-- SDSS-II -->
+  <a href="https://classic.sdss.org/home.php"
+     target="_blank"
+     class="sdss-stage below"
+     style="left: 30%;">
+    <div class="sdss-connector"></div>
+    <span class="sdss-dot"></span>
+    <div class="sdss-label">
+      <strong>SDSS-II</strong>
+      <span>2005 - 2008</span>
+      <p>Completed imaging of half the northern sky, mapping ~1 million galaxies and ~100,000 quasars; included the Supernova Survey and SEGUE mapping 230,000 Milky Way stars</p>
+    </div>
+  </a>
+
+  <!-- SDSS-III -->
+  <a href="https://www.sdss3.org/"
+     target="_blank"
+     class="sdss-stage above"
+     style="left: 44%;">
+    <div class="sdss-connector"></div>
+    <span class="sdss-dot"></span>
+    <div class="sdss-label">
+      <strong>SDSS-III</strong>
+      <span>2008 - 2014</span>
+      <p>Four coordinated surveys including BOSS (largest 3D map of galaxies), APOGEE infrared stellar spectra, SEGUE-2 and MARVELS exoplanet search</p>
+    </div>
+  </a>
+
+  <!-- SDSS-IV -->
+  <a href="https://www.sdss4.org/surveys/"
+     target="_blank"
+     class="sdss-stage below"
+     style="left: 63%;">
+    <div class="sdss-connector"></div>
+    <span class="sdss-dot"></span>
+    <div class="sdss-label">
+      <strong>SDSS-IV</strong>
+      <span>2014 - 2020</span>
+      <p>Comprised eBOSS for cosmology, APOGEE-2 for Galactic chemo-dynamics, and MaNGA for spatially resolved spectroscopy of ~10,000 nearby galaxies</p>
+    </div>
+  </a>
+
+  <!-- SDSS-V -->
+  <a href="https://www.sdss.org/"
+     target="_blank"
+     class="sdss-stage above future"
+     style="left: 78%;">
+    <div class="sdss-connector"></div>
+    <span class="sdss-dot future-dot"></span>
+    <div class="sdss-label">
+      <strong>SDSS-V</strong>
+      <span>2020 - present</span>
+      <p>Pioneering panoptic spectroscopy: Milky Way Mapper (>4 million stars), Local Volume Mapper and Black Hole Mapper with targeting 300,000 quasars</p>
+    </div>
+  </a>
+
+  <div class="sdss-future-extension"></div>
+
+</div>
+
+  <h3 class="ffx-reveal">Foundations of Modern Survey Astronomy</h3>
+  <p class="ffx-reveal">
+  The Sloan Digital Sky Survey redefined how the Universe is observed and quantified, delivering some of the first precise, three-dimensional maps of galaxies, quasars and large-scale structure. By combining some of the most advanced imaging technology at the time with massive spectroscopic campaigns, SDSS enabled detailed studies of galaxy formation, the assembly of the Milky Way and the cosmological distribution of matter, estabilishing some of the most cited research in Astronomy that continues to underpin modern astrophysics and constrain cosmological models.
+  </p>
+
+    <div class="desi-image-grid ffx-reveal" style="margin-top: -0px;">
+      <div class="image-credit-wrapper">
+        <img src="images/LVM_by_maximilian_haaberle-768x511.jpg" alt="SDSSimage2">
+        <div class="image-credit">Credit: SDSS/Maximilian Haaberle — <a href="https://www.sdss.org/science/image-gallery/" target="_blank" rel="noopener">CC BY 4.0</a></div>
+      </div>
+
+      <div class="right-images">
+        <div class="image-credit-wrapper">
+          <img src="images/SDSS_telescope_new.jpg" alt="SDSSimage3">
+        <div class="image-credit">Credit: SDSS — <a href="https://www.sdss.org/science/image-gallery/" target="_blank" rel="noopener">CC BY 4.0</a></div>
+      </div>
+
+        <div class="image-credit-wrapper">
+          <img src="images/pLasCampanas.jpg" alt="SDSSimage4">
+        <div class="image-credit">Credit: SDSS/LCO — <a href="https://www.sdss.org/science/image-gallery/" target="_blank" rel="noopener">CC BY 4.0</a></div>
+      </div>
+      </div>
+    </div>
+
+    <p class="ffx-reveal">SDSS spectroscopic programmes (including BOSS and eBOSS) delivered vast, comprehensive spectroscopic samples that serve as the perfect low-redshift anchor for stellar population studies and as the original development datasets for many spectral fitting codes such as FIREFLY.</p>
+
+<!-- ========================================================= -->
+<!-- FIREFLY + SDSS (Chapman, DR17)                             -->
+<!-- ========================================================= -->
+
+<h2 class="h-left ffx-reveal">FIREFLY applied to SDSS</h2>
+<div class="sdss-applied-wrapper ffx-reveal">
+  <p class="sdss-intro ffx-reveal">
+    FIREFLY has been successfully deployed to a wide range of SDSS spectroscopic programmes, producing Value-Added Catalogs (VACs) of galaxies spanning many data releases.
+  </p>
+
+  <!-- ================= INTEGRATED SPECTRA ================= -->
+  <section class="sdss-block ffx-reveal">
+    <h3 class="ffx-reveal">Integrated galaxy spectra — BOSS + eBOSS (DR17)</h3>
+
+    <ul class="vac-list ffx-reveal">
+      <li>Derived using MaStar-based stellar population models with a Kroupa IMF</li>
+      <li>Ages limited by the age of the Universe at each galaxy redshift</li>
+      <li>Dust attenuation modelled using Calzetti law</li>
+      <li>Provides a full comprehensive set of derived parameters including integrated stellar masses, ages (luminosity and mass-weighted), stellar metallicities, E(B-V) values and fit diagnostics</li>
+    </ul>
+
+    <div class="catalog-row space-theme-gradient ffx-reveal">
+      <article class="catalog-card">
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="card-title">DR17 VAC (Jack Chapman)</div>
+            <div class="card-badge">1.9M</div>
+          </div>
+
+          <div class="download-row">
+            <div class="btn-container">
+              <a class="space-btn" href="#" title="Chapman DR17 BOSS/eBOSS FIREFLY VAC repository">
+                <span>⤓ SDSS DR17 FIREFLY VAC</span>
+                <div class="star" style="left:12px; top:8px; animation-delay:0.2s;"></div>
+                <div class="star" style="left:36px; top:22px; animation-delay:0.6s;"></div>
+                <div class="star" style="left:68px; top:6px; animation-delay:1.1s;"></div>
+                <div class="star" style="left:96px; top:30px; animation-delay:0.4s;"></div>
+                <div class="star" style="left:140px; top:12px; animation-delay:1.7s;"></div>
+                <div class="star" style="left:176px; top:6px; animation-delay:0.9s;"></div>
+                <div class="star" style="left:200px; top:36px; animation-delay:1.3s;"></div>
+                <div class="shooting-star shooting-star-1" style="animation-delay:3s;"></div>
+                <div class="shooting-star shooting-star-2" style="animation-delay:6s;"></div>
+              </a>
+            </div>
+          </div>
+
+          <div class="sdss-btn-row">
+            <a class="sdss-link-btn" href="https://www.sdss4.org/dr17/spectro/galaxy_firefly/" target="_blank">SDSS DR17 Site</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+  <p class="sdss-note ffx-reveal" style= "margin-top:20px;">
+    The SDSS DR17 FIREFLY VAC (by Jack Chapman) provides stellar population parameters for 1,913,207 galaxies from the SDSS DR17 BOSS and eBOSS spectroscopic programmes. The distributions below are derived from the SDSS DR17 BOSS/eBOSS FIREFLY. The VAC can be downloaded directly from the FIREFLY repository and is not distributed through the SDSS SAS.
+  </p>
+
+    <div class="desi-image-grid ffx-reveal"
+      style="margin-top:12px; grid-template-columns: repeat(2, 1fr); gap:12px;">
+
+    <div class="image-credit-wrapper">
+      <img src="images/chapman_snr_dist.jpeg" alt="Signal-to-noise distribution">
+      <div class="image-credit">
+        Credit: Jack Chapman (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> 
+      </div>
+    </div>
+
+    <div class="image-credit-wrapper">
+      <img src="images/chapman_redshift_dist.jpeg" alt="Redshift distribution">
+      <div class="image-credit">
+        Credit: Jack Chapman (FIREFLY Collaboration) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+      </div>
+    </div>
+  </div>
+
+  <p class="ffx-reveal">
+    The Chapman DR17 FIREFLY VAC showcases FIREFLY's ability to produce vast datasets suitable for studying galaxies through a range characteristics and investigating starformation hitories, mass functions, age-mass relations,
+    and metallicity trends.
+  </p>
+
+  <div class="desi-image-grid ffx-reveal"
+       style="margin-top:12px; grid-template-columns: repeat(2, 1fr); gap:12px;">
+
+    <div class="image-credit-wrapper">
+      <img src="images/chapman_age_dist.jpeg" alt="Age distribution">
+      <div class="image-credit">Credit: Jack Chapman — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+    </div>
+
+    <div class="image-credit-wrapper">
+      <img src="images/chapman_metallicity_dist.jpeg" alt="Metallicity distribution">
+      <div class="image-credit">Credit: Jack Chapman — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+    </div>
+
+    <div class="image-credit-wrapper">
+      <img src="images/chapman_mass_dist.jpeg" alt="Stellar mass distribution">
+      <div class="image-credit">Credit: Jack Chapman — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+    </div>
+
+    <div class="image-credit-wrapper">
+      <img src="images/chapman_ebv_dist.jpeg" alt="Dust attenuation distribution">
+      <div class="image-credit">Credit: Jack Chapman — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+    </div>
+
+    <div class="image-credit-wrapper">
+      <img src="images/chapman_age_vs_redshift.jpeg" alt="Age versus redshift">
+      <div class="image-credit">Credit: Jack Chapman — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+    </div>
+
+    <div class="image-credit-wrapper">
+      <img src="images/chapman_norm_mass_dist.jpeg" alt="Normalised mass distribution">
+      <div class="image-credit">Credit: Jack Chapman — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+    </div>
+  </div>
+</div>
+  <!-- ================= MANGA / IFU ================= -->
+  <section class="sdss-block ffx-reveal">
+    <h3 class="ffx-reveal">Spatially resolved spectroscopy — MaNGA</h3>
+    <p class="ffx-reveal">FIREFLY processed all MaNGA DR17 data, released as official MaNGA VACs listed on SDSS SAS.</p>
+
+    <ul class="vac-list ffx-reveal">
+      <li>Global properties, radial gradients, and fully spatially resolved stellar population maps</li>
+      <li>M11-MILES and MaStar-based stellar population model variants</li>
+      <li>Full star formation histories and mass assembly derived with FIREFLY</li>
+      <li>2-D maps of age, metallicity, stellar mass, dust attenuation, and remnant mass components</li>
+    </ul>
+
+    <div class="catalog-row space-theme-gradient ffx-reveal">
+      <!-- MaNGA DR17 Card -->
+      <article class="catalog-card">
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="card-title">MaNGA SDSS DR17 VAC</div>
+            <div class="card-badge">10,735</div>
+          </div>
+
+          <div class="download-row">
+            <div class="btn-container">
+              <a class="space-btn" href="https://data.sdss.org/sas/dr17/manga/spectro/firefly/v3_1_1/" target="_blank">
+                <span>⤓ MaNGA DR17 FIREFLY VAC</span>
+                <div class="star" style="left:12px; top:8px; animation-delay:0.2s;"></div>
+                <div class="star" style="left:36px; top:22px; animation-delay:0.6s;"></div>
+                <div class="star" style="left:68px; top:6px; animation-delay:1.1s;"></div>
+                <div class="star" style="left:96px; top:30px; animation-delay:0.4s;"></div>
+                <div class="star" style="left:140px; top:12px; animation-delay:1.7s;"></div>
+                <div class="star" style="left:176px; top:6px; animation-delay:0.9s;"></div>
+                <div class="star" style="left:200px; top:36px; animation-delay:1.3s;"></div>
+                <div class="shooting-star shooting-star-1" style="animation-delay:3s;"></div>
+                <div class="shooting-star shooting-star-2" style="animation-delay:6s;"></div>
+              </a>
+            </div>
+          </div>
+
+          <div class="sdss-btn-row">
+            <a class="sdss-link-btn" href="https://www.sdss4.org/dr17/manga/manga-data/manga-firefly-value-added-catalog/" target="_blank">DR17 VAC page</a>
+            <a class="sdss-link-btn" href="https://data.sdss.org/datamodel/files/MANGA_FIREFLY/FIREFLY_VER/manga_firefly.html" target="_blank">VAC Datamodel</a>
+            <a class="sdss-link-btn" href="https://ui.adsabs.harvard.edu/abs/2022MNRAS.513.5988N/abstract" target="_blank">VAC paper: Neumann et al. 2022</a>
+            <a class="sdss-link-btn" href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.466.4731G/abstract" target="_blank">VAC paper:Goddard et al. 2017</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- MaNGA DR15 Card -->
+      <article class="catalog-card">
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="card-title">MaNGA SDSS DR15 VAC</div>
+            <div class="card-badge">4,675</div>
+          </div>
+
+          <div class="download-row">
+            <div class="btn-container">
+              <a class="space-btn" href="https://data.sdss.org/sas/dr15/manga/spectro/firefly/v1_1_2/" target="_blank">
+                <span>⤓ MaNGA DR15 FIREFLY VAC</span>
+                <div class="star" style="left:12px; top:8px; animation-delay:0.3s;"></div>
+                <div class="star" style="left:36px; top:22px; animation-delay:0.7s;"></div>
+                <div class="star" style="left:68px; top:6px; animation-delay:1.2s;"></div>
+                <div class="star" style="left:96px; top:30px; animation-delay:0.5s;"></div>
+                <div class="star" style="left:140px; top:12px; animation-delay:1.8s;"></div>
+                <div class="star" style="left:176px; top:6px; animation-delay:1.0s;"></div>
+                <div class="star" style="left:200px; top:36px; animation-delay:1.4s;"></div>
+                <div class="shooting-star shooting-star-3" style="animation-delay:4s;"></div>
+                <div class="shooting-star shooting-star-4" style="animation-delay:7s;"></div>
+              </a>
+            </div>
+          </div>
+
+          <div class="sdss-btn-row">
+            <a class="sdss-link-btn" href="https://www.sdss4.org/dr15/manga/manga-data/manga-firefly-value-added-catalog/" target="_blank">DR15 VAC page</a>
+            <a class="sdss-link-btn" href="https://data.sdss.org/datamodel/files/MANGA_FIREFLY/FIREFLY_VER/manga_firefly.html" target="_blank">VAC Datamodel</a>
+            <a class="sdss-link-btn" href="https://ui.adsabs.harvard.edu/abs/2018MNRAS.477.3954P/abstract" target="_blank">VAC paper: Parikh et al. 2018</a>
+            <a class="sdss-link-btn" href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.466.4731G/abstract" target="_blank">VAC paper: Goddard et al. 2017</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="sdss-block ffx-reveal">
+    <h3 class="ffx-reveal">SDSS+BOSS+eBOSS DR16</h3>
+    <p class="ffx-reveal">All SDSS+BOSS+eBOSS DR16 data was processed with FIREFLY, released as official eBOSS VACs on SDSS SAS with both DR16 and DR14 products.</p>
+
+    <ul class="vac-list ffx-reveal">
+      <li>Galaxy stellar population properties (ages, metallicities, stellar masses) from full spectral fitting with FIREFLY</li>
+      <li>Nearly double the number of galaxies characterised compared to previous SDSS FIREFLY VACs</li>
+      <li>Nine model configurations combining Chabrier, Kroupa, and Salpeter IMFs with MILES, ELODIE, and STELIB libraries</li>
+      <li>General catalog products plus plate-based spFlyPlate files with full star formation histories</li>
+    </ul>
+
+    <div class="catalog-row space-theme-gradient ffx-reveal">
+      <!-- BOSS/eBOSS DR16 Card -->
+      <article class="catalog-card">
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="card-title">SDSS+BOSS+eBOSS DR16 VAC</div>
+          </div>
+
+          <div class="download-row">
+            <div class="btn-container">
+              <a class="space-btn" href="https://data.sdss.org/sas/dr16/eboss/spectro/firefly/v1_1_0/" target="_blank">
+                <span>⤓ SDSS DR16 FIREFLY VAC</span>
+                <div class="star" style="left:12px; top:8px; animation-delay:0.2s;"></div>
+                <div class="star" style="left:36px; top:22px; animation-delay:0.6s;"></div>
+                <div class="star" style="left:68px; top:6px; animation-delay:1.1s;"></div>
+                <div class="star" style="left:96px; top:30px; animation-delay:0.4s;"></div>
+                <div class="star" style="left:140px; top:12px; animation-delay:1.7s;"></div>
+                <div class="star" style="left:176px; top:6px; animation-delay:0.9s;"></div>
+                <div class="star" style="left:200px; top:36px; animation-delay:1.3s;"></div>
+                <div class="shooting-star shooting-star-1" style="animation-delay:3s;"></div>
+                <div class="shooting-star shooting-star-2" style="animation-delay:6s;"></div>
+              </a>
+            </div>
+          </div>
+
+          <div class="sdss-btn-row">
+            <a class="sdss-link-btn" href="https://www.sdss4.org/dr17/spectro/eboss-firefly-value-added-catalog/" target="_blank">DR16 VAC page</a>
+            <a class="sdss-link-btn" href="https://data.sdss.org/datamodel/files/EBOSS_FIREFLY/FIREFLY_VER/sdss_eboss_firefly-DR16.html" target="_blank">VAC Datamodel</a>
+            <a class="sdss-link-btn" href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.467.3932C" target="_blank">VAC paper: Comparat et al. 2017</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- BOSS/eBOSS DR14 Card -->
+      <article class="catalog-card">
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="card-title">SDSS+BOSS+eBOSS DR14 VAC</div>
+
+          </div>
+
+          <div class="download-row">
+            <div class="btn-container">
+              <a class="space-btn" href="https://data.sdss.org/sas/dr14/eboss/spectro/firefly/v1_0_4/" target="_blank">
+                <span>⤓ SDSS DR14 FIREFLY VAC</span>
+                <div class="star" style="left:12px; top:8px; animation-delay:0.3s;"></div>
+                <div class="star" style="left:36px; top:22px; animation-delay:0.7s;"></div>
+                <div class="star" style="left:68px; top:6px; animation-delay:1.2s;"></div>
+                <div class="star" style="left:96px; top:30px; animation-delay:0.5s;"></div>
+                <div class="star" style="left:140px; top:12px; animation-delay:1.8s;"></div>
+                <div class="star" style="left:176px; top:6px; animation-delay:1.0s;"></div>
+                <div class="star" style="left:200px; top:36px; animation-delay:1.4s;"></div>
+                <div class="shooting-star shooting-star-3" style="animation-delay:4s;"></div>
+                <div class="shooting-star shooting-star-4" style="animation-delay:7s;"></div>
+              </a>
+            </div>
+          </div>
+
+          <div class="sdss-btn-row">
+            <a class="sdss-link-btn" href="https://www.sdss4.org/dr17/spectro/eboss-firefly-value-added-catalog/" target="_blank">DR14 VAC page</a>
+            <a class="sdss-link-btn" href="https://data.sdss.org/datamodel/files/EBOSS_FIREFLY/FIREFLY_VER/sdss_eboss_firefly-DR14.html" target="_blank">VAC Datamodel</a>
+            <a class="sdss-link-btn" href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.467.3932C" target="_blank">VAC paper: Comparat et al. 2017</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+</section>
+
+<style>
+/* ===== SDSS VAC Card System - Matching DESI Style ===== */
+:root{
+  --border-grad: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
+  --card-radius: 12px;
+  --btn-gradient: linear-gradient(80deg, #f89b29, #ec38bc, #7303c0, #03001e);
+  --sdss-btn-grad: linear-gradient(120deg, rgba(247,186,43,0.95), rgba(234,83,88,0.95));
+}
+
+/* Layout */
+.catalog-row.space-theme-gradient{
+  display:flex;
+  gap:2rem;
+  flex-wrap:wrap;
+  justify-content:center;
+  max-width:1140px;
+  margin:2rem auto;
+  padding:0 12px;
+}
+
+/* Card with gradient border + white interior */
+.catalog-card{
+  background: var(--border-grad);
+  padding: 5px;
+  border-radius: var(--card-radius);
+  width: 400px;
+  box-shadow: 0 14px 14px rgba(0,0,0,0.25);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.catalog-card:hover{ 
+  transform: translateY(-6px); 
+  box-shadow: 0 26px 70px rgba(0,0,0,0.45); 
+}
+
+.card-inner{
+  background: #fff;
+  color: #919191;
+  border-radius: calc(var(--card-radius) - 2px);
+  padding: 20px 20px 18px 20px;
+  min-height: auto;
+  position: relative;
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top row: title + badge */
+.card-top{ 
+  display:flex; 
+  align-items:center; 
+  justify-content:space-between; 
+  gap:12px; 
+  margin-bottom:10px; 
+}
+
+.card-title{ 
+  font-size:18px; 
+  font-weight:700; 
+  color:#000000; 
+}
+
+.card-badge{
+  background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100% );
+  padding:6px 10px;
+  border-radius:8px;
+  font-weight:800;
+  color:#000000;
+  box-shadow: inset 0 0 8px rgba(255,255,255,0.35), 0 8px 18px rgba(0,0,0,0.06);
+}
+
+/* Highlights list */
+.card-highlights{ 
+  margin:6px 0 16px 0; 
+  padding-left:1.5rem; 
+  color:#919191; 
+}
+
+.card-highlights li{ 
+  margin-bottom:0px; 
+}
+
+/* Download row */
+.download-row{ 
+  display:flex; 
+  justify-content: center; 
+  gap:12px; 
+  flex-wrap:wrap; 
+  align-items:flex-start; 
+  margin-top:6px; 
+}
+
+.btn-container{ 
+  display:flex; 
+  flex-direction:column; 
+  align-items:center; 
+  gap:8px; 
+  position: relative;
+  flex: 1 1 calc(50% - 6px);
+  min-width: 120px;
+}
+
+/* Starry catalog button (from DESI) */
+.space-btn{
+  display:block;
+  width:100%;
+  height:40px;
+  border-radius:11px;
+  position:relative;
+  overflow:hidden;
+  text-decoration:none;
+  background: var(--btn-gradient);
+  color:#fff;
+  font-weight:700;
+  font-size:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow: inset 0 0 8px rgba(255,255,255,0.06), 0 10px 28px rgba(115,67,219,0.12);
+  transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s;
+}
+
+.btn-container::after{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  left:0;
+  top:0;
+  border-radius:11px;
+  background: var(--btn-gradient);
+  filter: blur(18px);
+  opacity:0;
+  z-index:-1;
+  transition: opacity .45s cubic-bezier(.15,.83,.66,1), transform .45s;
+}
+
+.btn-container:hover::after{ 
+  opacity:0.55; 
+  transform: scale(1.02); 
+}
+
+.space-btn:hover{ 
+  transform: translateY(-5px); 
+  box-shadow: 0 18px 46px rgba(115,67,219,0.18); 
+}
+
+/* Star dots */
+.space-btn .star{
+  position:absolute;
+  width:2px; 
+  height:2px;
+  background:white;
+  border-radius:50%;
+  opacity:0.95;
+  box-shadow: 0 0 6px rgba(255,255,255,0.9);
+  animation: blink 2.8s linear infinite;
+}
+
+/* Shooting stars */
+.space-btn .shooting-star{
+  position:absolute;
+  width:90px; 
+  height:2px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.0));
+  border-radius:50%;
+  transform: rotate(-30deg);
+  opacity:0;
+}
+
+.space-btn .shooting-star-1{ animation: fallingStar1 5.5s 0s cubic-bezier(.15,.83,.66,1) infinite; }
+.space-btn .shooting-star-2{ animation: fallingStar2 6.2s 1.4s cubic-bezier(.15,.83,.66,1) infinite; }
+.space-btn .shooting-star-3{ animation: fallingStar3 8.0s 2.2s cubic-bezier(.15,.83,.66,1) infinite; }
+.space-btn .shooting-star-4{ animation: fallingStar4 7.0s 4.1s cubic-bezier(.15,.83,.66,1) infinite; }
+
+/* Keyframes */
+@keyframes blink {
+  0% { opacity:0.35; box-shadow:0 0 2px rgba(255,255,255,0.8); transform: scale(0.9); }
+  50% { opacity:1; box-shadow:0 0 8px rgba(255,255,255,1); transform: scale(1.1); }
+  100% { opacity:0.35; transform: scale(0.95); }
+}
+
+@keyframes fallingStar1 {
+  0% { top:-20px; left:220px; opacity:0; }
+  10% { opacity:1; }
+  100% { top:200px; left:-40px; opacity:0; }
+}
+@keyframes fallingStar2 {
+  0% { top:-10px; left:180px; opacity:0; }
+  10% { opacity:1; }
+  100% { top:200px; left:-80px; opacity:0; }
+}
+@keyframes fallingStar3 {
+  0% { top:-10px; left:140px; opacity:0; }
+  10% { opacity:1; }
+  100% { top:200px; left:-160px; opacity:0; }
+}
+@keyframes fallingStar4 {
+  0% { top:-10px; left:80px; opacity:0; }
+  10% { opacity:1; }
+  100% { top:200px; left:-240px; opacity:0; }
+}
+
+/* SDSS-style buttons for Site/Paper links */
+.sdss-btn-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:10px;
+  justify-content:center;
+  align-items: flex-start;
+}
+
+.sdss-link-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:40px;
+  padding:0 16px;
+  background: var(--sdss-btn-grad);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 11px;
+  text-decoration:none;
+  box-shadow: 0 4px 12px rgba(247,186,43,0.2);
+  transition: transform .2s ease, box-shadow .2s;
+  font-size:15px;
+  white-space: nowrap;
+  flex: 1 1 calc(50% - 5px);
+  min-width: 120px;
+}
+
+/* VAC paper buttons take full width */
+.sdss-link-btn[href*="adsabs.harvard.edu"] {
+  flex: 1 1 100%;
+}
+
+/* Odd button stretches full width */
+.sdss-link-btn:nth-child(odd):last-child {
+  flex: 1 1 100%;
+}
+
+.sdss-link-btn:hover{ 
+  transform: translateY(-2px); 
+  box-shadow: 0 8px 20px rgba(247,186,43,0.3); 
+}
+
+/* Small screens */
+@media (max-width:1000px){
+  .catalog-row.space-theme-gradient{ gap:1rem; }
+  .catalog-card{ width:100%; max-width:640px; }
+  .btn-container{ width:48%; }
+  .card-inner{ padding:16px; }
+}
+</style>
+
+  <footer>
+    <div style="max-width:1200px; margin:auto; padding: 20px; display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:20px; font-size:0.95em;">
+      <div>
+        <h4 style="color:#f7ba2b; margin-bottom:8px;">Information</h4>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li><a href="index.html#intro" style="color:white; text-decoration:none;">About</a></li>
+          <li><a href="index.html#models" style="color:white; text-decoration:none;">Models</a></li>
+          <li><a href="index.html#contact" style="color:white; text-decoration:none;">Usage</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="color:#f7ba2b; margin-bottom:8px;">Get Started</h4>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li><a href="installation.html" style="color:white; text-decoration:none;">Installation</a></li>
+          <li><a href="configuration.html" style="color:white; text-decoration:none;">Configuration</a></li>
+          <li><a href="start-fitting.html" style="color:white; text-decoration:none;">Launch</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="color:#f7ba2b; margin-bottom:8px;">Projects</h4>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li><a href="publications.html" style="color:white; text-decoration:none;">Publications</a></li>
+          <li><a href="desi.html" style="color:white; text-decoration:none;">DESI</a></li>
+          <li><a href="sdss.html" style="color:white; text-decoration:none;">SDSS</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="color:#f7ba2b; margin-bottom:8px;">Data</h4>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li><a href="demofitter.html" style="color:white; text-decoration:none;">FIREFLY Demo</a></li>
+          <li><a href="index.html#gallery" style="color:white; text-decoration:none;">Gallery</a></li>
+          <li><a href="index.html#sky-map" style="color:white; text-decoration:none;">Sky Map</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="width:100%;margin:auto;">
+      <canvas id="spectralWidget" style="width:100%;height:auto;"></canvas>
+    </div>
+
+    <p style="font-size: 0.85em; color: #868686;">
+      &copy; 2026 Samuel Helps (FIREFLY Collaboration) | Code: 
+      <a href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W" target="_blank">Wilkinson et al. (2017)</a>, 
+      <a href="https://ui.adsabs.harvard.edu/abs/2022MNRAS.513.5988N" target="_blank">Neumann et al. (2022)</a> |
+      Site & Infrastructure: Samuel Helps |
+      <a href="credits.html">Credits</a>
+    </p>
+
+    <p style="font-size: 0.85em; color: #868686;">
+      Code licensed under <a href="../LICENSE.md">MIT</a> | Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+    </p>
+  </footer>
+
+  <!-- Spectral widget script (keeps existing animation) -->
+  <script>
+  const canvas = document.getElementById('spectralWidget');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = 150;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const N = 600;
+    let spectrum = new Array(N), model = new Array(N), wavelength = new Array(N);
+    for (let i = 0; i < N; i++) {
+        const x = i / N * 10;
+        wavelength[i] = x;
+        spectrum[i] = 15 + 6 * Math.sin(x * 0.6) + Math.random() * 2;
+        model[i] = 15 + 6 * Math.sin(x * 0.6 + 0.1) + Math.random() * 1;
+    }
+
+    let progress = 0;
+    const fadeLength = 80;
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const margin = 0;
+        const w = canvas.width - 2 * margin;
+        const h = canvas.height - 2 * margin;
+        const maxY = Math.max(...spectrum) + 5;
+        const minY = Math.min(...spectrum) - 5;
+        const toCanvas = (x, y) => [
+            margin + (x / 10) * w,
+            canvas.height - margin - ((y - minY) / (maxY - minY)) * h
+        ];
+
+        ctx.lineWidth = 2;
+        for (let i = Math.max(1, progress - fadeLength); i < progress && i < N; i++) {
+            let alpha = (i - (progress - fadeLength)) / fadeLength;
+            ctx.strokeStyle = `rgba(70,130,180,${alpha.toFixed(2)})`;
+            ctx.beginPath();
+            const [x0, y0] = toCanvas(wavelength[i - 1], spectrum[i - 1]);
+            const [x1, y1] = toCanvas(wavelength[i], spectrum[i]);
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x1, y1);
+            ctx.stroke();
+        }
+
+        for (let i = Math.max(1, progress - fadeLength - 20); i < progress - 20 && i < N; i++) {
+            if(i < 1) continue;
+            let alpha = (i - (progress - fadeLength - 20)) / fadeLength;
+            alpha = Math.min(Math.max(alpha, 0), 1);
+            ctx.strokeStyle = `rgba(218,165,32,${alpha.toFixed(2)})`;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            const [x0, y0] = toCanvas(wavelength[i - 1], model[i - 1]);
+            const [x1, y1] = toCanvas(wavelength[i], model[i]);
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x1, y1);
+            ctx.stroke();
+        }
+
+        if (progress < N + fadeLength + 20) {
+            progress += 2;
+            requestAnimationFrame(draw);
+        } else {
+            progress = 0;
+            setTimeout(() => requestAnimationFrame(draw), 1000);
+        }
+    }
+
+    draw();
+  }
+  </script>
+</body>
+</html>

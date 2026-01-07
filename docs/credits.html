@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FIREFLY — Credits</title>
+  <link rel="stylesheet" href="css\style.css" />
+  <script src="js\script.js" defer></script>
+</head>
+<body>
+  <!-- Topbar: black bar with logo, title, and menu icon -->
+  <div class="topbar" id="topbar">
+  <div class="logo-area">
+    <a href="index.html" class="home-link">
+      <img src="images/AIfly.png" alt="Logo" class="logo-img" />
+      <span class="firefly-title">FIREFLY</span>
+    </a>
+  </div>
+<!-- From Uiverse.io by vinodjangid07 --> 
+  <button class="Btn-git" onclick="window.open('https://github.com/FireflySpectra/firefly_release', '_blank')">
+    <svg class="svgIcon-git" viewBox="0 0 496 512" height="1.4em" xmlns="https://github.com/FireflySpectra/firefly_release"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+    <span class="text-git">Github</span>
+  </button>
+  <div class="menu-icon" id="menuIcon" tabindex="0" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+    <div class="menu-drawer" id="menuDrawer">
+      <ul>
+        <li><a href=index.html#intro">About</a></li>
+        <li><a href="demofitter.html">FIREFLY Demo</a></li>
+        <li>
+          <a href="index.html#install">Install →</a>
+          <ul>
+            <li><a href="installation.html">Installation</a></li>
+            <li><a href="configuration.html">Configuration</a></li>
+            <li><a href="start-fitting.html">Launch</a></li>
+          </ul>
+        </li>
+        <li><a href="index.html#models">Models</a></li>
+        <li>
+          <a href="index.html#surveys">Surveys →</a>
+          <ul>
+            <li><a href="desi.html">DESI</a></li>
+            <li><a href="sdss.html">SDSS</a></li>
+          </ul>
+        </li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="index.html#contact">Usage</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+
+<style>
+:root{
+--ffpub-accent: #f7ba2b;
+--ffpub-accent-2: #ea5358;
+--ffpub-dim: #6b7c95;
+--ffpub-radius: 12px;
+}
+
+
+/* keep topbar above everything (if site uses fixed topbar, this won't hurt) */
+.topbar{z-index:1200}
+/* Center explorer panel: white opaque box in the middle so stars show at the sides */
+#ffpub-root{ max-width:980px; margin:24px auto; padding:28px; border-radius:14px; box-shadow:0 30px 60px rgba(5,8,15,0.6); background:#ffffff; color:#071021; position:relative; z-index:10; }
+
+
+/* header */
+.ffpub-header{display:flex;align-items:center;gap:18px;margin-bottom:18px}
+.ffpub-logo{width:64px;height:64px;border-radius:50%;background:conic-gradient(from 120deg, var(--ffpub-accent), var(--ffpub-accent-2), #f0c66a);display:flex;align-items:center;justify-content:center;color:#071021;font-weight:700;font-size:18px;box-shadow:inset 0 -6px 12px rgba(0,0,0,0.08)}
+.ffpub-title{font-size:20px;font-weight:700;margin:0}
+.ffpub-sub{font-size:13px;color:var(--ffpub-dim);margin:0}
+
+
+.ffpub-controls{display:flex;gap:12px;align-items:center;margin:18px 0 22px}
+.ffpub-search{flex:1;display:flex;align-items:center;background:#f3f6fb;border:1px solid #e9eef6;padding:10px 12px;border-radius:10px;gap:10px}
+.ffpub-search input{flex:1;background:transparent;border:0;color:#071021;outline:none;font-size:14px}
+.ffpub-btn{background:linear-gradient(90deg,var(--ffpub-accent),var(--ffpub-accent-2));color:#071021;padding:8px 12px;border-radius:10px;border:none;font-weight:600;cursor:pointer}
+.ffpub-filterbar{display:flex;gap:8px;flex-wrap:wrap}
+.ffpub-filter{background:#f3f6fb;padding:7px 10px;border-radius:8px;border:1px solid #e9eef6;color:var(--ffpub-dim);font-size:13px;cursor:pointer}
+.ffpub-filter.ffpub-active{background:rgba(247,186,43,0.12);color:var(--ffpub-accent);border-color:rgba(247,186,43,0.18)}
+
+
+/* grid: force equal-height cards with grid-auto-rows + card height:100% */
+.ffpub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:20px;grid-auto-rows:1fr;align-items:start}
+.ffpub-card{background:linear-gradient(180deg, rgba(11,18,32,0.96), rgba(6,10,20,0.96));padding:14px;border-radius:var(--ffpub-radius);border:1px solid rgba(255,255,255,0.03);position:relative;overflow:hidden;transform-origin:center;transition:transform .22s ease, box-shadow .22s ease;display:flex;flex-direction:column;height:100%}
+.ffpub-card:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(6,10,20,0.6)}
+.ffpub-card::after{content:"";position:absolute;right:-40px;top:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(231,186,43,0.08), transparent 30%), radial-gradient(circle at 70% 70%, rgba(234,83,88,0.06), transparent 40%);filter:blur(8px);pointer-events:none}
+
+
+.ffpub-card-header{display:flex;align-items:start;gap:10px}
+.ffpub-card-badge{min-width:46px;height:46px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.02), rgba(0,0,0,0.05));display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--ffpub-accent);font-size:12px}
+.ffpub-card-title{font-weight:700;margin:0;font-size:15px;color:#fff}
+.ffpub-card-meta{color:rgba(255,255,255,0.7);font-size:12px;margin-top:6px}
+
+
+.ffpub-card-summary{color:rgba(255,255,255,0.72);font-size:13px;margin:10px 0 12px;line-height:1.35;min-height:56px;display:block}
+
+
+.ffpub-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto; padding-bottom:8px; }
+.ffpub-tag{font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02);color:rgba(255,255,255,0.7)}
+
+
+/* Actions anchored to bottom of card by pushing with margin-top:auto */
+.ffpub-actions{display:flex;gap:8px;margin-top:auto;align-items:center}
+.ffpub-link{background:transparent;color:var(--ffpub-accent);border:1px solid rgba(247,186,43,0.09);padding:8px 10px;border-radius:8px;font-weight:600;text-decoration:none}
+.ffpub-details{font-size:12px;color:rgba(255,255,255,0.6);margin-left:auto}
+
+
+.ffpub-spectrum{position:absolute;right:12px;top:12px;width:86px;height:34px;opacity:0.16;filter:drop-shadow(0 6px 10px rgba(0,0,0,0.4))}
+.credit-list, .package-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.credit-item, .package-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: #f3f6fb;
+  padding: 12px;
+  border-radius: var(--ffpub-radius);
+  border: 1px solid #e9eef6;
+}
+
+.credit-thumb, .package-thumb {
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.credit-details p, .package-item p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #071021;
+}
+
+.credit-details a {
+  color: var(--ffpub-accent);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+
+@media (max-width:640px){
+#ffpub-root{padding:16px;margin:12px}
+.ffpub-header{flex-direction:column;align-items:flex-start;gap:6px}
+#star-background{display:none} /* hide star field on tight mobile to reduce clutter */
+}
+</style>
+  
+</head>
+<body>
+  <div id="star-background" style="z-index:-1;">
+    <!-- Stars will be generated by JavaScript -->
+  </div>
+  <div id="ffpub-root" role="region" aria-label="FIREFLY Publications Explorer">
+<div class="ffpub-header">
+  <div>
+    <h1 class="ffpub-title">Credits & Acknowledgements</h1>
+    <p class="ffpub-sub">Image, Data, and Software Attribution</p>
+  </div>
+</div>
+
+<!-- Image Credits -->
+<section>
+  <h2 style="margin-bottom:12px;">Image Credits</h2>
+  <div class="credit-list">
+    <!-- Rubin -->
+    <div class="credit-item">
+      <img src="images/NSF–DOE Vera C. Rubin Observatory.jpg" alt="Rubin Observatory" class="credit-thumb" />
+      <div class="credit-details">
+        <p>NSF–DOE Vera C. Rubin Observatory — Virgo Cluster field showing spiral galaxies, merging systems, galaxy groups, and Milky Way stars.</p>
+        <p><a href="https://rubinobservatory.org/gallery/collections/first-look-gallery/32ejonfcf955v6luvhdvbd746c" target="_blank" rel="noopener">Source</a> | <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">Creative Commons BY 4.0</a></p>
+      </div>
+    </div>
+    <!-- Legacy Surveys -->
+    <div class="credit-item">
+      <img src="images/DemoGalaxies/galaxy12_thumb.jpg" alt="Legacy Surveys Sky" class="credit-thumb" />
+      <div class="credit-details">
+        <p>Legacy Surveys / D. Lang (Perimeter Institute) — Wide-field composite sky imaging from the Legacy Surveys project.</p>
+        <p><a href="https://www.legacysurvey.org/viewer" target="_blank" rel="noopener">Source</a> | <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">Creative Commons BY 4.0</a></p>
+      </div>
+    </div>
+    <!-- DESI Telescope -->
+    <div class="credit-item">
+      <img src="images/Desi_telescope.jpg" alt="DESI Mayall Telescope" class="credit-thumb" />
+      <div class="credit-details">
+        <p>Nicholas U. Mayall 4-meter Telescope at Kitt Peak National Observatory (2024). Credit: NOIRLab/NSF/AURA/P. Marenfeld.</p>
+        <p><a href="https://www.desi.lbl.gov/photos/" target="_blank" rel="noopener">Source</a> | <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">Creative Commons BY 4.0</a></p>
+      </div>
+    </div>
+    <!-- DESI Telescope internal dome -->
+    <div class="credit-item">
+      <img src="images/desi_telescope_internaldome.jpg" alt="DESI Mayall Telescope Interior" class="credit-thumb" />
+      <div class="credit-details">
+        <p>DESI's instrument, a long black cylinder supported by the metal telescope framework, points at the domed ceiling. The dome interior is bathed in blue light. Credit: Marilyn Sargent/Berkeley Lab</p>
+        <p><a href="https://www.desi.lbl.gov/photos/" target="_blank" rel="noopener">Source</a> | <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">Creative Commons BY 4.0</a></p>
+        <p>© 2025 The Regents of the University of California, Lawrence Berkeley National Laboratory</p>
+      </div>
+    </div>
+    <!-- DESI fan slice -->
+    <div class="credit-item">
+      <img src="images/desi_Y3_slicefan.jpg" alt="DESI Y3 Slice Fan" class="credit-thumb" />
+      <div class="credit-details">
+        <p>A slice of DESI's first three years of data, the largest 3D map of our universe ever made. Credit: DESI Collaboration and KPNO/NOIRLab/NSF/AURA/R. Proctor</p>
+        <p><a href="https://www.desi.lbl.gov/photos/" target="_blank" rel="noopener">Source</a> | <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">Creative Commons BY 4.0</a></p>
+      </div>
+    </div>
+    <!-- DESI observing night -->
+    <div class="credit-item">
+      <img src="images/desi_telescope_observingnight.jpg" alt="DESI Observing Night" class="credit-thumb" />
+      <div class="credit-details">
+        <p>DESI observes the sky from the Mayall Telescope, shown here beneath the Milky Way. Credit: KPNO/NOIRLab/NSF/AURA/R.T. Sparks</p>
+        <p><a href="https://www.desi.lbl.gov/photos/" target="_blank" rel="noopener">Source</a> | <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">Creative Commons BY 4.0</a></p>
+      </div>
+    </div>
+    <!-- SDSS Telescope -->
+    <div class="credit-item">
+      <img src="images/sdss_telescope_night(cropped).jpg" alt="SDSS Telescope" class="credit-thumb" />
+      <div class="credit-details">
+        <p>SDSS telescope at Apache Point Observatory during calibration with the cover closed and internal lamp illuminated. Credit: SDSS/David Law.</p>
+        <p><a href="https://www.sdss.org/science/image-gallery/" target="_blank" rel="noopener">Source</a> | <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">Creative Commons BY 4.0</a></p>
+      </div>
+    </div>
+
+    <div class="credit-item">
+      <img src="images/LVM_by_maximilian_haaberle-768x511.jpg" alt="SDSS image2" class="credit-thumb" />
+      <div class="credit-details">
+        <p>Two of the telescopes of the Local Volume Mapper with the roof of the enclosure open. Credit: SDSS/Maximilian Haaberle.</p>
+        <p><a href="https://www.sdss.org/science/image-gallery/" target="_blank" rel="noopener">Source</a> | <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">Creative Commons BY 4.0</a></p>
+      </div>
+    </div>
+    <div class="credit-item">
+      <img src="images/SDSS_telescope_new.jpg" alt="SDSS image3" class="credit-thumb" />
+      <div class="credit-details">
+        <p>The SDSS telescope at Apache Point Observatory shown here in daylight. Most telescopes sit inside domes to protect them in bad weather. However the protective enclosure of the SDSS telescope is built on rollers so the building itself moves out of the way to allow the telescope to observe. Here the telescope sits on its observing platform without the protective enclosure covering it. Credit: SDSS.</p>
+        <p><a href="https://www.sdss.org/science/image-gallery/" target="_blank" rel="noopener">Source</a> | <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">Creative Commons BY 4.0</a></p>
+      </div>
+    </div>
+    <div class="credit-item">
+      <img src="images/pLasCampanas.jpg" alt="SDSS image4" class="credit-thumb" />
+      <div class="credit-details">
+        <p>The du Pont telescope at Las Campanas observatory pointing out of its dome in daylight. Credit: SDSS/LCO.</p>
+        <p><a href="https://www.sdss.org/science/image-gallery/" target="_blank" rel="noopener">Source</a> | <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">Creative Commons BY 4.0</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Data Credits -->
+<section style="margin-top:40px;">
+  <h2 style="margin-bottom:12px;">Data Credits</h2>
+  <div class="credit-list">
+    <div class="credit-item">
+      <img src="images/desi_logo.jpg" alt="DESI Logo" class="credit-thumb" />
+      <div class="credit-details">
+        <p>DESI Early Data Release (EDR) and DESI Data Release 1 (DR1). Access and documentation available via the DESI Data Portal.</p>
+        <p><a href="https://data.desi.lbl.gov/" target="_blank" rel="noopener">DESI Data Portal</a></p>
+      </div>
+    </div>
+    <div class="credit-item">
+      <img src="images/sdss_logo.png" alt="SDSS Logo" class="credit-thumb" />
+      <div class="credit-details">
+        <p>SDSS-IV data used in this project, including contributions curated by Jack Chapman. See SDSS DR17 for access and details.</p>
+        <p><a href="https://www.sdss.org/dr17/" target="_blank" rel="noopener">SDSS DR17</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Python Packages -->
+<section style="margin-top:40px;">
+  <h2 style="margin-bottom:12px;">Python Package Credits</h2>
+  <div class="package-list">
+    <div class="package-item">
+      <img src="images/astropy_logo.svg" alt="Astropy Logo" class="package-thumb" />
+      <div>
+        <p>Astropy — <a href="https://www.astropy.org" target="_blank" rel="noopener">Website</a></p>
+        <p>Astronomical tools and I/O (minimum version 7.0.0)</p>
+      </div>
+    </div>
+
+    <div class="package-item">
+      <img src="images/Matplotlib_logo.webp" alt="Matplotlib Logo" class="package-thumb" />
+      <div>
+        <p>Matplotlib — <a href="https://matplotlib.org" target="_blank" rel="noopener">Website</a></p>
+        <p>Plotting and visualization (minimum version 3.10.0)</p>
+      </div>
+    </div>
+
+    <div class="package-item">
+      <img src="images/numpy_logo.png" alt="NumPy Logo" class="package-thumb" />
+      <div>
+        <p>NumPy — <a href="https://numpy.org" target="_blank" rel="noopener">Website</a></p>
+        <p>Numerical operations (minimum version 2.2.2)</p>
+      </div>
+    </div>
+
+    <div class="package-item">
+      <img src="images/pandas_logo.png" alt="Pandas Logo" class="package-thumb" />
+      <div>
+        <p>Pandas — <a href="https://pandas.pydata.org" target="_blank" rel="noopener">Website</a></p>
+        <p>Output data handling (minimum version 2.2.3)</p>
+      </div>
+    </div>
+
+    <div class="package-item">
+      <img src="images/scipy_logo.svg" alt="SciPy Logo" class="package-thumb" />
+      <div>
+        <p>SciPy — <a href="https://scipy.org" target="_blank" rel="noopener">Website</a></p>
+        <p>Scientific computing (minimum version 1.15.1)</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+</div>
+
+
+
+  <script>
+    const starContainer = document.getElementById('star-background');
+    for (let i = 0; i < 200; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+
+      const size = Math.random() * 2 + 1;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.opacity = Math.random();
+      star.style.animationDuration = `${Math.random() * 4 + 1}s`;
+      star.style.animationDelay = `${Math.random() * 5}s`;
+
+      starContainer.appendChild(star);
+    }
+  </script>
+
+  <footer>
+    <div style="max-width:1200px; margin:auto; padding: 20px; display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:20px; font-size:0.95em;">
+      <div>
+        <h4 style="color:#f7ba2b; margin-bottom:8px;">Infomation</h4>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li><a href="index.html#intro" style="color:white; text-decoration:none;">About</a></li>
+          <li><a href="index.html#models" style="color:white; text-decoration:none;">Models</a></li>
+          <li><a href="index.html#contact" style="color:white; text-decoration:none;">Usage</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="color:#f7ba2b; margin-bottom:8px;">Get Started</h4>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li><a href="installation.html" style="color:white; text-decoration:none;">Installation</a></li>
+          <li><a href="configuration.html" style="color:white; text-decoration:none;">Configuration</a></li>
+          <li><a href="start-fitting.html" style="color:white; text-decoration:none;">Launch</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="color:#f7ba2b; margin-bottom:8px;">Projects</h4>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li><a href="publications.html" style="color:white; text-decoration:none;">Publications</a></li>
+          <li><a href="desi.html" style="color:white; text-decoration:none;">DESI</a></li>
+          <li><a href="sdss.html" style="color:white; text-decoration:none;">SDSS</a></li>
+          
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="color:#f7ba2b; margin-bottom:8px;">Data</h4>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li><a href="demofitter.html" style="color:white; text-decoration:none;">FIREFLY Demo</a></li>
+          <li><a href="index.html#gallery" style="color:white; text-decoration:none;">Gallery</a></li>
+          <li><a href="index.html#sky-map" style="color:white; text-decoration:none;">Sky Map</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="width:100%;margin:auto;">
+      <canvas id="spectralWidget" style="width:100%;height:auto;"></canvas>
+    </div>
+    <p style="font-size: 0.85em; color: #868686;">
+        &copy; 2026 Samuel Helps (FIREFLY Collaboration) | Code: 
+        <a href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W" target="_blank">Wilkinson et al. (2017)</a>, 
+        <a href="https://ui.adsabs.harvard.edu/abs/2022MNRAS.510.1538N" target="_blank">Neumann et al. (2022)</a> |
+        Site & Infrastructure: Samuel Helps |
+        <a href="credits.html">Credits</a>
+    </p>
+    <p style="font-size: 0.85em; color: #868686;">
+      Code licensed under <a href="../LICENSE.md">MIT</a> | Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+    </p>
+  </footer>
+
+  <script>
+  const canvas = document.getElementById('spectralWidget');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = 150;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  // Generate synthetic data and model
+  const N = 600;
+  let spectrum = new Array(N);
+  let model = new Array(N);
+  let wavelength = new Array(N);
+  for (let i = 0; i < N; i++) {
+      const x = i / N * 10;
+      wavelength[i] = x;
+      spectrum[i] = 15 + 6 * Math.sin(x * 0.6) + Math.random() * 2;
+      model[i] = 15 + 6 * Math.sin(x * 0.6 + 0.1) + Math.random() * 1; // trailing model
+  }
+
+  let progress = 0;
+  const fadeLength = 80; // Number of points over which to fade out
+
+  function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const margin = 0;
+      const w = canvas.width - 2 * margin;
+      const h = canvas.height - 2 * margin;
+
+      const maxY = Math.max(...spectrum) + 5;
+      const minY = Math.min(...spectrum) - 5;
+
+      const toCanvas = (x, y) => [
+          margin + (x / 10) * w,
+          canvas.height - margin - ((y - minY) / (maxY - minY)) * h
+      ];
+
+      // Draw spectrum with fade
+      ctx.lineWidth = 2;
+      for (let i = Math.max(1, progress - fadeLength); i < progress && i < N; i++) {
+          let alpha = (i - (progress - fadeLength)) / fadeLength; // 0..1 fade factor
+          ctx.strokeStyle = `rgba(70,130,180,${alpha.toFixed(2)})`; // steelblue fade
+
+          ctx.beginPath();
+          const [x0, y0] = toCanvas(wavelength[i - 1], spectrum[i - 1]);
+          const [x1, y1] = toCanvas(wavelength[i], spectrum[i]);
+          ctx.moveTo(x0, y0);
+          ctx.lineTo(x1, y1);
+          ctx.stroke();
+      }
+
+      // Draw model with fade
+      for (let i = Math.max(1, progress - fadeLength - 20); i < progress - 20 && i < N; i++) {
+          if(i < 1) continue;
+          let alpha = (i - (progress - fadeLength - 20)) / fadeLength; // same fade factor shifted by delay
+          if(alpha < 0) alpha = 0;
+          if(alpha > 1) alpha = 1;
+
+          ctx.strokeStyle = `rgba(218,165,32,${alpha.toFixed(2)})`; // goldenrod fade
+          ctx.lineWidth = 2;
+
+          ctx.beginPath();
+          const [x0, y0] = toCanvas(wavelength[i - 1], model[i - 1]);
+          const [x1, y1] = toCanvas(wavelength[i], model[i]);
+          ctx.moveTo(x0, y0);
+          ctx.lineTo(x1, y1);
+          ctx.stroke();
+      }
+
+      // Increment progress and loop
+      if (progress < N + fadeLength + 20) {
+          progress += 2;
+          requestAnimationFrame(draw);
+      } else {
+          progress = 0; // Loop animation
+          setTimeout(() => requestAnimationFrame(draw), 1000);
+      }
+  }
+
+  draw();
+  </script>
+</body>
+</html>
