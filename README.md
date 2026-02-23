@@ -481,6 +481,7 @@ git push origin feature/YourFeature
 | **Kieran Graham** | DESI DR1 (AIO) pipeline |
 | **Harry Hicks** | Models module support |
 | **Kyle Westfall** | Utilities and MaNGA DAP (constants) integration |
+| **Vinnie Sands** | Dust script bug fixes |
 
 ### **Institution**
 

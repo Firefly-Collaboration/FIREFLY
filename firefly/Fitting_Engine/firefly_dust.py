@@ -12,7 +12,7 @@
 	- Violeta Gonzalez-Perez ~ <violegp__at__gmail.com>
 	- Daniel Thomas ~ <d.g.thomas__at__leeds.ac.uk>
 	- Justus Neumann ~ <jusneuma.astro__at__gmail.com>
-
+	- Vinnie Sands ~ <vinnie.sands__at__myport.ac.uk>
 
  <> Purpose:
 	- This module contains functions to compute dust attenuation curves.
@@ -408,40 +408,41 @@ def dust_prevot_py(ebv,lam):
 	return output
 
 
-def get_SFD_dust(long,lat,dustmap='ebv',interpolate=True):
-    """
-    Gets map values from Schlegel, Finkbeiner, and Davis 1998 extinction maps.
-    
-    `dustmap` can either be a filename (if '%s' appears in the string, it will be
-    replaced with 'ngp' or 'sgp'), or one of:
-    
-    * 'i100' 
-        100-micron map in MJy/Sr
-    * 'x'
-        X-map, temperature-correction factor
-    * 't'
-        Temperature map in degrees Kelvin for n=2 emissivity
-    * 'ebv'
-        E(B-V) in magnitudes
-    * 'mask'
-        Mask values 
+def get_SFD_dust(long, lat, dustmap = 'ebv', interpolate=True):
+	"""
+	Gets map values from Schlegel, Finkbeiner, and Davis 1998 extinction maps.
+
+	`dustmap` can either be a filename (if '%s' appears in the string, it will be
+	replaced with 'ngp' or 'sgp'), or one of:
+
+	* 'i100'
+	100-micron map in MJy/Sr
+	* 'x'
+	X-map, temperature-correction factor
+	* 't'
+		Temperature map in degrees Kelvin for n=2 emissivity
+	* 'ebv'
+	E(B-V) in magnitudes
+	* 'mask'
+		Mask values
         
-    For these forms, the files are assumed to lie in the current directory.
+	For these forms, the files are assumed to lie in the current directory.
     
-    Input coordinates are in degrees of galactic latiude and logitude - they can
-    be scalars or arrays.
+	Input coordinates are in degrees of galactic latiude and logitude - they can
+	be scalars or arrays.
     
-    if `interpolate` is an integer, it can be used to specify the order of the
-    interpolating polynomial
+	if `interpolate` is an integer, it can be used to specify the order of the
+	interpolating polynomial
     
-    .. todo::
-        Check mask for SMC/LMC/M31, E(B-V)=0.075 mag for the LMC, 0.037 mag for
-        the SMC, and 0.062 for M31. Also auto-download dust maps. Also add
-        tests. Also allow for other bands.
+	.. todo::
+		Check mask for SMC/LMC/M31, E(B-V)=0.075 mag for the LMC, 0.037 mag for
+		the SMC, and 0.062 for M31. Also auto-download dust maps. Also add
+		tests. Also allow for other bands.
     
-    """
-    from numpy import sin,cos,round,isscalar,array,ndarray,ones_like
-    #from pyfits import open
+	"""
+	from numpy import sin, cos, round, isscalar, array, ndarray, ones_like
+	#from pyfits import open
+
 
 	# ---- dustmap handling ----
 	if type(dustmap) is not str:
@@ -467,96 +468,96 @@ def get_SFD_dust(long,lat,dustmap='ebv',interpolate=True):
 		dustmapfn = dustmap 
 
 
-    if isscalar(long):
-        l=array([long])*math.pi/180
-    else:
-        l=array(long)*math.pi/180
-    if isscalar(lat):
-        b=array([lat])*math.pi/180
-    else:
-        b=array(lat)*math.pi/180
+	if isscalar(long):
+		l=array([long])*math.pi/180
+	else:
+		l=array(long)*math.pi/180
+	if isscalar(lat):
+		b=array([lat])*math.pi/180
+	else:
+		b=array(lat)*math.pi/180
         
-    if not len(l)==len(b):
-        raise ValueError('input coordinate arrays are of different length')
+	if not len(l)==len(b):
+		raise ValueError('input coordinate arrays are of different length')
     
     
     
-    if '%s' not in dustmapfn:
-        f=fits.open(dustmapfn)
-        try:
-            mapds=[f[0].data]
-        finally:
-            f.close()
-        assert mapds[-1].shape[0] == mapds[-1].shape[1],'map dimensions not equal - incorrect map file?'
+	if '%s' not in dustmapfn:
+		f=fits.open(dustmapfn)
+		try:
+			mapds=[f[0].data]
+		finally:
+			f.close()
+		assert mapds[-1].shape[0] == mapds[-1].shape[1],'map dimensions not equal - incorrect map file?'
         
-        polename=dustmapfn.split('.')[0].split('_')[-1].lower()
-        if polename=='ngp':
-            n=[1]
-            if sum(b > 0) > 0:
-                b=b
-        elif polename=='sgp':
-            n=[-1]
-            if sum(b < 0) > 0:
-                b=b
-        else:
-            raise ValueError("couldn't determine South/North from filename - should have 'sgp' or 'ngp in it somewhere")
-        masks = [ones_like(b).astype(bool)]
-    else: #need to do things seperately for north and south files
-        nmask = b >= 0
-        smask = ~nmask
+		polename=dustmapfn.split('.')[0].split('_')[-1].lower()
+		if polename=='ngp':
+			n=[1]
+			if sum(b > 0) > 0:
+				b=b
+		elif polename=='sgp':
+			n=[-1]
+			if sum(b < 0) > 0:
+				b=b
+		else:
+			raise ValueError("couldn't determine South/North from filename - should have 'sgp' or 'ngp in it somewhere")
+		masks = [ones_like(b).astype(bool)]
+	else: #need to do things seperately for north and south files
+		nmask = b >= 0
+		smask = ~nmask
         
-        masks = [nmask,smask]
-        ns = [1,-1]
+		masks = [nmask,smask]
+		ns = [1,-1]
         
-        mapds=[]
-        f=fits.open(dustmapfn%'ngp')
-        try:
-            mapds.append(f[0].data)
-        finally:
-            f.close()
-        assert mapds[-1].shape[0] == mapds[-1].shape[1],'map dimensions not equal - incorrect map file?'
-        f=fits.open(dustmapfn%'sgp')
-        try:
-            mapds.append(f[0].data)
-        finally:
-            f.close()
-        assert mapds[-1].shape[0] == mapds[-1].shape[1],'map dimensions not equal - incorrect map file?'
+		mapds=[]
+		f=fits.open(dustmapfn%'ngp')
+		try:
+			mapds.append(f[0].data)
+		finally:
+			f.close()
+		assert mapds[-1].shape[0] == mapds[-1].shape[1],'map dimensions not equal - incorrect map file?'
+		f=fits.open(dustmapfn%'sgp')
+		try:
+			mapds.append(f[0].data)
+		finally:
+			f.close()
+		assert mapds[-1].shape[0] == mapds[-1].shape[1],'map dimensions not equal - incorrect map file?'
     
-    retvals=[]
-    for n,mapd,m in zip(ns,mapds,masks):
-        #project from galactic longitude/latitude to lambert pixels (see SFD98)
-        npix=mapd.shape[0]
+	retvals=[]
+	for n,mapd,m in zip(ns,mapds,masks):
+		#project from galactic longitude/latitude to lambert pixels (see SFD98)
+		npix=mapd.shape[0]
         
-        x=npix/2*cos(l[m])*(1-n*sin(b[m]))**0.5+npix/2-0.5
-        y=-npix/2*n*sin(l[m])*(1-n*sin(b[m]))**0.5+npix/2-0.5
-        #now remap indecies - numpy arrays have y and x convention switched from SFD98 appendix
-        x,y=y,x
+		x=npix/2*cos(l[m])*(1-n*sin(b[m]))**0.5+npix/2-0.5
+		y=-npix/2*n*sin(l[m])*(1-n*sin(b[m]))**0.5+npix/2-0.5
+		#now remap indecies - numpy arrays have y and x convention switched from SFD98 appendix
+		x,y=y,x
         
-        if interpolate:
-            from scipy.ndimage import map_coordinates
-            if type(interpolate) is int:
-                retvals.append(map_coordinates(mapd,[x,y],order=interpolate))
-            else:
-                retvals.append(map_coordinates(mapd,[x,y]))
-        else:
-            x=round(x).astype(int)
-            y=round(y).astype(int)
-            retvals.append(mapd[x,y])
+		if interpolate:
+			from scipy.ndimage import map_coordinates
+			if type(interpolate) is int:
+				retvals.append(map_coordinates(mapd,[x,y],order=interpolate))
+			else:
+				retvals.append(map_coordinates(mapd,[x,y]))
+		else:
+			x=round(x).astype(int)
+			y=round(y).astype(int)
+			retvals.append(mapd[x,y])
             
             
     
         
-    if isscalar(long) or isscalar(lat):
-        for r in retvals:
-            if len(r)>0:
-                return r[0]
-        assert False,'None of the return value arrays were populated - incorrect inputs?'
-    else:
-        #now recombine the possibly two arrays from above into one that looks like  the original
-        retval=ndarray(l.shape)
-        for m,val in zip(masks,retvals):
-            retval[m] = val
-        return retval
+	if isscalar(long) or isscalar(lat):
+		for r in retvals:
+			if len(r)>0:
+				return r[0]
+		assert False,'None of the return value arrays were populated - incorrect inputs?'
+	else:
+		#now recombine the possibly two arrays from above into one that looks like  the original
+		retval=ndarray(l.shape)
+		for m,val in zip(masks,retvals):
+			retval[m] = val
+		return retval
         
     
 def eq2gal(ra,dec):
@@ -752,8 +753,8 @@ def unred(wave, ebv, R_V=3.1, LMC2=False, AVGLMC=False):
 	ysplopir = np.concatenate((ysplir,ysplop))
 
 	if (Nopir > 0): 
-	  tck = interpolate.splrep(np.concatenate((xsplopir,xspluv)),np.concatenate((ysplopir,yspluv)),s=0)
-	  curve[iopir] = interpolate.splev(x[iopir], tck)
+		tck = interpolate.splrep(np.concatenate((xsplopir,xspluv)),np.concatenate((ysplopir,yspluv)),s=0)
+		curve[iopir] = interpolate.splev(x[iopir], tck)
 
 	#Now apply extinction correction to input flux vector
 	curve *= ebv

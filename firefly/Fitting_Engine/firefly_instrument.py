@@ -1,3 +1,7 @@
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+
 """
 ===================================================================================
 |                         FIREFLY — Full Spectral Fitting                         |
@@ -46,10 +50,6 @@ ________________________________________________________________________________
     | **24 May 2017 - Implemented the new downgrader version (D. Goddard)
 """
 
-from __future__ import division
-from __future__ import print_function
-from __future__ import absolute_import
-
 import sys
 if sys.version > '3':
     long = int
@@ -60,6 +60,7 @@ import numpy as np
 import astropy
 from astropy.constants import c as speedOfLight
 c = speedOfLight.to('km/s').value
+from math import erf
 from firefly_constants import *
 
 def where_not(indx, size):

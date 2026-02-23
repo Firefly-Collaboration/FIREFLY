@@ -34,7 +34,7 @@ ROOT_DIR = os.path.abspath(os.path.join(script_dir, "..", "..", ".."))
 # Data source URLs
 BASE_URL = "https://data.desi.lbl.gov/public/edr"
 ZCATALOG_URL = f"{BASE_URL}/spectro/redux/fuji/zcatalog/zall-fuji.fits"
-FASTSPEC_URL = f"{BASE_URL}/vac/edr/fastspecfit/fuji/v3.2/catalogs/fastspec-fuji.fits"
+FASTSPEC_URL = f"{BASE_URL}/vac/edr/fastspecfit/fuji/v3.2/catalogs/zall-pix-fuji.fits"
 
 # Output folder for downloads
 OUTPUT_DIR = os.path.join(ROOT_DIR, "Data", "DESI", "DESI_EDR_raw(downloads)")

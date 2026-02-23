@@ -203,13 +203,13 @@ for i in spectra_to_process:
             print("\nRunning analysis...")
             if csv_only == True:
                 cmd = [sys.executable, 
-                    os.path.join(repo_root, "Launch", "DESI", "SCIAMA", "core", "LOOP_read_firefly_desi_CSV.py"),
+                    os.path.join(repo_root, "Launch", "DESI", "SCIAMA", "core", "read_firefly_DESI_EDR_CSV.py"),
                     str(i),  # spectrum index
                     file_range,  # range like "0-10000"
                     temp_file]  # actual temp file path
             else:
                 cmd = [sys.executable, 
-                    os.path.join(repo_root, "Launch", "DESI", "SCIAMA", "core", "LOOP_read_firefly_desi.py"),
+                    os.path.join(repo_root, "Launch", "DESI", "SCIAMA", "core", "read_firefly_DESI_EDR.py"),
                     str(i),  # spectrum index
                     file_range,  # range like "0-10000"
                     temp_file]  # actual temp file path

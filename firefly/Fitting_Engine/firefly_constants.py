@@ -1,3 +1,8 @@
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import unicode_literals
+
 """
 ===================================================================================
 |                         FIREFLY — Full Spectral Fitting                         |
@@ -39,11 +44,6 @@ ________________________________________________________________________________
 .. _astropy.constants: http://docs.astropy.org/en/stable/constants/index.html
 
 """
-
-from __future__ import division
-from __future__ import print_function
-from __future__ import absolute_import
-from __future__ import unicode_literals
 
 import sys
 if sys.version > '3':

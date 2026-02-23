@@ -47,10 +47,7 @@ import os, sys
 from os.path import join, dirname
 import copy
 from scipy.interpolate import interp1d
-# from scipy.stats import sigmaclip
 from firefly_estimations_3d import estimation
-# from firefly_dust import *
-# import firefly_dust as f_dust
 from firefly_dust import hpf, unred, determine_attenuation, dust_calzetti_py
 from firefly_instrument import downgrade
 from firefly_fitter import fitter
@@ -146,9 +143,8 @@ class StellarPopulationModel:
 			ver='v1.1'
 			hdul=pyfits.open(model_path+'/MaStar_SSP_'+ver+'.fits.gz')
 			r_model=hdul[2].data[1,:]
-			# This provides R=lamba/delta_lambda as numpy ndarray. The params deltal_libs and deltal should probably be renamed. 
+			# This provides R=lamba/delta_lambda as numpy ndarray
 			self.deltal_libs.append(r_model)
-			
 			
 		elif self.models =='E-MILES':
 			self.deltal_libs.append(0.9)
@@ -206,8 +202,6 @@ class StellarPopulationModel:
 		if self.models == 'm11-sg':
 			first_file  = True
 			model_files = []
-			#print('yes we are in here')
-			#stop
 #			if self.use_downgraded_models :
 #				if model_used == 'MILES_UVextended' or model_used == 'MILES_revisedIRslope':
 #					model_path 		= join(MODELS_DIR,'SSP_M11_MILES_downgraded','ssp_M11_' + model_used+ '.' + imf_used)
@@ -219,13 +213,8 @@ class StellarPopulationModel:
 #				else:
 			model_path 		= join(MODELS_DIR,'SSP_M11_'+model_used+'_SG' ,'ssp_M11_' +model_used +'.' + imf_used)
 
-
 			# Constructs the metallicity array of models :
 			all_metal_files = sorted(glob.glob(model_path+'*'))
-			#print(model_path)
-			#print(all_metal_files)
-			#stop	
-			## # print all_metal_files
 			metal_files 	= []
 			metal 	    = [] #[-2.25, -1.35, -0.33, 0, 0.35]
 			for z in range(len(all_metal_files)):
@@ -267,19 +256,13 @@ class StellarPopulationModel:
 				if znum>10**(self.Z_limits[0]) and znum<10**(self.Z_limits[1]):
 					metal_files.append(all_metal_files[z])
 					metal.append(znum)
-			#print(metal_files)
-			#stop
 			# constructs the model array
 			model_flux, age_model, metal_model = [],[],[]
 			for zi,z in enumerate(metal_files):
-				# print "Retrieving and downgrading models for "+z
 				model_table = pd.read_table(z,converters={'Age':np.float64}, header=None ,usecols=[0,2,3], names=['Age','wavelength_model','flux_model'], delim_whitespace=True)
 				age_data = np.unique(model_table['Age'].values.ravel())
-#				print(age_data)
-#				stop
 				for a in age_data:
 					logyrs_a = trylog10(a)+9.0
-					## print "age model selection:", self.age_limits[0], logyrs_a, self.age_limits[1]
 					if (((10**(logyrs_a-9)) < self.age_limits[0]) or ((10**(logyrs_a-9)) > self.age_limits[1])):
 						continue
 					else:
@@ -308,10 +291,7 @@ class StellarPopulationModel:
 						age_model.append(a)
 						metal_model.append(metal[zi])
 						first_model = False
-			#print(wavelength)
-			#stop
 
-			# print "Retrieved all models!"
 			self.model_wavelength, self.model_flux, self.age_model, self.metal_model = wavelength, model_flux, age_model, metal_model
 			return wavelength, model_flux, age_model, metal_model
 
@@ -319,8 +299,6 @@ class StellarPopulationModel:
 		if self.models == 'm11':
 			first_file  = True
 			model_files = []
-			#print('yes we are in here')
-			#stop
 #			if self.use_downgraded_models :
 #				if model_used == 'MILES_UVextended' or model_used == 'MILES_revisedIRslope':
 #					model_path 		= join(MODELS_DIR,'SSP_M11_MILES_downgraded','ssp_M11_' + model_used+ '.' + imf_used)
@@ -332,13 +310,8 @@ class StellarPopulationModel:
 #				else:
 			model_path 		= join(MODELS_DIR,'SSP_M11_'+model_used ,'ssp_M11_' +model_used +'.' + imf_used)
 
-
 			# Constructs the metallicity array of models :
 			all_metal_files = sorted(glob.glob(model_path+'*'))
-			#print(model_path)
-			#print(all_metal_files)
-			#stop	
-			## # print all_metal_files
 			metal_files 	= []
 			metal 	    = [] #[-2.25, -1.35, -0.33, 0, 0.35]
 			for z in range(len(all_metal_files)):
@@ -383,18 +356,13 @@ class StellarPopulationModel:
 				if znum>10**(self.Z_limits[0]) and znum<10**(self.Z_limits[1]):
 					metal_files.append(all_metal_files[z])
 					metal.append(znum)
-			#print(metal_files)
-			#stop
 			# constructs the model array
 			model_flux, age_model, metal_model = [],[],[]
 			for zi,z in enumerate(metal_files):
-				# print "Retrieving and downgrading models for "+z
 				model_table = pd.read_table(z,converters={'Age':np.float64}, header=None ,usecols=[0,2,3], names=['Age','wavelength_model','flux_model'], delim_whitespace=True)
 				age_data = np.unique(model_table['Age'].values.ravel())
-#				stop
 				for a in age_data:
 					logyrs_a = trylog10(a)+9.0
-					## print "age model selection:", self.age_limits[0], logyrs_a, self.age_limits[1]
 					if (((10**(logyrs_a-9)) < self.age_limits[0]) or ((10**(logyrs_a-9)) > self.age_limits[1])):
 						continue
 					else:
@@ -423,11 +391,8 @@ class StellarPopulationModel:
 						age_model.append(a)
 						metal_model.append(metal[zi])
 						first_model = False
-			#print(wavelength)
-			#stop
-			
 
-			# print "Retrieved all models!"
+			# "Retrieved all models!"
 			self.model_wavelength, self.model_flux, self.age_model, self.metal_model = wavelength, model_flux, age_model, metal_model
 			return wavelength, model_flux, age_model, metal_model
 
@@ -453,7 +418,6 @@ class StellarPopulationModel:
 			Z=hdul[1].data[0,:,0,1]
 			s=hdul[1].data[0,0,:,2]
 			#wavelength=hdul[2].data
-
 
 			wavelength_int=hdul[2].data[0,:]
 
@@ -499,12 +463,9 @@ class StellarPopulationModel:
 			self.model_wavelength, self.model_flux, self.age_model, self.metal_model = wavelength, model_flux, age_model, metal_model
 			return wavelength, model_flux, age_model, metal_model
 			
-			
-			
 		elif self.models =='E-MILES':
 		
 			model_path = join(MODELS_DIR,'EMILES_SSP','Eku1.30')
-			
 			
 			lib = model_used
 			if imf_used == 'kr':
@@ -512,7 +473,6 @@ class StellarPopulationModel:
 			else:
 				print('Unrecognised IMF. Please choose between kr and ss')
 				sys.exit()
-				
 				
 			all_metal_files = sorted(glob.glob(model_path+'*'))
 			
@@ -545,13 +505,11 @@ class StellarPopulationModel:
 					znum = 10**(0.26)
 						
 				else:
-					raise NameError('Unrecognised metallicity! Check model file names.')
-					
+					raise NameError('Unrecognised metallicity! Check model file names.')	
 					
 				if znum>10**(self.Z_limits[0]) and znum<10**(self.Z_limits[1]):
 					metal_files.append(all_metal_files[z])
-					metal.append(znum)
-					
+					metal.append(znum)	
 
 			model_flux, age_model, metal_model = [],[],[]
 			
@@ -565,7 +523,6 @@ class StellarPopulationModel:
 				hdul=pyfits.open(i)
 				wavelength_int = np.arange(1680, 50000, 0.9)
 				flux = hdul[0].data
-			
 			
 				# converts to vacuum wavelength
 				if self.data_wave_medium == 'vacuum':
@@ -588,17 +545,13 @@ class StellarPopulationModel:
 				
 			metal_model = metal
 			
-			
 			#print(wavelength)
 			#print(model_flux)
 			#print(age_model)
 			#print(metal_model)
-			
 				
 			self.model_wavelength, self.model_flux, self.age_model, self.metal_model = wavelength, model_flux, age_model, metal_model
 			return wavelength, model_flux, age_model, metal_model
-			
-			
 			
 			
 	def fit_models_to_data(self):
@@ -685,19 +638,16 @@ class StellarPopulationModel:
 			print('Gets the best model, Dt=', time.time()-t_i,'seconds')
 			# 5. Get mass-weighted SSP contributions using saved M/L ratio.
 			unnorm_mass, mass_weights = light_weights_to_mass(light_weights, mass_factors)
-			# print "Fitting complete"
+			# "Fitting complete!"
 			if np.all(np.isnan(mass_weights)):
 				tbhdu = self.create_dummy_hdu()
 			else:			
-				# print "Calculating average properties and outputting"
+				# Calculating average properties and outputting
 				# 6. Convert chis into probabilities and calculates all average properties and errors
 				self.dof = len(wave)
 				probs = convert_chis_to_probs(chis, self.dof)
 				dist_lum	= self.cosmo.luminosity_distance( self.specObs.redshift).to( u.cm ).value
-				
-				#print(light_weights)
-				#print(np.shape(light_weights))	
-				#stop
+
 				averages = calculate_averages_pdf(probs, light_weights, mass_weights, unnorm_mass, age, metal, self.pdf_sampling, dist_lum, self.flux_units)
 	
 				unique_ages 				= np.unique(age)
@@ -743,10 +693,6 @@ class StellarPopulationModel:
 				weight_mass_per_ssp = self.mass_weights[self.best_fit_index[0]][bf_mass]
 				weight_light_per_ssp = self.light_weights[self.best_fit_index[0]][bf_light]
 				order = np.argsort(-weight_light_per_ssp)
-	
-				# Do we want to put this all in another function??
-				# We could provide it with the arrays and call something like get_massloss_parameters()?
-				# I think it looks a little untidy still because of my bad coding.
 		
 				# Gets the mass loss factors.
 				if dict_imfs[self.imfs[0]] == 'Salpeter':
@@ -818,7 +764,6 @@ class StellarPopulationModel:
 						final_gas_fraction.append(mass_per_ssp[number]-new_ML_totM)
 					final_ML_totM, final_ML_alive, final_ML_wd, final_ML_ns, final_ML_bh, final_ML_turnoff, final_gas_fraction= np.array(final_ML_totM), np.array(final_ML_alive), np.array(final_ML_wd), np.array(final_ML_ns), np.array(final_ML_bh), np.array(final_ML_turnoff), np.array(final_gas_fraction)
 				
-	
 				# Calculate the total mass loss from all the SSP contributions.
 				combined_ML_totM = np.sum(final_ML_totM)
 				combined_ML_alive = np.sum(final_ML_alive)
