@@ -40,10 +40,10 @@
 
 ## 📖 Table of Contents
 
-<table width="100%">
+<table>
 <tr>
-<th width="50%">Core Documentation</th>
-<th width="50%">Advanced Topics</th>
+<th>Core Documentation</th>
+<th>Advanced Topics</th>
 </tr>
 <tr>
 <td>
@@ -83,7 +83,7 @@
 
 <table>
 <tr>
-<td width="50%" valign="top">
+<td valign="top">
 
 ### ⚙️ **How It Works**
 
@@ -98,7 +98,7 @@
 - **High-Pass Filter (HPF) dust treatment:** Novel procedure for continuum rectification and dust attenuation. The returned attenuation array is then matched to known analytical approximations to return an E(B-V) value. This procedure allows for removal of large scale modes of the spectrum associated with dust and/or poor flux calibration.
 
 </td>
-<td width="50%" valign="top">
+<td valign="top">
 
 ### 🎯 **Performance**
 
@@ -178,7 +178,7 @@ pip install -r requirements.txt
 
 <table>
 <tr>
-<td width="50%">
+<td>
 
 **For bash/zsh (.bashrc or .bash_profile):**
 
@@ -189,7 +189,7 @@ export STELLARPOPMODELS_DIR="${FF_DIR}/firefly/Fitting_Engine/stellar_population
 ```
 
 </td>
-<td width="50%">
+<td>
 
 </td>
 </tr>
@@ -226,7 +226,7 @@ python firefly.py
 
 <table>
 <tr>
-<td width="50%" valign="top">
+<td valign="top">
 
 ### 📄 **Generic ASCII Input**
 
@@ -239,7 +239,7 @@ python firefly.py
 > ASCII with wavelength, flux, and error columns.
 
 </td>
-<td width="50%" valign="top">
+<td valign="top">
 
 ### 🌌 **SDSS Spectra**
 
@@ -253,7 +253,7 @@ python firefly_SDSS.py
 </td>
 </tr>
 <tr>
-<td width="50%" valign="top">
+<td valign="top">
 
 ### 🔬 **MaNGA Data Cubes**
 
@@ -265,7 +265,7 @@ python firefly_MANGA.py
 > Processes MaNGA data cubes and fits Voronoi binned spectra. Configure paths to logcube and DAP files inside the script.
 
 </td>
-<td width="50%" valign="top">
+<td valign="top">
 
 ### 🌠 **DESI Spectra**
 
@@ -295,10 +295,10 @@ sbatch SBATCH_Fuji.sh DESI_EDR_10000-20000.fits
 
 ### ⚙️ **Configuration Options**
 
-<table width="100%">
+<table>
 <tr>
-<th width="40%">Parameter</th>
-<th width="60%">Options</th>
+<th>Parameter</th>
+<th>Options</th>
 </tr>
 <tr>
 <td><strong>Stellar Population Models</strong></td>
@@ -473,10 +473,10 @@ plt.show()
 
 > **If you use FIREFLY or its resources for work/research presented in a publication we ask that you please cite the following papers:**
 
-<table width="100%">
+<table>
 <tr>
-<th width="50%">Publication</th>
-<th width="50%">Links</th>
+<th>Publication</th>
+<th>Links</th>
 </tr>
 <tr>
 <td><strong>FIREFLY:</strong> Wilkinson et al. 2017</td>
@@ -539,7 +539,7 @@ git push origin feature/YourFeature
 
 </div>
 
-<table width="100%">
+<table>
 <tr>
 <td colspan="2" align="center">
 
@@ -549,14 +549,14 @@ git push origin feature/YourFeature
 </td>
 </tr>
 <tr>
-<td width="50%" align="center">
+<td align="center">
 
 ### **Principal Investigators**
 **Daniel Thomas**  
 **Claudia Maraston**
 
 </td>
-<td width="50%" align="center">
+<td align="center">
 
 ### **Website & Repository Developer**
 **Samuel Helps**
@@ -567,10 +567,10 @@ git push origin feature/YourFeature
 
 ### **Module Contributors**
 
-<table width="100%">
+<table>
 <tr>
-<th width="40%">Contributor</th>
-<th width="60%">Role</th>
+<th>Contributor</th>
+<th>Role</th>
 </tr>
 <tr>
 <td><strong>Daniel Thomas</strong></td>
