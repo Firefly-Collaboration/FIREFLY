@@ -143,7 +143,7 @@
     a base-level initialisation script, <code>firefly.py</code>, that runs the fitting procedure from the most basic setup and initialisation format.
     <code>read_firefly.py</code> is also provided to read and plot the output file in its shortest and simplest form. 
   </p><p>These generic scripts have been designed to be adapted and redeveloped to read in different data formats you may have, and run FIREFLY on variety of unique data sources.
-    When adapting these base-level FIREFLY scripts to new data, it is recommended to fit oly a single galaxy spectrum first, to verify that the input data is being read correctly and the outputs are sensible, before scaling up to larger samples or parallel runs on High Performance Computing (HPC) systems.
+    When adapting these base-level FIREFLY scripts to new data, it is recommended to fit only a single galaxy spectrum first. This will help to verify that the input data is being read correctly and the outputs are sensible, before scaling up to larger samples or parallel runs on High Performance Computing (HPC) systems.
   </p>
 
 <!-- IMPORTS -->
@@ -237,10 +237,12 @@ import matplotlib.pyplot as plt</code></pre>
   <h4>Minimal inputs to FIREFLY</h4>
 
   <ul>
-    <li>Wavelength array (Å)</li>
-    <li>Flux array - default units: <code>flux_units = 1e-17</code></li>
-    <li>Error or inverse-variance array</li>
-    <li>Redshift, RA, Dec, velocity dispersion</li>
+    <li>Wavelength array (Å) (<code>wavelength</code>)</li>
+    <li>Flux array (<code>flux</code>) - default units: <code>flux_units = 1e-17</code></li>
+    <li>Error or inverse-variance array (<code>error</code>)</li>
+    <li>Redshift (<code>redshift</code>)</li>
+    <li>RA, Dec (<code>ra</code>, <code>dec</code>)</li>
+    <li>velocity dispersion (<code>vdisp</code>)</li>
     <li>Instrumental resolution (<code>r_instrument</code>)</li>
   </ul>
 
@@ -353,7 +355,7 @@ plt.show()</code></pre>
 <!-- ARGPARSE -->
 <h4>Implementing command-line arguments with <code>argparse</code></h4>
 <p>
-Instead of editing hardcoded variables for new runs, command-line arguments allow a new FIREFLY pipline to be completly flexible and scalable. <code>argparse</code> is a widely used Python library and proves very effective when creating quick and easy-to-use wrappers for FIREFLY.
+Instead of editing hardcoded variables for new runs, command-line arguments allow a new FIREFLY pipeline to be completly flexible and scalable. <code>argparse</code> is a widely used Python library and proves very effective when creating quick and easy-to-use wrappers for FIREFLY.
 </p>
 
 <pre><code class="language-python"># Import argparse into your new launch wrapper
@@ -415,7 +417,7 @@ python firefly_WRAPPER.py \
   --output spFly_${SPEC_INDEX}.fits \
   --spec-index $SPEC_INDEX</code></pre>
 
-<p>These are some examples to scale up FIREFLY on new data using parallel processing and parse arguments. But providing FIREFLY is given the required spectral inputs and metadata, cutom wrappers can be made for any new galaxy data sources. As seen from the various survey pipelines FIREFLY provides, the code can be tailored and expanded to explore different spectral data on a large-scale.
+<p>These are some examples to scale up FIREFLY on new data using parallel processing and parse arguments. But providing FIREFLY is given the required spectral inputs and metadata, custom wrappers can be made for any new galaxy data sources. As seen from the various survey pipelines FIREFLY provides, the code can be tailored and expanded to explore different spectral data on a large-scale.
 </p>
     <h3>Tips & Best Practices</h3>
     <ul>
@@ -445,10 +447,10 @@ python firefly_WRAPPER.py \
   <p>
     If you have a NERSC account you can run the FIREFLY AIO pipeline which retrieves DESI data
     directly from the shared filesystem, runs the fitting and produces an output <code>spFly-<TARGETID>.fits</code> with the results.
-    The pipline is designed to be launched via SLURM using the provided SBATCH script (<code>SBATCH_Iron.sh</code>) which manages job submission and resource allocation.
+    The pipeline is designed to be launched via SLURM using the provided SBATCH script (<code>SBATCH_Iron.sh</code>) which manages job submission and resource allocation.
   </p>
 
-  <p>The <code>--job-name</code>, <code>--account</code>, CPU and memoryallocation settings can be adjusted for the number of galaxies you intend to fit as well as managing individual resource allocation.</p>
+  <p>The <code>--job-name</code>, <code>--account</code>, CPU and memory allocation settings can be adjusted for the number of galaxies you intend to fit as well as managing individual resource allocation.</p>
   <pre><code class="language-bash">#!/bin/bash
 #!/bin/bash
 #SBATCH --job-name=IRON_AIO
@@ -506,12 +508,12 @@ firefly_fit_12345678.err
     <li>Run FIREFLY on each block of galaxies SBATCH scripts on the target cluster.</li>
   </ol>
 
-  <p>Before submitting a job first select the output mode you want from the the initialisation script <code>firefly_DESI_EDR.py</code></p>
+  <p>Before submitting a job first select the output mode you want from the initialisation script <code>firefly_DESI_EDR.py</code></p>
   <pre><code class="language-python">#      CSV ONLY setting        #
 csv_only = False               # Set to True to run read_firefly_DESI_EDR_CSV.py instead of read_firefly_DESI_EDR.py</code></pre>
   <ul>
-    <li>When set to <code>True</code> the pipline will just produce the master CSV file for the galaxies in the batch block (e.g:<code>DESI_EDR_VAC/master_files/EDR_master_10000-20000.csv</code>).</li>
-    <li>When set to <code>False</code> the pipline will create a new output directory for that galaxy block with the master CSV file, the plotted spectra with best fit models, look back time and metallicty plots for each galaxy. This output directory will have the following stucture (automatically changing file names for the specified galaxy block range):</li>
+    <li>When set to <code>True</code> the pipeline will just produce the master CSV file for the galaxies in the batch block (e.g:<code>DESI_EDR_VAC/master_files/EDR_master_10000-20000.csv</code>).</li>
+    <li>When set to <code>False</code> the pipeline will create a new output directory for that galaxy block with the master CSV file, the plotted spectra with best fit models, look back time and metallicty plots for each galaxy. This output directory will have the following stucture (automatically changing file names for the specified galaxy block range):</li>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DESI_EDR_10000-20000/<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── lookback_time_plots_10000-20000/<br>
@@ -663,12 +665,12 @@ output_file = os.path.join( outputFolder , 'spFly-' + os.path.basename( input_fi
     os.remove(output_file)</code></pre>
 
   <h4>Reading FIREFLY outputs</h4>
-  <p>The FIREFLY result FITS produced by the SDSS script can be inspected with the provided <code>read_firefly.pyu</code> utility. Run it on the output file:</p>
-  <pre><code class="language-bash">python read_firefly.pyu output/spFly-<your-input-basename>.fits</code></pre>
+  <p>The FIREFLY result FITS produced by the SDSS script can be inspected with the provided <code>read_firefly.py</code> utility. Run it on the output file:</p>
+  <pre><code class="language-bash">python read_firefly.py output/spFly-<your-input-basename>.fits</code></pre>
 
-  <p>The <code>read_firefly.pyu</code> script (usage shown below) opens the FITS, prints the primary/header info and derived quantities (light-weighted age, [Z/H], stellar mass, E(B-V)) and plots the original spectrum and best-fit model. It also plots the SSP contributions as lookback-time and metallicity histograms.</p>
+  <p>The <code>read_firefly.py</code> script (usage shown below) opens the FITS, prints the primary/header info and derived quantities (light-weighted age, [Z/H], stellar mass, E(B-V)) and plots the original spectrum and best-fit model. It also plots the SSP contributions as lookback-time and metallicity histograms.</p>
 
-  <pre><code class="language-python"># read_firefly.pyu — behaviour (summary of what it does)
+  <pre><code class="language-python"># read_firefly.py — behaviour (summary of what it does)
 hdul = fits.open(sys.argv[1])
 data = hdul[1].data
 wave = data['wavelength']
@@ -679,7 +681,7 @@ model = data['firefly_model']
 
   <h4>Scaling / batch notes</h4>
   <p>
-    The SDSS initialization script processes the single input file specified by <code>input_file</code>. There is no built-in loop or multiprocessing in this file — to process many SDSS spectra you must invoke the script once per input file (the script will produce one <code>spFly-*.fits</code> result per invocation). Each resulting FITS can be inspected with <code>read_firefly.pyu</code>.
+    The SDSS initialization script processes the single input file specified by <code>input_file</code>. There is no built-in loop or multiprocessing in this file — to process many SDSS spectra you must invoke the script once per input file (the script will produce one <code>spFly-*.fits</code> result per invocation). Each resulting FITS can be inspected with <code>read_firefly.py</code>.
   </p>
 
   <h4>Run flow & final message</h4>
@@ -700,8 +702,8 @@ print()</code></pre>
   <h3>DESI ↔ SDSS — Dual launch & comparison pipeline</h3>
 
   <p>
-    To compare the the same galaxies from DESI and SDSS this piplines uses the <a href="https://astrosparcl.datalab.noirlab.edu/sparc/" target="_blank">SPARCL</a> (SPectra Analysis and Retrievable Catalog Lab) client to match galaxies from the two surveys then runs FIREFLY on both data sets at once to produce side-by-side comparison fits of matched galaxies from DESI and SDSS.
-    The pipline queries the SPARCL Python client to quickly retrive the spectra from each survey, please refer to <a href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W" target="_blank">Juneau et al. 2024</a> when using the software and the example <a href="https://github.com/astro-datalab/notebooks-latest/blob/master/03_ScienceExamples/DESI/02_DESI_SDSS_Comparison.ipynb" target="_blank">notebook</a> by Ragadeepika Pucha (U.Utah), Stéphanie Juneau (NOIRLab), and the Astro Data Lab Team.
+    To compare the same galaxies from DESI and SDSS this pipelines uses the <a href="https://astrosparcl.datalab.noirlab.edu/sparc/" target="_blank">SPARCL</a> (SPectra Analysis and Retrievable Catalog Lab) client to match galaxies from the two surveys then runs FIREFLY on both data sets at once to produce side-by-side comparison fits of matched galaxies from DESI and SDSS.
+    The pipeline queries the SPARCL Python client to quickly retrive the spectra from each survey, please refer to <a href="https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W" target="_blank">Juneau et al. 2024</a> when using the software and the example <a href="https://github.com/astro-datalab/notebooks-latest/blob/master/03_ScienceExamples/DESI/02_DESI_SDSS_Comparison.ipynb" target="_blank">notebook</a> by Ragadeepika Pucha (U.Utah), Stéphanie Juneau (NOIRLab), and the Astro Data Lab Team.
   </p>
 
   <h4>Step 1 - match DESI + SDSS galaxies on NERSC (SPARCL)</h4>
@@ -753,7 +755,7 @@ greatwall_sample_desi_dr1.fits</code></pre>
   </p>
 
   <p>The <code>SBATCH_compare.sh</code> script sets the required environment variables <code>DESI_INPUT_FILE</code> and <code>SDSS_INPUT_FILE</code> from the sample name you provide. It expects the two matched files to be named as <code>${SAMPLE}_sample_desi_dr1.fits</code> and <code>${SAMPLE}_sample_sdss_dr16.fits</code> inside <code>DESI-SDSS_sample_data</code>.</p>
-  <p>Finally launch the FIREFLY comparivite fitting pipline on SCIAMA/other HPC, submitting the job to SLURM using the <code>sbatch</code> command the HPC terminal:</p>
+  <p>Finally launch the FIREFLY comparative fitting pipeline on SCIAMA/other HPC, submitting the job to SLURM using the <code>sbatch</code> command the HPC terminal:</p>
   <pre><code class="language-bash"># run without wavelength cut
 sbatch SBATCH_compare.sh greatwall
 
@@ -840,12 +842,12 @@ else:
         pool.close()
         pool.join()</code></pre>
 
-  <p>The <code>read_firefly.pyu</code> script opens the given FITS, prints headers, prints derived values (light-weighted age, [Z/H], stellar mass, E(B-V)), plots spectrum vs model and shows SSP lookback-time and metallicity bar plots for the fitted result.</p>
+  <p>The <code>read_firefly.py</code> script opens the given FITS, prints headers, prints derived values (light-weighted age, [Z/H], stellar mass, E(B-V)), plots spectrum vs model and shows SSP lookback-time and metallicity bar plots for the fitted result.</p>
 
   <h4>Scaling notes</h4>
   <ul>
     <li>To process the whole IFU set <code>bin_number = 'all'</code> - the script will then use multiprocessing to run <code>f</code> across the bins discovered in the MAPS file.</li>
-    <li>Outputs are organised under <code>output/manga/&lt;plate&gt;/&lt;ifu&gt;/</code> with one <code>spFly-...</code> FITS per bin; each output can be inspected with <code>read_firefly.pyu</code>.</li>
+    <li>Outputs are organised under <code>output/manga/&lt;plate&gt;/&lt;ifu&gt;/</code> with one <code>spFly-...</code> FITS per bin; each output can be inspected with <code>read_firefly.py</code>.</li>
   </ul>
 
   <h4>Run flow & final message</h4>
