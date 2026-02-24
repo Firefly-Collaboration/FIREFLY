@@ -124,22 +124,23 @@
 
 ```yaml
 Python: 3.6+
+
 Core scientific stack:
-	- numpy>=2.2.2
-	- scipy>=1.15.1
-	- pandas>=2.2.3
-	- astropy>=7.0.0
-	- matplotlib>=3.10.0
+- numpy>=2.2.2
+- scipy>=1.15.1
+- pandas>=2.2.3
+- astropy>=7.0.0
+- matplotlib>=3.10.0
 Additional packages:
-	- fitsio>=1.2.1
-	- psutil>=5.9.8
-	- requests>=2.32.3
-	- tqdm>=4.67.1
+- fitsio>=1.2.1
+- psutil>=5.9.8
+- requests>=2.32.3
+- tqdm>=4.67.1
 NERSC only:
-	- desimodel>=0.19.3
-	- desispec>=0.69.0
-	- desitarget>=2.90
-	- sparcl>=1.2.0
+- desimodel>=0.19.3
+- desispec>=0.69.0
+- desitarget>=2.90
+- sparcl>=1.2.0
 ```
 
 ---
@@ -150,7 +151,6 @@ NERSC only:
 
 ```bash
 git clone https://github.com/Firefly-Collaboration/FIREFLY.git
-cd firefly
 ```
 
 #### **2️⃣ Install Python dependencies:**
@@ -204,6 +204,8 @@ python firefly.py
 **Input Format:**
 > ASCII with wavelength, flux, and error columns.
 
+To find out more about fitting generic spectra, visit the [launch page](https://firefly-collaboration.github.io/FIREFLY/start-fitting.html#generic). 
+
 ### 🌌 **SDSS Spectra**
 
 ```bash
@@ -213,6 +215,8 @@ python firefly_SDSS.py
 
 > Edit the script to point to new SDSS spec files; redshift and metadata are read from FITS headers.
 
+To find out more about fitting SDSS spectra, visit the [launch page](https://firefly-collaboration.github.io/FIREFLY/start-fitting.html#sdss).
+
 ### 🔬 **MaNGA Data Cubes**
 
 ```bash
@@ -221,6 +225,8 @@ python firefly_MANGA.py
 ```
 
 > Processes MaNGA data cubes and fits Voronoi binned spectra. Configure paths to logcube and DAP files inside the script.
+
+To find out more about fitting MaNGA spectra, visit the [launch page](https://firefly-collaboration.github.io/FIREFLY/start-fitting.html#manga).
 
 ### 🌠 **DESI Spectra**
 
@@ -242,6 +248,8 @@ cd FIREFLY/Launch/DESI/SCIAMA/run_scripts/
 sbatch SBATCH_Fuji.sh DESI_EDR_10000-20000.fits
 ```
 
+To find out more about fitting DESI spectra, visit the [launch page](https://firefly-collaboration.github.io/FIREFLY/start-fitting.html#desi).
+
 ---
 
 <div align="center">
@@ -249,6 +257,8 @@ sbatch SBATCH_Fuji.sh DESI_EDR_10000-20000.fits
 ### ⚙️ **Configuration Options**
 
 </div>
+
+<div align="center">
 
 | Parameter | Options |
 |---|---|
@@ -258,6 +268,8 @@ sbatch SBATCH_Fuji.sh DESI_EDR_10000-20000.fits
 | **Wavelength Range** | Customise fitting limits |
 | **Emission Line Masking** | Enable/disable and specify lines to mask |
 | **Dust Treatment** | Configure High-Pass Filter parameters |
+
+</div>
 
 > **💡 See the example scripts in `firefly/Launch/` for detailed configuration examples.**
 
@@ -422,6 +434,7 @@ plt.show()
 **📄 A BibTeX file is provided in [CITATION.cff](CITATION.cff) for your convenience.**
 
 </div>
+
 ---
 
 <div align="center">
