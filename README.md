@@ -173,7 +173,7 @@ export STELLARPOPMODELS_DIR="${FF_DIR}/firefly/Fitting_Engine/stellar_population
 
 ### **Stellar Population Models**
 
-> Stellar population model templates are included in the repository: M11 Models (Maraston & Strömback 2011): MILES, STELIB, ELODIE, MARCS libraries. MaStar Models: High-resolution empirical stellar library. IMF Options: Kroupa and Salpeter initial mass functions. Models are located in: `firefly/Fitting_Engine/stellar_population_models/` and new models can be added to the module providing they are formatted for FIREFLY compatability.
+> Stellar population model templates are included in the repository: M11 Models (Maraston & Strömback 2011): MILES, STELIB, ELODIE, MARCS libraries. MaStar Models: High-resolution empirical stellar library. IMF Options: Kroupa and Salpeter initial mass functions. Models are located in: `firefly/Fitting_Engine/stellar_population_models/` and new models can be added to the module providing they are formatted for FIREFLY compatability. To read more about how to implement new models into FIREFLY take a look at the [configuration page](https://firefly-collaboration.github.io/FIREFLY/configuration.html#custom-models).
 
 ---
 
@@ -434,7 +434,7 @@ plt.show()
 
 ### **How to Contribute**
 
-#### **1️⃣ Fork the repository:**
+#### **1️⃣ Fork the repository**
 
 #### **2️⃣ Create a feature branch:**
 ```bash

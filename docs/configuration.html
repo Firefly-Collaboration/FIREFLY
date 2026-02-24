@@ -79,12 +79,12 @@
     <section class="intro">
       <h2>Configuring FIREFLY for Spectral Fitting</h2>
       <p>
-        Before launching into full spectral fitting with FIREFLY, it's essential to prepare your input data and define your fitting configuration.
-        This guide walks you through the different settings FIREFLY has available, how to define your desired model parameters, and construct the appropriate input FITS files that FIREFLY requires.
+        Before launching into full spectral fitting with FIREFLY, it's essential to prepare your <a href="#input-data-requirements">input data</a> and define your <a href="#configuration-options">fitting configuration</a>.
+        This guide walks you through the different settings FIREFLY has available, how to define your desired <a href="#configuration-options">model parameters</a>, and construct the appropriate <a href="#input-fits-structure">input FITS files</a> that FIREFLY requires. If you are interested in how to add your own/new models to FIREFLY, see <a href="#custom-models">Adding Your Own Stellar Population Models to FIREFLY</a>.
       </p>
     </section>
 
-    <section class="options">
+    <section class="options" id="configuration-options">
       <h3>Configuration Options</h3>
       <p>FIREFLY offers multiple degrees of freedom in modeling:</p>
       <ul>
@@ -158,7 +158,7 @@ flux_units=10**(-17)</code></pre>
       </ul>
     </section>
 
-    <section class="requirements">
+    <section class="requirements" id="input-data-requirements">
       <h3>Input Data Requirements</h3>
       <ul>
         <li><b>Spectrum arrays</b>: <code>WAVE</code>, <code>FLUX</code>, <code>IVAR</code></li>
@@ -177,7 +177,7 @@ id = hdul[1].data['ID'][i]</code></pre>
       </ul>
     </section>
 
-    <section class="fits-structure">
+    <section class="fits-structure" id="input-fits-structure">
       <h3>Input FITS File Structure</h3>
       <p>Most FIREFLY launch pipelines expect a multi-spectrum FITS file with the following structure:</p>
       <ul>
@@ -258,6 +258,265 @@ This will create an output file named like:
       <p>(Note: Although all the online files should remain the same, the output paths and directory structure set in this script may need to be altered to the desired destination on your machine. This method downloads large numbers of spectra and therefore is heavily dependent on your internet connection speed and is may be slow.)</p>
       </section>
 
+<section class="generation" id="custom-models">
+  <h3>Adding Your Own Stellar Population Models to FIREFLY</h3>
+   <p>This guide explains the format FIREFLY expects for stellar population models, where to place them inside the repository, and two simple ways to plug new models into <code>firefly_models.py</code>. All examples and requirements below are taken from the existing <code>firefly_models.py</code> script in the fitting engine as it is recommend that this is script you alter to implement compatible models with minimal editing.</p>
+   <h4>Where to put your models</h4>
+   <p>The models directory used by the code is defined at the top of <code>firefly_models.py</code>:</p>
+   <pre><code class="language-python">MODELS_DIR = join(dirname(__file__), 'stellar_population_models')</code></pre>
+   <p>So upload your model files under the repository path:</p>
+   <pre><code class="language-bash">firefly/Fitting_Engine/stellar_population_models/</code></pre>
+   <p>Follow the existing folder conventions:</p>
+   <ul>
+    <li><code>SSP_M11_<library>/</code> (e.g. <code>SSP_M11_MILES/</code>) - ASCII SSP files for the M11-type readers</li>
+    <li><code>SSP_M11_<library>_SG/</code> - special .sg flavour read by the <code>m11-sg</code> branch</li>
+    <li><code>MaStar_SSP_v1.1.fits.gz</code> —-single FITS file used by the <code>MaStar</code> branch</li>
+    <li><code>EMILES_SSP/</code> - E-MILES FITS files</li>
+  </ul>
+  <h4>Format & structure FIREFLY expects (by model type)</h4>
+  <ul>
+    <li><b>M11 (ASCII SSP grids)</b>:
+  <p>Reader uses <code>pandas.read_table(..., usecols=[0,2,3], names=['Age','wavelength_model','flux_model'], delim_whitespace=True)</code>. Requiring each SSP file to be a whitespace-delimited table with at least these columns in that order:</p>
+  <ol>
+    <li><b>Age</b> - the age label used to group rows (the code does <code>model_table.loc[model_table.Age == a, ['wavelength_model','flux_model']]</code>)</li>
+    <li><b>wavelength</b> - wavelength column (Angstroms as used in the files)</li>
+    <li><b>flux</b> - flux values corresponding to each wavelength point</li>
+  </ol>
+  <p>Files are discovered via the following convention:</p>
+    <pre><code class="language-python">model_path = join(MODELS_DIR, 'SSP_M11_'+model_used, 'ssp_M11_' +model_used +'.' + imf_used)</code></pre>
+    <p>The existing code then glob()s <code>model_path + '*'</code> and recognises metallicity by filename tokens. Allowed/recognized metallicity tokens in the code include (examples):</p>
+    <pre><code class="language-bash">z001 z002 z004 z0001.bhb z0001.rhb z10m4 z-0.6 z-0.9 z-1.2 z-1.6 z-1.9</code></pre>
+    <p>(For <code>m11-sg</code> the same tokens but filenames end with <code>.sg</code>, e.g. <code>z001.sg</code>.)</p>
+    </li>
+    <li><b>MaStar (single FITS grid)</b>:
+    <p>The MaStar code expects a single FITS archive named <code>MaStar_SSP_v1.1.fits.gz</code> in the <code>stellar_population_models</code> folder. Internals used by the code include:</p>
+    <ul>
+      <li><code>hdul[1].data</code> - contains parameter arrays (ages <code>t</code>, metallicities <code>Z</code>, slopes <code>s</code>)</li>
+      <li><code>hdul[2].data[0,:]</code> - the wavelength grid (<code>wavelength_int</code>)</li>
+      <li><code>hdul[3].data</code> - the flux 4D/3D array (called <code>fluxgrid</code>), indexed by age/metal/slope</li>
+    </ul>
+    <p>The code selects IMF by slope (IMF codes: <code>'kr'</code> → slope 1.3, <code>'ss'</code> → slope 2.35) then reads the flux slice <code>fluxgrid[ii,jj,sidx,:]</code>.</p>
+    </li>
+    <li><b>E-MILES (FITS per SSP)</b>:
+    <p>E-MILES reading code searches for files like <code>join(MODELS_DIR,'EMILES_SSP','Eku1.30')</code> and for each matched file it:</p>
+    <ul>
+      <li>Opens the file with <code>pyfits.open(i)</code> and takes <code>hdul[0].data</code> as the flux array</li>
+      <li>Constructs the wavelength array as <code>np.arange(1680, 50000, 0.9)</code></li>
+      <li>Derives age from the filename slice used in the existing code, so keep consistent file naming (the code extracts age from a substring of the file path: it assumes a fixed token layout).</li>
+    </ul>
+    </li>
+    </ul>
+    <h4>Important processing behaviour (so your models are compatible)</h4>
+    <ul>
+      <li><b>Wavelength medium:</b> the code converts between air/vacuum using <code>airtovac()</code> / <code>vactoair()</code>. Ensure you know whether your model wavelengths are air or vacuum and set <code>data_wave_medium</code> / <code>fit_wave_medium</code> appropriately when implementing new stellar population models into FIREFLY</code>.</li>
+      <li><b>Downgrading:</b> if you want FIREFLY to match your model resolution to the instrument, the code calls <code>downgrade(wavelength,flux,deltal,self.specObs.vdisp, wave_instrument, r_instrument)</code> when <code>self.downgrade_models</code> is True. Provide the model spectral resolution as <code>deltal</code> (for MaStar the code reads an R array from the MaStar FITS), for M11/E-MILES the code sets a scalar <code>deltal</code>.</li>
+      <li><b>Reddening:</b> FIREFLY will apply Milky Way E(B-V) correction with <code>unred()</code> if <code>ebv_mw</code> ≠ 0.</li>
+      <li><b>Age and Z limits:</b> FIREFLY filters models by <code>self.age_limits</code> and <code>self.Z_limits</code> so ensure your SSP ages and metallicities fall in the ranges you intend to fit.</li>
+    </ul>
+    <h4>Two simple ways to make FIREFLY use your models</h4>
+    <ul>
+    <li><b>Option A - Minimal</b>: Place files in an existing model format & choose them at runtime
+    <p>If you can package your models to match one of the existing readers above (ASCII M11-style, MaStar FITS grid or E-MILES FITS), then upload your files into <code>firefly/Fitting_Engine/stellar_population_models/</code> following the folder/name patterns used above. Example for M11-style:</p>
+    <pre><code class="language-bash">firefly/Fitting_Engine/stellar_population_models/SSP_M11_MyLib/ssp_M11_MyLib.kr firefly/Fitting_Engine/stellar_population_models/SSP_M11_MyLib/ssp_M11_MyLib.ss # name metallicity files using the tokens used by the parser, e.g. z001 z002 ...</code></pre>
+    <p>Then when you construct the model runner set <code>models</code> and <code>model_libs</code> appropriately:</p>
+    <pre><code class="language-python">sp = StellarPopulationModel(specObs, outputFile, cosmo, models='m11', model_libs=['MyLib'], imfs=['kr'])</code></pre>
+    <p>FIREFLY will follow the existing <code>m11</code> branch to locate files, read ages/wavelengths/fluxes and proceed without changing <code>firefly_models.py</code>.</p>
+    </li>
+    <li><b>Option B</b>: Add a new loader function in <code>firefly_models.py</code> (recommended for novel formats)
+    <p>If your model format is different (e.g. a set of HDF5 files, a different FITS layout, or you want special metadata reading), add a dedicated branch in <code>get_model()</code> or, better, add a helper method and call it. Below is a minimal template you can paste into <code>firefly_models.py</code> (place it just below the other <code>elif self.models == '...'</code> branches).</p>
+    <pre><code class="language-python"># --- Example: custom model loader (paste into firefly_models.py) ---
+def load_custom_models(self, model_used, imf_used, deltal, vdisp,
+                       wave_instrument, r_instrument, ebv_mw):
+    """
+    Purpose:
+        Read your custom SSP/model files from:
+            <FIREFLY>/Fitting_Engine/stellar_population_models/SSP_CUSTOM_<model_used>/
+        and return exactly the 4 objects the rest of FIREFLY expects:
+            wavelength, model_flux_list, age_list, metal_list
+
+    Required return values:
+        wavelength     -> 1D numpy array (model wavelength grid)
+        model_flux     -> list (or array) of 1D numpy arrays, each an SSP spectrum
+        age_list       -> list of ages (one per SSP)
+        metal_list     -> list of metallicities (one per SSP)
+
+    Notes / placeholders:
+      - Replace / extend the file-reading branches below to match your file format
+        (FITS, HDF5, ASCII, numpy .npy, etc).
+      - `model_used` is intended to map to a subfolder name after 'SSP_CUSTOM_'.
+      - Keep variable names and behaviour consistent with the rest of firefly_models.py:
+          * use `self.data_wave_medium` to decide air/vacuum conversion (airtovac / vactoair)
+          * use `self.downgrade_models` and the provided `downgrade()` helper if needed
+          * apply MW attenuation via `unred(wavelength, ebv=0.0 - ebv_mw)` if ebv_mw != 0
+    """
+    model_dir = join(MODELS_DIR, 'SSP_CUSTOM_' + model_used)   # e.g. stellar_population_models/SSP_CUSTOM_MyLib
+    files = sorted(glob.glob(join(model_dir, '*')))
+    if len(files) == 0:
+        raise FileNotFoundError(f"No files found in {model_dir}. Create the folder and add your model files.")
+
+    model_flux = []
+    age_model = []
+    metal_model = []
+    wavelength = None   # will be set from first file we successfully read
+
+    for fpath in files:
+        try:
+            # ---------------------------
+            # 1) Example: FITS-based file
+            # ---------------------------
+            if fpath.lower().endswith(('.fits', '.fits.gz', '.fz')):
+                hdul = pyfits.open(fpath)
+                # common possible field names:
+                hdr = hdul[0].header
+                # Attempt to read a wavelength array, adapting to your FITS structure:
+                try:
+                    # many SSP FITS store 1D flux in primary and wavelength implicit or in extension 1
+                    flux = hdul[0].data.copy()
+                    # attempt common wavelength carriers (customise to your files)
+                    if 'WAVE' in hdul[1].data.names:
+                        wave_int = hdul[1].data['WAVE']
+                    elif 'wavelength' in hdul[1].data.names:
+                        wave_int = hdul[1].data['wavelength']
+                    else:
+                        # fallback: if file does not have explicit wavelength, assume a uniform grid header entry:
+                        if 'CRVAL1' in hdr and 'CDELT1' in hdr and flux is not None:
+                            crval = hdr['CRVAL1']
+                            cdelt = hdr['CDELT1']
+                            wave_int = crval + cdelt * np.arange(len(flux))
+                        else:
+                            raise ValueError("Cannot locate wavelength in FITS file - adapt loader to your format.")
+                except Exception:
+                    # If extension structure differs, adapt here:
+                    hdul.close()
+                    raise
+
+                # Example: metadata from header (customise to your headers)
+                # If your files include AGE and Z in header use these; otherwise parse filename.
+                age = hdr.get('AGE', None)                # e.g. AGE = 1.0 (Gyr) or in whatever units you choose
+                metal = hdr.get('Z', None)               # e.g. Z = 0.02 (linear metallicity)
+                hdul.close()
+
+            # ---------------------------
+            # 2) Example: ASCII / text table
+            # ---------------------------
+            elif fpath.lower().endswith(('.txt', '.dat', '.asc', '.ascii')):
+                # Example: whitespace-delimited with columns: wavelength flux [optional: age, z]
+                # Use pandas.read_table as in m11 branch if your ASCII matches that style.
+                df = pd.read_table(fpath, delim_whitespace=True, header=None)
+                # ASSUMPTION: first column = wavelength, second column = flux
+                wave_int = df.iloc[:, 0].values
+                flux = df.iloc[:, 1].values
+                # Optionally: expect age/Z encoded in filename like mylib_age1.0_z0.02.dat
+                age = None
+                metal = None
+
+            # ---------------------------
+            # 3) Example: numpy / hdf5 / other - placeholder
+            # ---------------------------
+            else:
+                # Placeholder: add your custom reader here.
+                # For instance, for .npy: arr = np.load(fpath); wave_int = arr[:,0]; flux = arr[:,1]
+                raise ValueError("Unknown file extension. Add a reader for this format in the loader.")
+
+            # If age/metal were not in header, try to parse from filename using a convention.
+            # Example filename convention: MyLib_age1.0_z0.02.fits  -> extract numbers
+            if age is None or metal is None:
+                # naive filename parsing - edit regexp to suit your naming
+                fname = os.path.basename(fpath)
+                # try to extract age token "age<val>" and z token "z<val>" or "Zp0.02" style
+                import re
+                age_match = re.search(r'age[_\-]?([0-9\.]+)', fname, flags=re.IGNORECASE)
+                z_match = re.search(r'(?:z|Z|_z|_Z)([_\-]?[0-9\.]+)', fname)
+                if age is None and age_match:
+                    age = float(age_match.group(1))
+                if metal is None and z_match:
+                    try:
+                        metal = float(z_match.group(1))
+                    except Exception:
+                        metal = None
+                # final fallback defaults (replace with strict parsing if needed)
+                if age is None:
+                    age = 1.0    # Gyr or the unit you choose - ensure consistency with FIREFLY's age use
+                if metal is None:
+                    metal = 0.02
+
+            # Convert wavelength medium if needed (use same helpers as file)
+            if self.data_wave_medium == 'vacuum':
+                wavelength_local = airtovac(wave_int)
+            else:
+                wavelength_local = wave_int
+
+            # Store wavelength from first file read (assumes same grid for all SSPs; if not, you must resample)
+            if wavelength is None:
+                wavelength = wavelength_local.copy()
+            else:
+                # if grids differ you may need to resample flux to the master wavelength array here
+                # placeholder: check equality and raise/warn if different
+                if not np.allclose(wavelength, wavelength_local):
+                    # NOTE: if your SSPs use different wavelength grids you must resample (interp1d)
+                    raise ValueError("Model wavelength grids differ between files. Resample to a common grid before adding, or implement resampling here.")
+
+            # optionally downgrade model resolution to match instrument
+            if self.downgrade_models:
+                mf = downgrade(wavelength, flux, deltal, self.specObs.vdisp, wave_instrument, r_instrument)
+            else:
+                mf = copy.copy(flux)
+
+            # Apply Milky Way reddening correction if provided
+            if ebv_mw != 0:
+                attenuations = unred(wavelength, ebv=0.0 - ebv_mw)
+                mf = mf * attenuations
+
+            #  append outputs
+            model_flux.append(mf)
+            age_model.append(age)
+            metal_model.append(metal)
+
+        except Exception as e:
+            print(f"[load_custom_models] Skipping file {fpath} due to error: {e}")
+            continue
+
+    # final sanity checks
+    if wavelength is None or len(model_flux) == 0:
+        raise RuntimeError("No valid models were loaded. Check file readers and file formats.")
+
+    # Set the same attributes other loaders set so the rest of the pipeline works unchanged (with the exception of naming of results)
+    self.model_wavelength = wavelength
+    self.model_flux = model_flux
+    self.age_model = age_model
+    self.metal_model = metal_model
+
+    # return values exactly as expected by get_model() callers
+    return wavelength, model_flux, age_model, metal_model
+
+# --- In get_model(), add a branch that calls your loader:
+# elif self.models == 'MyCustom':
+#     return self.load_custom_models(model_used, imf_used, deltal, vdisp,
+#                                    wave_instrument, r_instrument, ebv_mw)
+#
+# Usage notes:
+#  - Create a folder: stellar_population_models/SSP_CUSTOM_MyCustom/
+#  - Put your files there, e.g. SSP_CUSTOM_MyCustom/ssp_age1.0_z0.02.fits
+#  - Call FIREFLY with models='MyCustom' and model_libs=['<whatever you want to pass as model_used>']
+#  - If your SSPs do not share the same wavelength grid, implement a safe resampling step before appending.</code></pre>
+    <p>This method keeps the high-level flow in <code>get_model()</code> unchanged while isolating your file-format specifics inside <code>load_custom_models()</code>. Just remember FIREFLY's fitting pipelines expect the loader to return exactly:</p>
+    <ul>
+      <li><code>wavelength</code> - 1D wavelength array</li>
+      <li><code>model_flux</code> - list/array of flux arrays (one per SSP)</li>
+      <li><code>age</code> - list of ages for each SSP</li>
+      <li><code>metal</code> - list of metallicities for each SSP</li>
+    </ul>
+    </li>
+    </ul>
+    <h4>Quick checklist before running</h4>
+    <ol>
+      <li>Your files are uploaded into <code>firefly/Fitting_Engine/stellar_population_models/</code></li>
+      <li>If you used an existing reader format (m11 / MaStar / E-MILES) ensure filenames and tokens follow the parser's expectations (see tokens listed above)</li>
+      <li>Decide whether to set <code>self.downgrade_models=True</code> (recommended if your models are higher resolution than the instrument) so FIREFLY will call <code>downgrade()</code></li>
+      <li>Ensure <code>data_wave_medium</code> and <code>fit_wave_medium</code> are set correctly (air vs vacuum)</li>
+      <li>If you added a new branch in <code>get_model()</code>, restart any running Python sessions so the modified module is reloaded</li>
+    </ol>
+  </section>
   </main>
 
 
