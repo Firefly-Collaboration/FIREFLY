@@ -18,7 +18,6 @@ from scipy.optimize import curve_fit
 import matplotlib
 matplotlib.use('pdf')
 import matplotlib.pyplot as plt
-from IPython.core.debugger import Tracer
 import warnings
 
 def star_formation_rate(age_in,prob_in):
@@ -135,7 +134,6 @@ def star_formation_rate(age_in,prob_in):
 		bs_mass = reject_outliers(np.asarray(bs_mass),m=2)
 		spread_frac = np.std(bs_mass)#/np.sqrt(1000)
 		#print frac_young_mass,spread_frac
-		Tracer()()
 
 	return np.absolute(frac_young_mass),spread_frac
 

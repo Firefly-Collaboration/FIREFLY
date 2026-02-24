@@ -47,14 +47,14 @@
 
 ## 📖 Table of Contents
 
-</div>
+
 
 | Core Documentation | Advanced Topics |
 |---|---|
 | • [Overview](#-overview)<br/>• [Key Features](#-key-features)<br/>• [Installation](#-installation)<br/>• [Quick Start](#-quick-start)<br/>• [Usage](#-usage)<br/>• [Repository Structure](#-repository-structure)<br/>• [Stellar Population Models](#-stellar-population-models) | • [Output Products](#-output-products)<br/>• [Value Added Catalogs](#-value-added-catalogs)<br/>• [Citation](#-citation)<br/>• [Contributing](#-contributing)<br/>• [FIREFLY Collaboration](#-firefly-collaboration)<br/>• [License](#-license)<br/>• [Original Release](#-original-release) |
 
 ---
-
+</div>
 <div align="center">
 
 ## 🔭 Overview
@@ -124,8 +124,22 @@
 
 ```yaml
 Python: 3.6+
-Core Packages: numpy, astropy, matplotlib
-Optional Packages: argparse, multiprocessing, concurrent.futures, subprocess, fcnt, pandas
+Core scientific stack:
+	- numpy>=2.2.2
+	- scipy>=1.15.1
+	- pandas>=2.2.3
+	- astropy>=7.0.0
+	- matplotlib>=3.10.0
+Additional packages:
+	- fitsio>=1.2.1
+	- psutil>=5.9.8
+	- requests>=2.32.3
+	- tqdm>=4.67.1
+NERSC only:
+	- desimodel>=0.19.3
+	- desispec>=0.69.0
+	- desitarget>=2.90
+	- sparcl>=1.2.0
 ```
 
 ---
@@ -182,10 +196,10 @@ python firefly.py
 
 ### 📄 **Generic ASCII Input**
 
-1. Navigate: `cd firefly/Launch/generic`
-2. Edit `firefly.py` to set input_file, redshift, and parameters.
-3. Run: `python firefly.py`
-4. Read output: `python read_firefly.py path/to/output.fits`
+1️⃣ Navigate: `cd firefly/Launch/generic`
+2️⃣ Edit `firefly.py` to set input_file, redshift, and parameters.
+3️⃣ Run: `python firefly.py`
+4️⃣ Read output: `python read_firefly.py`
 
 **Input Format:**
 > ASCII with wavelength, flux, and error columns.
@@ -314,6 +328,7 @@ sbatch SBATCH_Fuji.sh DESI_EDR_10000-20000.fits
 | `ssp_number` | Number of SSP components in best fit |
 | Individual SSP properties | `log_age_ssp_X`, `metal_ssp_X`, `weightLight_ssp_X`, `weightMass_ssp_X` |
 
+</div>
 ---
 
 ### **Reading Output**
@@ -394,6 +409,8 @@ plt.show()
 
 > **If you use FIREFLY or its resources for work/research presented in a publication we ask that you please cite the following papers:**
 
+<div align="center">
+
 | Publication | Links |
 |---|---|
 | **FIREFLY:** Wilkinson et al. 2017 | [ADS](https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W) • [BibTeX](https://ui.adsabs.harvard.edu/abs/2017MNRAS.472.4297W/exportcitation) |
@@ -404,6 +421,7 @@ plt.show()
 
 **📄 A BibTeX file is provided in [CITATION.cff](CITATION.cff) for your convenience.**
 
+</div>
 ---
 
 <div align="center">
@@ -416,20 +434,22 @@ plt.show()
 
 ### **How to Contribute**
 
+#### **1️⃣ Fork the repository:**
+
+#### **2️⃣ Create a feature branch:**
 ```bash
-# 1. Fork the repository
-
-# 2. Create a feature branch
 git checkout -b feature/YourFeature
-
-# 3. Commit your changes
-git commit -m 'Add YourFeature'
-
-# 4. Push to the branch
-git push origin feature/YourFeature
-
-# 5. Open a Pull Request
 ```
+#### **3️⃣ Commit your changes:**
+```bash
+git commit -m 'Add YourFeature'
+```
+#### **4️⃣ Push to the branch:**
+```bash
+git push origin feature/YourFeature
+```
+#### **5️⃣ Open a Pull Request**
+
 
 > Please ensure your code follows the existing style and includes appropriate documentation.
 
@@ -451,8 +471,8 @@ git push origin feature/YourFeature
 <div align="center">
 
 ### **Principal Investigators**
-- **Daniel Thomas**
-- **Claudia Maraston**
+**Daniel Thomas**
+**Claudia Maraston**
 
 </div>
 
@@ -466,8 +486,6 @@ git push origin feature/YourFeature
 <div align="center">
 
 ### **Module Contributors**
-
-</div>
 
 | Contributor | Role |
 |---|---|
@@ -484,6 +502,8 @@ git push origin feature/YourFeature
 | **Vinnie Sands** | Dust script bug fixes |
 
 ### **Institution**
+
+</div>
 
 > **Institute of Cosmology and Gravitation**  
 > University of Portsmouth  

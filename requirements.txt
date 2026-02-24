@@ -1,21 +1,18 @@
 # Core scientific stack
-numpy
-scipy
-pandas
-astropy
-matplotlib
+numpy>=2.2.2
+scipy>=1.15.1
+pandas>=2.2.3
+astropy>=7.0.0
+matplotlib>=3.10.0
 
 # I/O and utilities
-fitsio
-psutil
-requests
-tqdm
+fitsio>=1.2.1
+psutil>=5.9.8
+requests>=2.32.3
+tqdm>=4.67.1
 
-# DESI/SPARCL tooling
-desimodel
-desispec
-desitarget
-sparcl
-
-# Interactive/debug
-ipython
+# DESI/SPARCL tooling (NERSC only)
+desimodel>=0.19.3
+desispec>=0.69.0
+desitarget>=2.90
+sparcl>=1.2.0
