@@ -5,7 +5,7 @@
 
 |   **F**itting **I**te**R**ativ**E**ly **F**or **L**ikelihood Anal**Y**sis    |
 
-**[📄 Cite](CITATION.cff)** • **[🌐 Website](https://firefly-collaboration.github.io/FIREFLY/)** • **[🔗 Old Release](https://github.com/FireflySpectra/firefly_release)** • **[🚀 Get Started](https://github.com/Firefly-Collaboration/FIREFLY/tree/main/firefly/Launch)**
+**[📄 Cite](#-citation)** • **[🌐 Website](https://firefly-collaboration.github.io/FIREFLY/)** • **[🔗 Old Release](https://github.com/FireflySpectra/firefly_release)** • **[🚀 Get Started](https://github.com/Firefly-Collaboration/FIREFLY/tree/main/firefly/Launch)**
 
 </div>
 
