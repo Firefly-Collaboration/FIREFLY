@@ -1,5 +1,5 @@
 # Core scientific stack
-numpy>=2.2.2
+numpy>=2.2.2,<2.4
 scipy>=1.15.1
 pandas>=2.2.3
 astropy>=7.0.0
